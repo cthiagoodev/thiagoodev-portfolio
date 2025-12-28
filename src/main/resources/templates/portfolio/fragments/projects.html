@@ -1,10 +1,23 @@
-<section th:fragment="projects" class="section" id="projetos" data-section aria-labelledby="projects-title" th:if="${projects != null and !#lists.isEmpty(projects)}">
+<section th:fragment="projects" class="section" id="projetos" data-section aria-labelledby="projects-title">
     <div class="container">
         <header class="section__header scroll-hidden">
             <h2 id="projects-title" class="text-h2" th:text="#{projects.title}">Meus Projetos</h2>
         </header>
 
-        <div class="grid grid--2 grid--3" role="list">
+        <!-- Empty State -->
+        <div th:if="${projects == null or #lists.isEmpty(projects)}" class="empty-state scroll-hidden">
+            <svg class="empty-state__icon" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="25" width="80" height="70" rx="8" stroke="currentColor" stroke-width="3" fill="none" opacity="0.3"/>
+                <path d="M30 45 L90 45 M30 60 L75 60 M30 75 L85 75" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+                <circle cx="60" cy="60" r="25" fill="var(--color-primary-dark)" opacity="0.8"/>
+                <path d="M60 50 L60 70 M50 60 L70 60" stroke="var(--color-primary-light)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <h3 class="empty-state__title" th:text="#{projects.empty.title}">Novos projetos em desenvolvimento</h3>
+            <p class="empty-state__description" th:text="#{projects.empty.description}">Projetos incríveis estão sendo desenvolvidos e serão publicados em breve.</p>
+        </div>
+
+        <!-- Projects Grid -->
+        <div th:unless="${projects == null or #lists.isEmpty(projects)}" class="grid grid--2 grid--3" role="list">
             <article role="listitem" class="card card--project scroll-hidden" th:each="project, stat : ${projects}" th:attr="data-index=${stat.index},aria-label=${project.name}">
                 <div class="card__header">
                     <h3 class="card__title--project" th:text="${project.name}">Nome do Projeto</h3>
@@ -48,7 +61,8 @@
             </article>
         </div>
 
-        <div class="section__actions">
+        <!-- Load More Button (hidden when empty) -->
+        <div th:unless="${projects == null or #lists.isEmpty(projects)}" class="section__actions">
             <button id="loadMoreBtn"
                     class="btn btn--outline"
                     type="button"

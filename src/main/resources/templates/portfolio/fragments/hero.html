@@ -5,7 +5,8 @@
                  th:alt="#{seo.author} + ' - ' + #{hero.role.main}"
                  class="hero__image"
                  loading="eager"
-                 decoding="async"
+                 fetchpriority="high"
+                 decoding="sync"
                  width="280"
                  height="280">
         </figure>

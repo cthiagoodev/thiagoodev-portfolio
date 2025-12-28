@@ -4,7 +4,14 @@
             <div class="footer__grid">
                 <div class="footer__column footer__column--brand">
                     <div class="footer__brand-wrapper">
-                        <img th:if="${profile != null}" th:src="${profile.profileImage}" alt="AI Avatar" class="footer__avatar">
+                        <img th:if="${profile != null}"
+                             th:src="${profile.profileImage}"
+                             alt="AI Avatar"
+                             class="footer__avatar"
+                             loading="lazy"
+                             decoding="async"
+                             width="48"
+                             height="48">
                         <h3 class="footer__brand" th:text="#{header.brand}">thiagoodev</h3>
                     </div>
                     <p class="footer__tagline">
