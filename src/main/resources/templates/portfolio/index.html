@@ -20,8 +20,8 @@
     <meta property="og:title" th:content="#{seo.title}">
     <meta property="og:description" th:content="#{seo.description}">
     <meta property="og:url" th:content="#{seo.og.url}">
-    <meta property="og:image" th:content="${profile != null ? profile.profileImage : '@{/images/profile.jpg}'}">
-    <meta property="og:image:alt" th:content="#{seo.author}">
+    <meta property="og:image" th:if="${profile != null and !#strings.isEmpty(profile.profileImage)}" th:content="${profile.profileImage}">
+    <meta property="og:image:alt" th:if="${profile != null and !#strings.isEmpty(profile.profileImage)}" th:content="#{seo.author}">
     <meta property="og:site_name" th:content="#{header.brand}">
     <meta property="og:locale" th:content="${#locale.toString()}">
 
@@ -31,8 +31,8 @@
     <meta name="twitter:creator" th:content="#{seo.twitter.site}">
     <meta name="twitter:title" th:content="#{seo.title}">
     <meta name="twitter:description" th:content="#{seo.description}">
-    <meta name="twitter:image" th:content="${profile != null ? profile.profileImage : '@{/images/profile.jpg}'}">
-    <meta name="twitter:image:alt" th:content="#{seo.author}">
+    <meta name="twitter:image" th:if="${profile != null and !#strings.isEmpty(profile.profileImage)}" th:content="${profile.profileImage}">
+    <meta name="twitter:image:alt" th:if="${profile != null and !#strings.isEmpty(profile.profileImage)}" th:content="#{seo.author}">
 
     <!-- Canonical URL -->
     <link rel="canonical" th:href="#{seo.og.url}">
@@ -72,19 +72,25 @@
       "name": [[#{seo.author}]],
       "alternateName": "thiagoodev",
       "url": [[#{seo.og.url}]],
-      "image": [[${profile != null ? profile.profileImage : '/images/profile.jpg'}]],
-      "jobTitle": "Software Engineer & Mobile Developer",
+      "image": [[${profile != null && profile.profileImage != null && !#strings.isEmpty(profile.profileImage) ? profile.profileImage : '/images/profile.jpg'}]],
+      "jobTitle": "Software Engineer",
       "description": [[#{seo.description}]],
       "homeLocation": {
         "@type": "Place",
         "name": "Fortaleza, Ceará, Brazil"
       },
       "sameAs": [
-        [[${profile != null ? profile.linkedinUrl : ''}]],
-        [[${profile != null ? profile.githubUrl : ''}]],
-        [[${profile != null ? profile.xUrl : ''}]]
+        /*[# th:if="${profile != null && profile.linkedinUrl != null && !#strings.isEmpty(profile.linkedinUrl)}"]*/
+        /*[[${profile.linkedinUrl}]]*//*[# th:if="${(profile.githubUrl != null && !#strings.isEmpty(profile.githubUrl)) || (profile.xUrl != null && !#strings.isEmpty(profile.xUrl))}"]*/,/*[/]*/
+        /*[/]*/
+        /*[# th:if="${profile != null && profile.githubUrl != null && !#strings.isEmpty(profile.githubUrl)}"]*/
+        /*[[${profile.githubUrl}]]*//*[# th:if="${profile.xUrl != null && !#strings.isEmpty(profile.xUrl)}"]*/,/*[/]*/
+        /*[/]*/
+        /*[# th:if="${profile != null && profile.xUrl != null && !#strings.isEmpty(profile.xUrl)}"]*/
+        /*[[${profile.xUrl}]]*/
+        /*[/]*/
       ],
-      "knowsAbout": ["Mobile Development", "Flutter", "Dart", "Java", "Spring Boot", "Software Architecture", "Kotlin", "Backend Development", "thiagoodev", "Fortaleza"]
+      "knowsAbout": ["Software Engineer", "Mobile Development", "Flutter", "Dart", "Java", "Spring Boot", "Software Architecture", "Kotlin", "Backend Development", "thiagoodev", "Fortaleza"]
     }
     </script>
 
@@ -145,6 +151,9 @@
         const heroSection = document.getElementById('inicio');
         const sidebar = document.querySelector('.social-sidebar');
 
+        // Store observers for cleanup
+        const observers = [];
+
         const setActiveNav = (key) => {
             navLinks.forEach(link => {
                 const isActive = link.dataset.nav === key;
@@ -175,6 +184,7 @@
             });
         });
 
+        // Navigation observer
         if (sections.length && 'IntersectionObserver' in window) {
             const navObserver = new IntersectionObserver((entries) => {
                 const intersectingEntry = entries.find(entry => entry.isIntersecting);
@@ -185,8 +195,10 @@
             });
 
             sections.forEach(section => navObserver.observe(section));
+            observers.push(navObserver);
         }
 
+        // Sidebar observer
         if (heroSection && sidebar && 'IntersectionObserver' in window) {
             const sidebarObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -202,8 +214,10 @@
             });
 
             sidebarObserver.observe(heroSection);
+            observers.push(sidebarObserver);
         }
 
+        // Scroll animation observer
         const scrollElements = Array.from(document.querySelectorAll('.scroll-hidden'));
         if (scrollElements.length && 'IntersectionObserver' in window) {
             const scrollObserver = new IntersectionObserver((entries) => {
@@ -221,12 +235,32 @@
             });
 
             scrollElements.forEach(element => scrollObserver.observe(element));
+            observers.push(scrollObserver);
         }
 
+        // Throttled scroll handler using requestAnimationFrame
+        let scrollTicking = false;
         window.addEventListener('scroll', () => {
-            header.classList.toggle('header--scrolled', window.scrollY > 50);
+            if (!scrollTicking) {
+                window.requestAnimationFrame(() => {
+                    header.classList.toggle('header--scrolled', window.scrollY > 50);
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
         });
 
+        // Remove focus from tech carousel items after click to resume animation
+        const techCarouselItems = Array.from(document.querySelectorAll('.tech-carousel__item'));
+        if (techCarouselItems.length) {
+            techCarouselItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    setTimeout(() => item.blur(), 100);
+                });
+            });
+        }
+
+        // Projects load more functionality
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const projectCards = Array.from(document.querySelectorAll('.card--project'));
         const projectsSection = document.getElementById('projetos');
@@ -258,6 +292,15 @@
                 }
             });
         }
+
+        // Cleanup: Disconnect all observers on page hide
+        window.addEventListener('pagehide', () => {
+            observers.forEach(observer => {
+                if (observer && typeof observer.disconnect === 'function') {
+                    observer.disconnect();
+                }
+            });
+        });
     });
 </script>
 </body>
