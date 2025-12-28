@@ -29,7 +29,7 @@ public class ProjectsSchedule {
         this.projectsService = projectsService;
     }
 
-    @Scheduled(cron = "0 0 3 * * *", zone = "America/Sao_Paulo")
+    @Scheduled(cron = "0 30 19 * * *", zone = "America/Sao_Paulo")
     public void findAndSaveProjects() {
         try {
             List<GithubProject> projects = githubService
