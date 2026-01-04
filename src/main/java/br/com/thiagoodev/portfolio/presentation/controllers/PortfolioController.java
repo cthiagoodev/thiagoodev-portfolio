@@ -49,7 +49,6 @@ public class PortfolioController {
         attributes.put("experiences", experiences);
         attributes.put("projects", projects);
         attributes.put("profile", profile);
-
         model.addAllAttributes(attributes);
 
         return "portfolio/index";
