@@ -16,7 +16,7 @@ public class ProjectsService {
     }
 
     public List<Project> getAll() {
-        return this.repository.findAll();
+        return this.repository.findAllByOrderByUpdatedAtDesc();
     }
 
     @Transactional
