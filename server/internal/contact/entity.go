@@ -1,4 +1,4 @@
-package entities
+package contact
 
 type Contact struct {
 	Uuid  string `json:"uuid"`
