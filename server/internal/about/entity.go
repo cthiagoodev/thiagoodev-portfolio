@@ -5,7 +5,7 @@ type About struct {
 	Name       string       `json:"name"`
 	Bio        string       `json:"bio"`
 	Photo      string       `json:"photo"`
-	Curriculum string       `json:"curriculum"`
+	Curriculum *string      `json:"curriculum"`
 	Linkedin   string       `json:"linkedin"`
 	GitHub     string       `json:"github"`
 	Stack      []Technology `json:"stack"`
@@ -14,7 +14,6 @@ type About struct {
 }
 
 type Technology struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Uuid string `json:"uuid"`
+	Name string `json:"name"`
 }
