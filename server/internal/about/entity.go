@@ -5,12 +5,27 @@ type About struct {
 	Name       string       `json:"name"`
 	Bio        string       `json:"bio"`
 	Photo      string       `json:"photo"`
-	Curriculum *string      `json:"curriculum"`
+	Curriculum string       `json:"curriculum"`
 	Linkedin   string       `json:"linkedin"`
 	GitHub     string       `json:"github"`
 	Stack      []Technology `json:"stack"`
 	City       string       `json:"city"`
 	State      string       `json:"state"`
+}
+
+func (a About) IsValid() bool {
+	return a.Name != "" &&
+		a.Bio != "" &&
+		a.Photo != "" &&
+		a.Curriculum != "" &&
+		a.Linkedin != "" &&
+		a.GitHub != "" &&
+		a.City != "" &&
+		a.State != ""
+}
+
+func (a About) HasStack() bool {
+	return a.Stack != nil && len(a.Stack) > 0
 }
 
 type Technology struct {
