@@ -1,4 +1,4 @@
-package entities
+package about
 
 type About struct {
 	Uuid       string       `json:"uuid"`
@@ -11,4 +11,10 @@ type About struct {
 	Stack      []Technology `json:"stack"`
 	City       string       `json:"city"`
 	State      string       `json:"state"`
+}
+
+type Technology struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
