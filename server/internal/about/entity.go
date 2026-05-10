@@ -17,7 +17,6 @@ func (a About) IsValid() bool {
 	return a.Name != "" &&
 		a.Bio != "" &&
 		a.Photo != "" &&
-		a.Curriculum != "" &&
 		a.Linkedin != "" &&
 		a.GitHub != "" &&
 		a.City != "" &&
@@ -25,7 +24,7 @@ func (a About) IsValid() bool {
 }
 
 func (a About) HasStack() bool {
-	return a.Stack != nil && len(a.Stack) > 0
+	return len(a.Stack) > 0
 }
 
 type Technology struct {
