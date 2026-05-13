@@ -1,5 +1,7 @@
 package about
 
+import "time"
+
 type About struct {
 	Uuid       string       `json:"uuid"`
 	Name       string       `json:"name"`
@@ -11,9 +13,11 @@ type About struct {
 	Stack      []Technology `json:"stack"`
 	City       string       `json:"city"`
 	State      string       `json:"state"`
+	CreatedAt  time.Time    `json:"created_at"`
+	UpdatedAt  *time.Time   `json:"updated_at"`
 }
 
-func (a About) IsValid() bool {
+func (a *About) IsValid() bool {
 	return a.Name != "" &&
 		a.Bio != "" &&
 		a.Photo != "" &&
@@ -23,7 +27,7 @@ func (a About) IsValid() bool {
 		a.State != ""
 }
 
-func (a About) HasStack() bool {
+func (a *About) HasStack() bool {
 	return len(a.Stack) > 0
 }
 

@@ -6,6 +6,6 @@ type Contact struct {
 	Email string `json:"email"`
 }
 
-func (c Contact) IsValid() bool {
+func (c *Contact) IsValid() bool {
 	return c.Phone != "" && c.Email != ""
 }
