@@ -18,5 +18,9 @@ func main() {
 
 	router := NewRouter(pool)
 
-	http.ListenAndServe(":"+config.Port, router)
+	serverError := http.ListenAndServe(":"+config.Port, router)
+
+	if serverError != nil {
+		log.Fatal("error on init server: ", serverError)
+	}
 }
