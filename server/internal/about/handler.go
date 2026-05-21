@@ -22,14 +22,12 @@ func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
 	about, err := h.useCase.Get(r.Context())
 
 	if errors.Is(err, common.ErrNotFound) {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(err.Error()))
+		common.HandleError(w, err, http.StatusNotFound)
 		return
 	}
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+		common.HandleError(w, err, http.StatusInternalServerError)
 		return
 	}
 

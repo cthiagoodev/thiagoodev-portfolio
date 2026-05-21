@@ -5,10 +5,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func RegisterRoutes(mx *chi.Mux, pool *pgxpool.Pool) {
+func RegisterRoutes(router chi.Router, pool *pgxpool.Pool) {
 	repository := NewDatabaseRepository(pool)
 	useCase := NewUseCase(repository)
 	handler := NewHandler(useCase)
 
-	mx.Get("/v1/about", handler.Get)
+	router.Get("/about", handler.Get)
 }

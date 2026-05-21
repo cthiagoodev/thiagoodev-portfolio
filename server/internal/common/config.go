@@ -9,9 +9,10 @@ type Config struct {
 
 func NewConfig() *Config {
 	dbUrl := os.Getenv("DATABASE_URL")
+	port := os.Getenv("PORT")
 
 	return &Config{
 		DbUrl: dbUrl,
-		Port:  "8000",
+		Port:  port,
 	}
 }
