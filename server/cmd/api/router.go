@@ -7,9 +7,11 @@ import (
 )
 
 func NewRouter(pool *pgxpool.Pool) *chi.Mux {
-	router := chi.NewRouter()
+	mx := chi.NewRouter()
 
-	about.RegisterRoutes(router, pool)
+	mx.Route("/api/v1", func(router chi.Router) {
+		about.RegisterRoutes(router, pool)
+	})
 
-	return router
+	return mx
 }
