@@ -5,13 +5,13 @@ import (
 	"net/http"
 )
 
-func HandleError(writer http.ResponseWriter, err error, statusCode *int) {
-	encoder := json.NewEncoder(writer)
+func HandleError(w http.ResponseWriter, err error, statusCode *int) {
+	encoder := json.NewEncoder(w)
 
 	if statusCode != nil {
-		writer.WriteHeader(*statusCode)
+		w.WriteHeader(*statusCode)
 	} else {
-		writer.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	encoder.Encode(map[string]any{
