@@ -22,11 +22,10 @@ func main() {
 
 	router := NewRouter(pool)
 
+	fmt.Print("Starting server on port " + config.Port + "...")
 	serverError := http.ListenAndServe(":"+config.Port, router)
 
 	if serverError != nil {
 		log.Fatal("error on init server: ", serverError)
 	}
-
-	fmt.Print("Start server on port " + config.Port)
 }

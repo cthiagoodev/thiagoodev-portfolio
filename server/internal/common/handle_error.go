@@ -5,17 +5,14 @@ import (
 	"net/http"
 )
 
-func HandleError(w http.ResponseWriter, err error, statusCode *int) {
-	encoder := json.NewEncoder(w)
+func HandleError(w http.ResponseWriter, err string, statusCode int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
 
-	if statusCode != nil {
-		w.WriteHeader(*statusCode)
-	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-	}
+	encoder := json.NewEncoder(w)
 
 	encoder.Encode(map[string]any{
 		"status": statusCode,
-		"error":  err.Error(),
+		"error":  err,
 	})
 }
