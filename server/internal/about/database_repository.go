@@ -7,7 +7,6 @@ import (
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -35,11 +34,6 @@ func (r *DatabaseRepository) Find(ctx context.Context) (About, error) {
 		&about.City,
 		&about.State,
 	)
-
-	connectionErrorType := *pgconn.ConnectError
-	if errors.As(err, &connectionErrorType) {
-		return About{}, common.ErrConnection
-	}
 
 	if errors.Is(err, pgx.ErrNoRows) {
 		return About{}, common.ErrNotFound
