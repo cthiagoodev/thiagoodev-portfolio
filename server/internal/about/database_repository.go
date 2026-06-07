@@ -2,11 +2,8 @@ package about
 
 import (
 	"context"
-	"errors"
-	"fmt"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -35,12 +32,8 @@ func (r *DatabaseRepository) Find(ctx context.Context) (About, error) {
 		&about.State,
 	)
 
-	if errors.Is(err, pgx.ErrNoRows) {
-		return About{}, common.ErrNotFound
-	}
-
 	if err != nil {
-		return About{}, fmt.Errorf("about not found %w", err)
+		return About{}, common.ParseDbError(err)
 	}
 
 	return about, nil
