@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
 )
 
 type Handler struct {
