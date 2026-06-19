@@ -63,7 +63,7 @@ Decisão consciente tomada durante o desenvolvimento:
 ## Módulo Go
 
 ```
-module github.com/cthiagoodev/thiagoodev-portfolio/server
+module github.com/cthiagoodev/thiagoodev-portfolio
 
 go 1.26.2
 ```
@@ -327,7 +327,7 @@ package about
 import (
     "context"
 
-    "github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
+    "github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
     "github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -400,7 +400,7 @@ import (
     "encoding/json"
     "net/http"
 
-    "github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
+    "github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
 )
 
 type Handler struct {
@@ -481,7 +481,7 @@ import (
     "log"
     "net/http"
 
-    "github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
+    "github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
     "github.com/joho/godotenv"
 )
 
@@ -510,7 +510,7 @@ func main() {
 package main
 
 import (
-    "github.com/cthiagoodev/thiagoodev-portfolio/server/internal/about"
+    "github.com/cthiagoodev/thiagoodev-portfolio/internal/about"
     "github.com/go-chi/chi/v5"
     "github.com/jackc/pgx/v5/pgxpool"
 )

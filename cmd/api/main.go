@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
 	"github.com/joho/godotenv"
 )
 

@@ -3,7 +3,7 @@ package about
 import (
 	"context"
 
-	"github.com/cthiagoodev/thiagoodev-portfolio/server/internal/common"
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
