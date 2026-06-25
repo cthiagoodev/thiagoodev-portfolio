@@ -23,56 +23,77 @@ func main() {
 		return
 	}
 
+	db, dbError := getDbInstance()
+
+	if dbError != nil {
+		log.Fatal("Error on get database instance")
+		return
+	}
+
+	dvr, dvrError := getDbDriver(db)
+
+	if dvrError != nil {
+		log.Fatal("Error on get driver instance")
+		return
+	}
+
+	mgt, mgtError := getMigrationInstance(dvr)
+
+	if mgtError != nil {
+		log.Fatal("Error on get migration instance")
+		return
+	}
+
 	cmd := args[0]
 
 	switch cmd {
 	case "up":
-		Up()
+		Up(mgt)
 	case "down":
-		Down()
+		Down(mgt)
 	default:
 		log.Fatal("Invalid args")
 	}
+
+	defer func(mgt *migrate.Migrate) {
+		clsError := db.Close()
+
+		if clsError != nil {
+			log.Fatal("Error on close database")
+			return
+		}
+	}(mgt)
 }
 
-func Up() {
+func Up(mgt *migrate.Migrate) {
+	err := mgt.Up()
 
+	if err != nil {
+		log.Printf("Error on migrate up")
+	}
+
+	log.Println("Migration up done")
 }
 
-func Down() {
+func Down(mgt *migrate.Migrate) {
+	err := mgt.Down()
 
+	if err != nil {
+		log.Printf("Error on migrate down")
+	}
+
+	log.Println("Migration down done")
 }
 
-func getDbInstance() *sql.DB {
+func getDbInstance() (*sql.DB, error) {
 	url := os.Getenv("DATABASE_URL")
-	conn, err := sql.Open("pgx", url)
-
-	if err != nil {
-		log.Fatal("Error on connection database")
-		return nil
-	}
-
-	return conn
+	return sql.Open("pgx", url)
 }
 
-func getDbDriver(db *sql.DB) *database.Driver {
-	dvr, err := postgres.WithInstance(db, &postgres.Config{})
-
-	if err != nil {
-		log.Fatal("Error on connection database")
-		return nil
-	}
-
-	return &dvr
+func getDbDriver(db *sql.DB) (database.Driver, error) {
+	return postgres.WithInstance(db, &postgres.Config{})
 }
 
-func getMigrationInstance(dvr database.Driver) *migrate.Migrate {
-	mgt, err := migrate.NewWithDatabaseInstance("file://migrations", "pgx", dvr)
-
-	if err != nil {
-		log.Fatal("Error on connection database")
-		return nil
-	}
-
-	return mgt
+func getMigrationInstance(dvr database.Driver) (*migrate.Migrate, error) {
+	return migrate.NewWithDatabaseInstance("file://migrations", "postgres", dvr)
 }
