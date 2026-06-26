@@ -19,6 +19,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const EnvFileName = ".env"
+const EnvDatabaseKey = "DATABASE_URL"
+const DriverName = "pgx"
+const MigrationsPath = "file://migrations"
+const DatabaseDriverName = "postgres"
+
 const (
 	ColorReset  = "\033[0m"
 	ColorRed    = "\033[31m"
@@ -29,7 +35,7 @@ const (
 var ErrNoDatabaseEnvironmentVariable = errors.New("DATABASE_URL environment variable is not set")
 
 func main() {
-	godotenv.Load(".env")
+	godotenv.Load(EnvFileName)
 
 	db, err := getDbInstance()
 	if err != nil {
@@ -79,11 +85,11 @@ func Down(mgt *migrate.Migrate) {
 }
 
 func getDbInstance() (*sql.DB, error) {
-	url := os.Getenv("DATABASE_URL")
+	url := os.Getenv(EnvDatabaseKey)
 	if url == "" {
 		return nil, ErrNoDatabaseEnvironmentVariable
 	}
-	return sql.Open("pgx", url)
+	return sql.Open(DriverName, url)
 }
 
 func getMigrationInstance(db *sql.DB) (*migrate.Migrate, error) {
@@ -91,5 +97,5 @@ func getMigrationInstance(db *sql.DB) (*migrate.Migrate, error) {
 	if err != nil {
 		return nil, err
 	}
-	return migrate.NewWithDatabaseInstance("file://migrations", "postgres", driver)
+	return migrate.NewWithDatabaseInstance(MigrationsPath, DatabaseDriverName, driver)
 }
