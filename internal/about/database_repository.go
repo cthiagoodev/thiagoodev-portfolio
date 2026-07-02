@@ -79,14 +79,14 @@ func (r *DatabaseRepository) findTechnologies(ctx context.Context, about About) 
 		)
 
 		if sErr != nil {
-			return []Technology{}, common.ParseDbError(err)
+			return []Technology{}, common.ParseDbError(sErr)
 		}
 
 		techs = append(techs, tech)
 	}
 
 	if rErr := rows.Err(); rErr != nil {
-		return nil, common.ParseDbError(err)
+		return nil, common.ParseDbError(rErr)
 	}
 
 	return techs, nil
