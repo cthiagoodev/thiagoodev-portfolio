@@ -31,6 +31,10 @@ func (a *About) HasStack() bool {
 	return len(a.Stack) > 0
 }
 
+func (a *About) AddStack(values []Technology) {
+	a.Stack = values
+}
+
 type Technology struct {
 	Uuid string `json:"uuid"`
 	Name string `json:"name"`
