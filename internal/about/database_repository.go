@@ -28,7 +28,7 @@ func (r *DatabaseRepository) Find(ctx context.Context) (About, error) {
 		return About{}, techsErr
 	}
 
-	about.AddStack(techs)
+	about.SetStack(techs)
 
 	return about, nil
 }
@@ -64,12 +64,12 @@ func (r *DatabaseRepository) findTechnologies(ctx context.Context, about About) 
 	rows, err := r.pool.Query(ctx, query, about.Uuid)
 
 	if err != nil {
-		return []Technology{}, common.ParseDbError(err)
+		return nil, common.ParseDbError(err)
 	}
 
 	defer rows.Close()
 
-	var techs []Technology
+	techs := make([]Technology, 0)
 
 	for rows.Next() {
 		tech := Technology{}
@@ -79,7 +79,7 @@ func (r *DatabaseRepository) findTechnologies(ctx context.Context, about About) 
 		)
 
 		if sErr != nil {
-			return []Technology{}, common.ParseDbError(sErr)
+			return nil, common.ParseDbError(sErr)
 		}
 
 		techs = append(techs, tech)
