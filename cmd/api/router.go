@@ -9,9 +9,7 @@ import (
 func NewRouter(pool *pgxpool.Pool) *chi.Mux {
 	mx := chi.NewRouter()
 
-	mx.Route("/api/v1", func(router chi.Router) {
-		about.RegisterRoutes(router, pool)
-	})
+	about.RegisterRoutes(mx, pool)
 
 	return mx
 }
