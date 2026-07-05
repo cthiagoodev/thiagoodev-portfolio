@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/881f11ae-f2a4-46ba-aad2-aaad0ccd0616.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/881f11ae-f2a4-46ba-aad2-aaad0ccd0616.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/881f11ae-f2a4-46ba-aad2-aaad0ccd0616/storage_v2/_src_/database/portfolio_db.1QZr9g/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/881f11ae-f2a4-46ba-aad2-aaad0ccd0616/storage_v2/_src_/database/portfolio_db.1QZr9g/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/common/distinct.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/about/database_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/about/database_repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/about/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/about/entity.go" afterDir="false" />

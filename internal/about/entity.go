@@ -1,6 +1,10 @@
 package about
 
-import "time"
+import (
+	"time"
+
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
+)
 
 type About struct {
 	Uuid       string       `json:"uuid"`
@@ -31,8 +35,8 @@ func (a *About) HasStack() bool {
 	return len(a.Stack) > 0
 }
 
-func (a *About) AddStack(values []Technology) {
-	a.Stack = values
+func (a *About) SetStack(values []Technology) {
+	a.Stack = common.Distinct(values)
 }
 
 type Technology struct {
