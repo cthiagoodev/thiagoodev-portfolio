@@ -1,0 +1,20 @@
+{{define "content"}}
+<section id="about">
+    <h2>Sobre Mim</h2>
+    <img src="{{.Photo}}" alt="Foto de {{.Name}}" width="150">
+    <h3>{{.Name}}</h3>
+    <p><strong>Bio:</strong> {{.Bio}}</p>
+    <p><strong>Localização:</strong> {{.City}}, {{.State}}</p>
+    <p>
+        <a href="{{.Linkedin}}" target="_blank">LinkedIn</a> | 
+        <a href="{{.GitHub}}" target="_blank">GitHub</a>
+    </p>
+    
+    <h4>Minha Stack</h4>
+    <ul>
+        {{range .Stack}}
+            <li>{{.Name}}</li>
+        {{end}}
+    </ul>
+</section>
+{{end}}
