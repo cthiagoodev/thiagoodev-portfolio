@@ -1,14 +1,13 @@
 package common
 
 import (
-	"encoding/json"
 	"errors"
 	"net/http"
+
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common/templates"
 )
 
-func HandleError(w http.ResponseWriter, err error) {
-	w.Header().Set("Content-Type", "application/json")
-
+func HandleError(w http.ResponseWriter, tm *templates.TemplateManager, err error) {
 	statusCode := http.StatusInternalServerError
 
 	switch {
@@ -22,9 +21,5 @@ func HandleError(w http.ResponseWriter, err error) {
 		statusCode = http.StatusInternalServerError
 	}
 
-	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(map[string]any{
-		"status": statusCode,
-		"error":  err.Error(),
-	})
+	tm.Render(w, "error", statusCode)
 }

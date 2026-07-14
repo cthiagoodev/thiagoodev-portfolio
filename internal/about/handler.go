@@ -5,23 +5,23 @@ import (
 	"net/http"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common"
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common/templates"
 )
 
 type Handler struct {
-	useCase *UseCase
+	useCase         *UseCase
+	templateManager *templates.TemplateManager
 }
 
-func NewHandler(useCase *UseCase) *Handler {
-	return &Handler{useCase}
+func NewHandler(useCase *UseCase, templateManager *templates.TemplateManager) *Handler {
+	return &Handler{useCase, templateManager}
 }
 
 func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
 	about, err := h.useCase.Get(r.Context())
 
 	if err != nil {
-		common.HandleError(w, err)
+		common.HandleError(w, h.templateManager, err)
 		return
 	}
 

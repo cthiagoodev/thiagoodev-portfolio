@@ -1,16 +1,17 @@
 package about
 
 import (
+	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common/templates"
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func RegisterRoutes(router *chi.Mux, pool *pgxpool.Pool) {
+func RegisterRoutes(router *chi.Mux, pool *pgxpool.Pool, tm *templates.TemplateManager) {
 	const path = "/about"
 
 	repository := NewDatabaseRepository(pool)
 	useCase := NewUseCase(repository)
-	handler := NewHandler(useCase)
+	handler := NewHandler(useCase, tm)
 
 	router.Get(path, handler.Get)
 }
