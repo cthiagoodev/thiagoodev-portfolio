@@ -1,4 +1,4 @@
-package about
+package home
 
 import (
 	"net/http"
@@ -8,21 +8,17 @@ import (
 )
 
 type Handler struct {
-	useCase         *UseCase
 	templateManager *templates.TemplateManager
 }
 
-func NewHandler(useCase *UseCase, templateManager *templates.TemplateManager) *Handler {
-	return &Handler{useCase, templateManager}
+func NewHandler(templateManager *templates.TemplateManager) *Handler {
+	return &Handler{templateManager}
 }
 
 func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
-	about, err := h.useCase.Get(r.Context())
+	err := h.templateManager.Render(w, "home.html", nil)
 
 	if err != nil {
 		common.HandleError(w, h.templateManager, err)
-		return
 	}
-
-	_ = h.templateManager.Render(w, "about.html", about)
 }
