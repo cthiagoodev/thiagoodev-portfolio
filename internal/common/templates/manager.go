@@ -1,19 +1,24 @@
 package templates
 
 import (
-	"embed"
 	"html/template"
 	"io"
-)
 
-var templateFS embed.FS
+	"github.com/cthiagoodev/thiagoodev-portfolio/templates"
+)
 
 type TemplateManager struct {
 	template *template.Template
 }
 
 func NewTemplateManager() (*TemplateManager, error) {
-	result, err := template.ParseFS(templateFS, "templates/*.html", "templates/pages/*.html")
+	paths := []string{
+		"*.html",
+		"pages/*.html",
+		"components/*.html",
+	}
+
+	result, err := template.ParseFS(templates.TemplateFS, paths...)
 
 	if err != nil {
 		return nil, err

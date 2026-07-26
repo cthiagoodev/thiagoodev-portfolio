@@ -8,7 +8,7 @@ import (
 )
 
 func HandleError(w http.ResponseWriter, tm *templates.TemplateManager, err error) {
-	statusCode := http.StatusInternalServerError
+	var statusCode int
 
 	switch {
 	case errors.Is(err, ErrNotFound):
@@ -21,5 +21,9 @@ func HandleError(w http.ResponseWriter, tm *templates.TemplateManager, err error
 		statusCode = http.StatusInternalServerError
 	}
 
-	tm.Render(w, "error", statusCode)
+	tmErr := tm.Render(w, "error.html", statusCode)
+
+	if tmErr != nil {
+		http.Error(w, tmErr.Error(), statusCode)
+	}
 }

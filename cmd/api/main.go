@@ -11,23 +11,23 @@ import (
 )
 
 func main() {
-	godotenv.Load(".env")
+	if err := godotenv.Load(".env"); err != nil {
+		log.Fatal("error on init server: ", err)
+	}
 
 	config := common.NewConfig()
 	pool, err := common.NewDb(config.DbUrl)
 
-	defer pool.Close()
-
 	if err != nil {
 		log.Fatal("error on init server: ", err)
-		return
 	}
+
+	defer pool.Close()
 
 	tm, tmErr := templates.NewTemplateManager()
 
 	if tmErr != nil {
 		log.Fatal("error on init server: ", tmErr)
-		return
 	}
 
 	router := NewRouter(pool, tm)

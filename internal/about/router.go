@@ -6,7 +6,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func RegisterRoutes(router *chi.Mux, pool *pgxpool.Pool, tm *templates.TemplateManager) {
+func RegisterRoutes(router chi.Router, pool *pgxpool.Pool, tm *templates.TemplateManager) {
 	const path = "/about"
 
 	repository := NewDatabaseRepository(pool)
