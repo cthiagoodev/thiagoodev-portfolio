@@ -16,7 +16,7 @@ func NewHandler(templateManager *templates.TemplateManager) *Handler {
 }
 
 func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
-	err := h.templateManager.Render(w, "home.html", nil)
+	err := h.templateManager.Render(w, "index.html", nil)
 
 	if err != nil {
 		common.HandleError(w, h.templateManager, err)

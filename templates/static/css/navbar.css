@@ -1,0 +1,185 @@
+.site-header {
+    position: sticky;
+    z-index: 100;
+    top: 0;
+    padding: var(--space-4) var(--container-padding) 0;
+}
+
+.site-header__container {
+    display: grid;
+    width: min(100%, var(--container-width));
+    min-height: var(--header-height);
+    margin-inline: auto;
+    padding: var(--space-3) var(--space-4);
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background:
+            var(--gradient-surface),
+            rgba(8, 9, 13, 0.88);
+    box-shadow:
+            0 1rem 4rem rgba(0, 0, 0, 0.28),
+            inset 0 1px rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(1rem);
+}
+
+.brand {
+    display: inline-flex;
+    min-width: max-content;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+}
+
+.brand__symbol {
+    display: grid;
+    width: 2.5rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1px solid rgba(34, 211, 238, 0.42);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    background: var(--gradient-brand);
+    box-shadow:
+            0 0 1rem rgba(34, 211, 238, 0.2),
+            0 0 1.5rem rgba(124, 58, 237, 0.2);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: -0.08em;
+    transition:
+            transform var(--transition-fast),
+            box-shadow var(--transition-fast);
+}
+
+.brand__name {
+    color: var(--color-text-soft);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+}
+
+.brand:hover .brand__symbol {
+    transform: translate(-2px, -2px);
+    box-shadow:
+            2px 2px 0 var(--color-purple-soft),
+            0 0 1.5rem rgba(34, 211, 238, 0.25);
+}
+
+.navigation {
+    justify-self: center;
+}
+
+.navigation__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.navigation__link {
+    position: relative;
+    display: inline-flex;
+    min-height: 2.75rem;
+    padding-inline: var(--space-4);
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition:
+            color var(--transition-fast),
+            background-color var(--transition-fast);
+}
+
+.navigation__link::before {
+    position: absolute;
+    right: var(--space-4);
+    bottom: 0.35rem;
+    left: var(--space-4);
+    height: 1px;
+    background: var(--color-cyan);
+    box-shadow: 0 0 0.75rem var(--color-cyan);
+    content: "";
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition:
+            opacity var(--transition-fast),
+            transform var(--transition-fast);
+}
+
+.navigation__link:hover,
+.navigation__link:focus-visible {
+    color: var(--color-text);
+}
+
+.navigation__link:hover::before,
+.navigation__link:focus-visible::before {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.terminal-action {
+    display: inline-flex;
+    min-height: 2.75rem;
+    padding-inline: var(--space-5);
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border: 1px solid rgba(34, 211, 238, 0.52);
+    border-radius: var(--radius-sm);
+    color: var(--color-cyan);
+    background: rgba(34, 211, 238, 0.025);
+    box-shadow: var(--shadow-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    transition:
+            color var(--transition-fast),
+            background-color var(--transition-fast),
+            box-shadow var(--transition-fast),
+            transform var(--transition-fast);
+}
+
+.terminal-action:hover {
+    color: var(--color-void);
+    background: var(--color-cyan);
+    box-shadow:
+            3px 3px 0 var(--color-purple),
+            0 0 2rem rgba(34, 211, 238, 0.25);
+    transform: translate(-2px, -2px);
+}
+
+@media (max-width: 56rem) {
+    .site-header__container {
+        grid-template-columns: auto 1fr;
+    }
+
+    .navigation {
+        display: none;
+    }
+
+    .terminal-action {
+        justify-self: end;
+    }
+}
+
+@media (max-width: 34rem) {
+    .site-header {
+        padding-inline: var(--space-3);
+    }
+
+    .site-header__container {
+        gap: var(--space-3);
+        padding-inline: var(--space-3);
+    }
+
+    .brand__name {
+        display: none;
+    }
+
+    .terminal-action {
+        padding-inline: var(--space-3);
+    }
+}

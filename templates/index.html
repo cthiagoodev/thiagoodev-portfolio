@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+    >
+
+    <meta
+            name="description"
+            content="Portfólio de Thiago Sousa, engenheiro de software especializado em desenvolvimento mobile, backend e arquitetura de software."
+    >
+
+    <meta
+            name="author"
+            content="Thiago Sousa"
+    >
+
+    <meta
+            name="theme-color"
+            content="#07080a"
+    >
+
+    <title>Thiago Sousa | Software Engineer</title>
+
+    <link
+            rel="stylesheet"
+            href="/static/css/main.css"
+    >
+
+    <script
+            src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"
+            defer
+    ></script>
+</head>
+
+<body>
+<div class="site-shell">
+    <header class="site-header">
+        <div class="site-header__container">
+            <a
+                    class="brand"
+                    href="/"
+                    aria-label="Thiago Sousa — página inicial"
+            >
+                    <span
+                            class="brand__symbol"
+                            aria-hidden="true"
+                    >
+                        T_
+                    </span>
+
+                <span class="brand__name">
+                        THIAGO.DEV
+                    </span>
+            </a>
+
+            <nav
+                    class="navigation"
+                    aria-label="Navegação principal"
+            >
+                <ul class="navigation__list">
+                    <li class="navigation__item">
+                        <a
+                                class="navigation__link"
+                                href="/about"
+                                hx-get="/about"
+                                hx-target="#content"
+                                hx-push-url="true"
+                        >
+                            Sobre
+                        </a>
+                    </li>
+
+                    <li class="navigation__item">
+                        <a
+                                class="navigation__link"
+                                href="/experience"
+                                hx-get="/experience"
+                                hx-target="#content"
+                                hx-push-url="true"
+                        >
+                            Experiência
+                        </a>
+                    </li>
+
+                    <li class="navigation__item">
+                        <a
+                                class="navigation__link"
+                                href="/projects"
+                                hx-get="/projects"
+                                hx-target="#content"
+                                hx-push-url="true"
+                        >
+                            Projetos
+                        </a>
+                    </li>
+
+                    <li class="navigation__item">
+                        <a
+                                class="navigation__link"
+                                href="/community"
+                                hx-get="/community"
+                                hx-target="#content"
+                                hx-push-url="true"
+                        >
+                            Comunidade
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <a
+                    class="terminal-action"
+                    href="/contact"
+                    hx-get="/contact"
+                    hx-target="#content"
+                    hx-push-url="true"
+            >
+                <span aria-hidden="true">&gt;_</span>
+                <span>CONTATO</span>
+            </a>
+        </div>
+    </header>
+
+    <main
+            id="content"
+            class="site-content"
+            tabindex="-1"
+            hx-history-elt
+    ></main>
+
+    <footer class="site-footer">
+        <div class="site-footer__container">
+                <span class="site-footer__status">
+                    <span aria-hidden="true">T_</span>
+                    <span>© 2026 THIAGO.DEV</span>
+                </span>
+
+            <nav aria-label="Redes sociais">
+                <ul class="social-navigation">
+                    <li>
+                        <a
+                                href="https://github.com/cthiagoodev"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            GitHub
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                                href="https://www.linkedin.com/in/thiagoodev"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                        >
+                            LinkedIn
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="mailto:contato@thiagoodev.com.br">
+                            Email
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
