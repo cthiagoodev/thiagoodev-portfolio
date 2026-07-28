@@ -5,18 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/home/handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/home/router.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/embed.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/pages/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/static/css/base.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/static/css/footer.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/static/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/static/css/navbar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/static/css/reset.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/static/css/tokens.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/api/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/api/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/api/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/about/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/about/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/about/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/about/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/common/handle_error.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/common/handle_error.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/common/templates/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/common/templates/manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pages/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/home/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/home/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/embed.go" beforeDir="false" afterPath="$PROJECT_DIR$/templates/embed.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/home.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +28,7 @@
       <list>
         <option value="HTML File" />
         <option value="Go File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -71,6 +72,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/thiagoodev/Dev/portfolio/migrations",
+    "list.type.of.created.stylesheet": "CSS",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   },

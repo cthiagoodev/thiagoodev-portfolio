@@ -2,5 +2,5 @@ package templates
 
 import "embed"
 
-//go:embed *.html pages/*.html components/*.html
+//go:embed *.html components/*.html static/css/*.css
 var TemplateFS embed.FS
