@@ -15,7 +15,6 @@ func NewTemplateManager() (*TemplateManager, error) {
 	paths := []string{
 		"*.html",
 		"components/*.html",
-		"static/css/*.css",
 	}
 
 	result, err := template.ParseFS(templates.TemplateFS, paths...)

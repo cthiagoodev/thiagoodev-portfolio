@@ -30,7 +30,11 @@ func main() {
 		log.Fatal("error on init server: ", tmErr)
 	}
 
-	router := NewRouter(pool, tm)
+	router, rErr := NewRouter(pool, tm)
+
+	if rErr != nil {
+		log.Fatal("error on init server: ", rErr)
+	}
 
 	fmt.Print("Starting server on port " + config.Port + "...")
 	serverError := http.ListenAndServe(":"+config.Port, router)
