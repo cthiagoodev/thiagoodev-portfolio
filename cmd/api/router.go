@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/internal/about"
-	"github.com/cthiagoodev/thiagoodev-portfolio/internal/common/templates"
+	tm "github.com/cthiagoodev/thiagoodev-portfolio/internal/common/templates"
 	"github.com/cthiagoodev/thiagoodev-portfolio/internal/home"
-	templates2 "github.com/cthiagoodev/thiagoodev-portfolio/templates"
+	"github.com/cthiagoodev/thiagoodev-portfolio/templates"
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func NewRouter(pool *pgxpool.Pool, tm *templates.TemplateManager) (http.Handler, error) {
+func NewRouter(pool *pgxpool.Pool, tm *tm.TemplateManager) (http.Handler, error) {
 	router := chi.NewRouter()
 
 	if err := NewStaticRouter(router); err != nil {
@@ -26,7 +26,7 @@ func NewRouter(pool *pgxpool.Pool, tm *templates.TemplateManager) (http.Handler,
 }
 
 func NewStaticRouter(router chi.Router) error {
-	staticFS, err := fs.Sub(templates2.StaticsFS, "static")
+	staticFS, err := fs.Sub(templates.StaticsFS, "static")
 
 	if err != nil {
 		return err
