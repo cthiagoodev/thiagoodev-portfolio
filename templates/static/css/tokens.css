@@ -1,38 +1,56 @@
 :root {
-    --color-void: #030406;
-    --color-background: #06070a;
-    --color-background-soft: #090b10;
-    --color-surface: #0d0f14;
-    --color-surface-elevated: #12151c;
+    --color-void: #020203;
+    --color-background: #050508;
+    --color-background-soft: #08080d;
 
-    --color-border: #242832;
-    --color-border-soft: #181b22;
-    --color-border-active: #22d3ee;
+    --color-surface: #0a0a11;
+    --color-surface-soft: #101019;
+    --color-surface-elevated: #151522;
 
-    --color-text: #f4f4f5;
-    --color-text-soft: #c4c5cc;
-    --color-text-muted: #777b86;
-    --color-text-faint: #4b4f59;
+    --color-border: #29283b;
+    --color-border-soft: #191824;
+    --color-border-strong: #4a4666;
 
-    --color-cyan: #22d3ee;
-    --color-cyan-soft: #0891b2;
-    --color-purple: #7c3aed;
-    --color-purple-soft: #4c1d95;
-    --color-green: #4ade80;
-    --color-amber: #fbbf24;
-    --color-crimson: #ef4444;
+    --color-text: #f3f1ff;
+    --color-text-soft: #c8c3da;
+    --color-text-muted: #8c879e;
+    --color-text-faint: #565164;
 
-    --gradient-brand: linear-gradient(
-            135deg,
-            var(--color-purple) 0%,
-            var(--color-cyan) 100%
-    );
+    --color-accent: #9785ff;
+    --color-accent-soft: #6252c7;
+    --color-accent-deep: #271f69;
 
-    --gradient-surface: linear-gradient(
-            135deg,
-            rgba(124, 58, 237, 0.07),
-            rgba(34, 211, 238, 0.03)
-    );
+    --color-signal: #6df29d;
+    --color-signal-soft: #2dac61;
+    --color-warning: #e2b85c;
+    --color-danger: #eb6577;
+
+    --color-accent-rgb: 151, 133, 255;
+    --color-signal-rgb: 109, 242, 157;
+
+    --gradient-background:
+            radial-gradient(
+                    circle at 50% -20%,
+                    rgba(var(--color-accent-rgb), 0.13),
+                    transparent 34rem
+            ),
+            radial-gradient(
+                    circle at 90% 52%,
+                    rgba(var(--color-accent-rgb), 0.055),
+                    transparent 32rem
+            ),
+            linear-gradient(
+                    180deg,
+                    var(--color-background-soft),
+                    var(--color-background)
+            );
+
+    --gradient-surface:
+            linear-gradient(
+                    135deg,
+                    rgba(var(--color-accent-rgb), 0.07),
+                    transparent 44%
+            );
 
     --font-sans:
             Inter,
@@ -51,10 +69,26 @@
             "Liberation Mono",
             monospace;
 
-    --container-width: 80rem;
-    --container-padding: clamp(1rem, 4vw, 2rem);
+    --font-display:
+            "Cascadia Code",
+            "JetBrains Mono",
+            "SFMono-Regular",
+            Consolas,
+            monospace;
 
-    --header-height: 5rem;
+    --font-size-xs: 0.6875rem;
+    --font-size-sm: 0.75rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.5rem;
+
+    --line-height-tight: 1;
+    --line-height-body: 1.65;
+
+    --container-width: 88rem;
+    --container-padding: clamp(1rem, 4vw, 2.5rem);
+
+    --header-height: 4.75rem;
 
     --space-1: 0.25rem;
     --space-2: 0.5rem;
@@ -66,19 +100,25 @@
     --space-10: 2.5rem;
     --space-12: 3rem;
     --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
 
+    --radius-xs: 0.125rem;
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
-    --radius-lg: 0.875rem;
-    --radius-full: 999px;
 
-    --shadow-cyan:
-            0 0 0 1px rgba(34, 211, 238, 0.12),
-            0 0 1.5rem rgba(34, 211, 238, 0.08);
+    --shadow-panel:
+            0 1.5rem 5rem rgba(0, 0, 0, 0.4);
 
-    --shadow-purple:
-            0 0 2rem rgba(124, 58, 237, 0.12);
+    --shadow-accent:
+            0 0 0 1px rgba(var(--color-accent-rgb), 0.14),
+            0 0 2rem rgba(var(--color-accent-rgb), 0.08);
 
     --transition-fast: 150ms ease;
-    --transition-base: 250ms ease;
+    --transition-base: 260ms ease;
+    --transition-slow: 600ms ease;
+
+    --z-background: -10;
+    --z-content: 1;
+    --z-header: 100;
 }
