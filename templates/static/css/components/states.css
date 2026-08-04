@@ -1,0 +1,40 @@
+.state-panel {
+    display: grid;
+    min-height: 18rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    place-content: center;
+    justify-items: start;
+    gap: var(--space-4);
+    border: 1px solid var(--color-border-soft);
+    background: var(--color-surface);
+}
+
+.state-panel__title {
+    font-size: var(--font-size-xl);
+    line-height: 1.2;
+}
+
+.state-panel__message {
+    max-width: 34rem;
+    color: var(--color-text-muted);
+}
+
+.loading-state {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.loading-state::before {
+    width: 0.375rem;
+    aspect-ratio: 1;
+    background: var(--color-signal);
+    box-shadow: 0 0 0.7rem rgba(var(--color-signal-rgb), 0.7);
+    content: "";
+    animation: system-pulse 700ms ease-in-out infinite alternate;
+}
