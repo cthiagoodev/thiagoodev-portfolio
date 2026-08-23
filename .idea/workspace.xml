@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/infra/supabase/docker-compose.yml.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/001_create_about_schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/002_create_social_contacts_schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/003_create_work_experience_schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/004_create_education_schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/005_create_skills_schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/006_create_projects_schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/007_create_projects_skills_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infra/supabase/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/infra/supabase/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infra/supabase/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/infra/supabase/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +71,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "htmx.bundled.context.provider.enabled": "true",
-    "last_opened_file_path": "/Users/thiagoodev",
+    "last_opened_file_path": "/Users/thiagoodev/Dev/portfolio/infra/supabase/migrations",
     "list.type.of.created.stylesheet": "CSS",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager"
@@ -80,6 +84,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/infra/supabase/migrations" />
       <recent name="$PROJECT_DIR$/migrations" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
