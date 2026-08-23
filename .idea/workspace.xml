@@ -5,20 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/frontend/ACCESSIBILITY.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/BACKEND_BOUNDARY.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/COMPONENTS.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/DESIGN_SYSTEM.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/FRONTEND_ARCHITECTURE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/HTMX_CONTRACT.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/RESPONSIVE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/STATES.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/UX_RULES.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/frontend/VISUAL_IDENTITY.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GEMINI.md" beforeDir="false" afterPath="$PROJECT_DIR$/AGENTS.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/css/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/frontend/COMPONENTS.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/COMPONENTS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/frontend/CONTENT_GUIDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/CONTENT_GUIDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/frontend/DESIGN_SYSTEM.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/DESIGN_SYSTEM.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/frontend/RESPONSIVE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/RESPONSIVE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/frontend/UX_RULES.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/UX_RULES.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/static/css/components/actions.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/static/css/components/actions.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/static/css/features/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/static/css/features/home.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
