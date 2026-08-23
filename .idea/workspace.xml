@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/frontend/COMPONENTS.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/COMPONENTS.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/frontend/CONTENT_GUIDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/CONTENT_GUIDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/frontend/DESIGN_SYSTEM.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/DESIGN_SYSTEM.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/frontend/RESPONSIVE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/RESPONSIVE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/frontend/UX_RULES.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/frontend/UX_RULES.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/css/components/actions.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/static/css/components/actions.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/css/features/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/static/css/features/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,30 +83,6 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/cmd/api" />
     </key>
-  </component>
-  <component name="RunManager" selected="Go Build.main">
-    <configuration name="main" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="portfolio" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/cthiagoodev/thiagoodev-portfolio/cmd/api" />
-      <directory value="$PROJECT_DIR$" />
-      <auto_managed_config_id value="$PROJECT_DIR$/cmd/api" />
-      <method v="2" />
-    </configuration>
-    <configuration name="migrate" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="portfolio" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/cthiagoodev/thiagoodev-portfolio/cmd/migrate" />
-      <directory value="$PROJECT_DIR$" />
-      <auto_managed_config_id value="$PROJECT_DIR$/cmd/migrate" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Go Build.main" />
-      <item itemvalue="Go Build.migrate" />
-    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
