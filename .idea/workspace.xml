@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/001_create_about_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/002_create_social_contacts_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/003_create_work_experience_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/004_create_education_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/005_create_skills_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/006_create_projects_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infra/supabase/migrations/007_create_projects_skills_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +25,7 @@
   </component>
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/apps/web" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -69,12 +62,13 @@
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "master",
     "htmx.bundled.context.provider.enabled": "true",
     "last_opened_file_path": "/Users/thiagoodev/Dev/portfolio/infra/supabase/migrations",
     "list.type.of.created.stylesheet": "CSS",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/thiagoodev/Dev/portfolio/apps/web/node_modules/typescript/lib"
   },
   "keyToStringList": {
     "DatabaseDriversLRU": [
