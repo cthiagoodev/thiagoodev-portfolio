@@ -3,8 +3,8 @@ export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 import { DATA } from "@/data/resume";
-import { formatDate } from "@/lib/utils";
-import { mdxComponents } from "@/mdx-components";
+import { formatDate } from "@/modules/blog/format-date";
+import { mdxComponents } from "@/modules/blog/mdx/mdx-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export async function getStaticPaths() {

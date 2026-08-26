@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import HomePage from "@/components/HomePage";
-import { getAbout } from "@/lib/portfolio-api";
+import HomePage from "@/modules/home/HomePage";
+import { getAbout } from "@/modules/about/get-about";
 
 const about = await getAbout();
 ---
