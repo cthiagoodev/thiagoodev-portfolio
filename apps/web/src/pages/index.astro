@@ -1,9 +1,11 @@
 ---
-export const prerender = true;
 import Layout from "../layouts/Layout.astro";
 import HomePage from "@/components/HomePage";
+import { getAbout } from "@/lib/portfolio-api";
+
+const about = await getAbout();
 ---
 
 <Layout>
-  <HomePage client:only="react" />
+  <HomePage client:load about={about} />
 </Layout>

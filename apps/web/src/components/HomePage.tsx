@@ -10,10 +10,14 @@ import PhotosSection from "@/components/section/photos-section";
 import ProjectsSection from "@/components/section/projects-section";
 import WorkSection from "@/components/section/work-section";
 import { ArrowUpRight } from "lucide-react";
+import type { About } from "@/lib/portfolio-api";
 
 const BLUR_FADE_DELAY = 0.04;
 
-const sectionComponents: Record<string, React.ReactNode> = {
+function getSectionComponents(about: About | null): Record<string, React.ReactNode> {
+  const summary = about?.text?.trim() || DATA.summary;
+
+  return {
   about: (
     <section id="about">
       <div className="flex min-h-0 flex-col gap-y-4">
@@ -22,7 +26,7 @@ const sectionComponents: Record<string, React.ReactNode> = {
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <div className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
-            <Markdown>{DATA.summary}</Markdown>
+            <Markdown>{summary}</Markdown>
           </div>
         </BlurFade>
       </div>
@@ -124,9 +128,17 @@ const sectionComponents: Record<string, React.ReactNode> = {
       </BlurFade>
     </section>
   ),
-};
+  };
+}
 
-export default function HomePage() {
+interface HomePageProps {
+  about: About | null;
+}
+
+export default function HomePage({ about }: HomePageProps) {
+  const name = about?.name?.trim() || DATA.name;
+  const description = about?.description?.trim() || DATA.description;
+  const sectionComponents = getSectionComponents(about);
   const orderedSections = Object.entries(DATA.sections)
     .filter(([, s]) => s.enabled)
     .sort(([, a], [, b]) => a.order - b.order)
@@ -142,17 +154,17 @@ export default function HomePage() {
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl"
                 yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]}`}
+                text={`Hi, I'm ${name.split(" ")[0]}`}
               />
               <BlurFadeText
                 className="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl"
                 delay={BLUR_FADE_DELAY}
-                text={DATA.description}
+                text={description}
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
               <Avatar className="size-24 md:size-32 border rounded-full shadow-lg ring-4 ring-muted">
-                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+                <AvatarImage alt={name} src={DATA.avatarUrl} />
                 <AvatarFallback>{DATA.initials}</AvatarFallback>
               </Avatar>
             </BlurFade>
