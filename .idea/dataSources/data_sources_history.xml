@@ -20,7 +20,7 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </DataSourceFromHistory>
-  <DataSourceFromHistory isRemovedFromProject="false">
+  <DataSourceFromHistory isRemovedFromProject="true">
     <data-source source="LOCAL" name="portfolio_db@localhost" uuid="881f11ae-f2a4-46ba-aad2-aaad0ccd0616">
       <database-info product="PostgreSQL" version="16.14" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.7.3" dbms="POSTGRES" exact-version="16.14" exact-driver-version="42.7">
         <identifier-quote-string>&quot;</identifier-quote-string>
