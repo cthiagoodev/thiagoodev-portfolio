@@ -1,9 +1,9 @@
 ---
 import "../styles/global.css";
 import { DATA } from "@/data/resume";
-import { CONFIG } from "@/data/config";
-import NavbarIsland from "@/components/NavbarIsland";
-import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+import { CONFIG } from "@/config/site";
+import NavbarIsland from "@/modules/navigation/NavbarIsland";
+import { FlickeringGrid } from "@/common/magic-ui/FlickeringGrid";
 
 interface Props {
   title?: string;
@@ -30,6 +30,7 @@ const ogImage = image
 
 const { light, dark, radius } = CONFIG.theme;
 const { baseFontSize } = CONFIG.typography;
+const socialContacts = Object.values(DATA.contact.social);
 ---
 
 <html
@@ -158,6 +159,10 @@ const { baseFontSize } = CONFIG.typography;
     </div>
 
     <!-- Navbar: ThemeProvider + TooltipProvider + Navbar all in one React island -->
-    <NavbarIsland client:load />
+    <NavbarIsland
+      client:load
+      navbarItems={DATA.navbar}
+      socialContacts={socialContacts}
+    />
   </body>
 </html>

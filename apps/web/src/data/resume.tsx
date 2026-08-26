@@ -1,15 +1,14 @@
-import { Icons } from "@/components/icons";
-import { House, Library } from "lucide-react";
-import { ReactLight } from "@/components/ui/svgs/reactLight";
-import { NextjsIconDark } from "@/components/ui/svgs/nextjsIconDark";
-import { Typescript } from "@/components/ui/svgs/typescript";
-import { Nodejs } from "@/components/ui/svgs/nodejs";
-import { Python } from "@/components/ui/svgs/python";
-import { Golang } from "@/components/ui/svgs/golang";
-import { Postgresql } from "@/components/ui/svgs/postgresql";
-import { Docker } from "@/components/ui/svgs/docker";
-import { Kubernetes } from "@/components/ui/svgs/kubernetes";
-import { Astro } from "@/components/ui/svgs/astro";
+import { Icons } from "@/common/icons/icons";
+import { ReactLight } from "@/common/icons/technologies/reactLight";
+import { NextjsIconDark } from "@/common/icons/technologies/nextjsIconDark";
+import { Typescript } from "@/common/icons/technologies/typescript";
+import { Nodejs } from "@/common/icons/technologies/nodejs";
+import { Python } from "@/common/icons/technologies/python";
+import { Golang } from "@/common/icons/technologies/golang";
+import { Postgresql } from "@/common/icons/technologies/postgresql";
+import { Docker } from "@/common/icons/technologies/docker";
+import { Kubernetes } from "@/common/icons/technologies/kubernetes";
+import { Astro } from "@/common/icons/technologies/astro";
 
 export const DATA = {
   name: "Alex Mercer - Software Engineer",
@@ -75,8 +74,8 @@ export const DATA = {
     { name: "Kubernetes", icon: Kubernetes },
   ],
   navbar: [
-    { href: "/", icon: House, label: "Home" },
-    { href: "/blog", icon: Library, label: "Blog" },
+    { href: "/", icon: "home", label: "Home" },
+    { href: "/blog", icon: "blog", label: "Blog" },
   ],
   contact: {
     email: "alex@alexmercer.dev",
@@ -85,31 +84,31 @@ export const DATA = {
       GitHub: {
         name: "GitHub",
         url: "https://github.com",
-        icon: Icons.github,
+        icon: "github",
         navbar: true,
       },
       LinkedIn: {
         name: "LinkedIn",
         url: "https://linkedin.com",
-        icon: Icons.linkedin,
+        icon: "linkedin",
         navbar: true,
       },
       X: {
         name: "X",
         url: "https://x.com",
-        icon: Icons.x,
+        icon: "x",
         navbar: true,
       },
       Youtube: {
         name: "Youtube",
         url: "https://youtube.com",
-        icon: Icons.youtube,
+        icon: "youtube",
         navbar: true,
       },
       email: {
         name: "Send Email",
         url: "mailto:alex@alexmercer.dev",
-        icon: Icons.email,
+        icon: "email",
         navbar: false,
       },
     },

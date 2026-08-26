@@ -7,8 +7,8 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import remarkGfm from 'remark-gfm';
 import rehypePrettyCode from 'rehype-pretty-code';
-import { remarkCodeMeta } from './src/lib/remark-code-meta.ts';
-import { CONFIG } from './src/data/config.ts';
+import { remarkCodeMeta } from './src/modules/blog/remark-code-meta.ts';
+import { CONFIG } from './src/config/site.ts';
 
 /** @type {import('rehype-pretty-code').Options} */
 const prettyCodeOptions = {
