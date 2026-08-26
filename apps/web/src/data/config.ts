@@ -37,7 +37,7 @@ export const CONFIG = {
   // Font Settings
   // See https://fontsource.org/?variable=true for fonts that can be installed via package registry
   // To change fonts:
-  // 1. pnpm install @fontsource-variable/<font-name> (for example 'pnpm add @fontsource-variable/inter'). Install BOTH the sans and mono fonts.
+  // 1. npm install @fontsource-variable/<font-name> (for example 'npm install @fontsource-variable/inter'). Install BOTH the sans and mono fonts.
   // 2. Edit src/styles/global.css - swap the @import and --font-sans and --font-mono values
   // ---------------------------------------------------------------------------
 
