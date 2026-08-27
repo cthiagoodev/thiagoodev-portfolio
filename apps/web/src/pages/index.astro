@@ -2,10 +2,21 @@
 import Layout from "../layouts/Layout.astro";
 import HomePage from "@/modules/home/HomePage";
 import { getAbout } from "@/modules/about/get-about";
+import { getWorkExperience } from "@/modules/work-experience/get-work-experience";
+import { getSkills } from "@/modules/skills/get-skills";
 
-const about = await getAbout();
+const [about, workExperience, skills] = await Promise.all([
+  getAbout(),
+  getWorkExperience(),
+  getSkills(),
+]);
 ---
 
 <Layout>
-  <HomePage client:load about={about} />
+  <HomePage
+    client:load
+    about={about}
+    workExperience={workExperience}
+    skills={skills}
+  />
 </Layout>

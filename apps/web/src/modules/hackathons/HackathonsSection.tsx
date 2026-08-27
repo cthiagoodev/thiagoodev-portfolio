@@ -47,6 +47,11 @@ export default function HackathonsSection({
             </p>
           </div>
         </div>
+        {hackathons.length === 0 && (
+          <p className="text-sm text-muted-foreground text-center">
+            Não há informações de hackathons disponíveis no momento.
+          </p>
+        )}
         <Timeline>
           {hackathons.map((hackathon) => (
             <TimelineItem key={hackathon.title + hackathon.dates} className="w-full flex items-start justify-between gap-10">

@@ -2,7 +2,7 @@
 export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
-import { DATA } from "@/data/resume";
+import { CONFIG } from "@/config/site";
 import { formatDate } from "@/modules/blog/format-date";
 import { mdxComponents } from "@/modules/blog/mdx/mdx-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -39,12 +39,12 @@ const jsonLd = JSON.stringify({
   image: image
     ? image.startsWith("http")
       ? image
-      : `${DATA.url}${image}`
-    : `${DATA.url}/og_image.png`,
-  url: `${DATA.url}/blog/${slug}`,
+      : `${CONFIG.site.url}${image}`
+    : `${CONFIG.site.url}${CONFIG.site.ogImage}`,
+  url: `${CONFIG.site.url}/blog/${slug}`,
   author: {
     "@type": "Person",
-    name: DATA.name,
+    name: CONFIG.site.name,
   },
 }).replace(/</g, "\\u003c");
 ---
@@ -53,7 +53,7 @@ const jsonLd = JSON.stringify({
   title={title}
   description={summary}
   image={image}
-  canonicalURL={`${DATA.url}/blog/${slug}`}
+  canonicalURL={`${CONFIG.site.url}/blog/${slug}`}
 >
   <section id="blog">
     <script is:inline type="application/ld+json" set:html={jsonLd} />

@@ -47,6 +47,11 @@ export default function ProjectsSection({
                         </p>
                     </div>
                 </div>
+                {projects.length === 0 && (
+                    <p className="text-sm text-muted-foreground text-center">
+                        Não há projetos disponíveis no momento.
+                    </p>
+                )}
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto auto-rows-fr">
                     {projects.map((project, id) => (
                         <BlurFade
