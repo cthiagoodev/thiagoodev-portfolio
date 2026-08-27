@@ -13,9 +13,7 @@ export async function getAbout(): Promise<About | null> {
   const supabase = createSupabaseClient();
 
   if (!supabase) {
-    console.warn(
-      "Supabase não configurado; usando os dados locais como fallback.",
-    );
+    console.warn("Supabase não configurado; a seção Sobre não será exibida.");
     return null;
   }
 
@@ -31,7 +29,7 @@ export async function getAbout(): Promise<About | null> {
       return null;
     }
 
-    if (!data) {
+    if (!data || !data.name.trim()) {
       return null;
     }
 

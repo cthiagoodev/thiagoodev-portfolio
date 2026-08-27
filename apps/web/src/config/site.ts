@@ -3,16 +3,22 @@ export const CONFIG = {
   // Site settings
   // ---------------------------------------------------------------------------
   site: {
-    url: "https://alexmercer.dev",
-    locale: "en_US",
-    twitterHandle: "@alexmercer_dev",
+    name: "StarFolio",
+    description: "Portfólio profissional.",
+    url: process.env.SITE_URL ?? "http://localhost:4321",
+    locale: "pt_BR",
+    ogImage: "/og_image.png",
+    navigation: [
+      { href: "/", icon: "home", label: "Início" },
+      { href: "/blog", icon: "blog", label: "Blog" },
+    ],
   },
 
   // ---------------------------------------------------------------------------
   // SEO Settings
   // ---------------------------------------------------------------------------
   seo: {
-    titleTemplate: "%s | %n", // %s = page title, %n = DATA.name
+    titleTemplate: "%s | %n", // %s = page title, %n = site name
     twitterCard: "summary_large_image" as const,
     robots: "index, follow",
   },

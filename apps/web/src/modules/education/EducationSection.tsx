@@ -27,6 +27,13 @@ export default function EducationSection({
         <BlurFade delay={delay * 7}>
           <h2 className="text-xl font-bold">{heading}</h2>
         </BlurFade>
+        {education.length === 0 && (
+          <BlurFade delay={delay * 8}>
+            <p className="text-sm text-muted-foreground">
+              Não há informações de formação disponíveis no momento.
+            </p>
+          </BlurFade>
+        )}
         <div className="flex flex-col gap-8">
           {education.map((item, index) => (
             <BlurFade

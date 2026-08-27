@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import { DATA } from "@/data/resume";
 import { CONFIG } from "@/config/site";
 import NavbarIsland from "@/modules/navigation/NavbarIsland";
 import { FlickeringGrid } from "@/common/magic-ui/FlickeringGrid";
@@ -14,23 +13,22 @@ interface Props {
 
 const {
   title,
-  description = DATA.description,
+  description = CONFIG.site.description,
   image,
   canonicalURL = Astro.url.href,
 } = Astro.props;
 
 const pageTitle = title
-  ? CONFIG.seo.titleTemplate.replace("%s", title).replace("%n", DATA.name)
-  : DATA.name;
+  ? CONFIG.seo.titleTemplate.replace("%s", title).replace("%n", CONFIG.site.name)
+  : CONFIG.site.name;
 const ogImage = image
   ? image.startsWith("http")
     ? image
     : `${CONFIG.site.url}${image}`
-  : `${CONFIG.site.url}${DATA.ogImage}`;
+  : `${CONFIG.site.url}${CONFIG.site.ogImage}`;
 
 const { light, dark, radius } = CONFIG.theme;
 const { baseFontSize } = CONFIG.typography;
-const socialContacts = Object.values(DATA.contact.social);
 ---
 
 <html
@@ -128,7 +126,7 @@ const socialContacts = Object.values(DATA.contact.social);
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content={DATA.name} />
+    <meta property="og:site_name" content={CONFIG.site.name} />
     <meta property="og:locale" content={CONFIG.site.locale} />
     <meta property="og:image" content={ogImage} />
 
@@ -161,8 +159,8 @@ const socialContacts = Object.values(DATA.contact.social);
     <!-- Navbar: ThemeProvider + TooltipProvider + Navbar all in one React island -->
     <NavbarIsland
       client:load
-      navbarItems={DATA.navbar}
-      socialContacts={socialContacts}
+      navbarItems={CONFIG.site.navigation}
+      socialContacts={[]}
     />
   </body>
 </html>

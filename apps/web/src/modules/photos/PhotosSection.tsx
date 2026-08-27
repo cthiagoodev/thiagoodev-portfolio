@@ -25,13 +25,18 @@ export default function PhotosSection({ heading, photos }: PhotosSectionProps) {
         <div className="flex items-center w-full">
           <div className="flex-1 h-px bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent" />
           <div className="border bg-primary z-10 rounded-xl px-4 py-1">
-            <span className="text-background text-sm font-medium">Photos</span>
+            <span className="text-background text-sm font-medium">Fotos</span>
           </div>
           <div className="flex-1 h-px bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent" />
         </div>
         <div className="flex flex-col gap-y-3 items-center justify-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">{heading}</h2>
         </div>
+        {photos.length === 0 && (
+          <p className="text-sm text-muted-foreground text-center">
+            Não há fotos disponíveis no momento.
+          </p>
+        )}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 items-start">
           {[col1, col2, col3].map((col, colIdx) => (
             <div key={colIdx} className="flex flex-col gap-2">
