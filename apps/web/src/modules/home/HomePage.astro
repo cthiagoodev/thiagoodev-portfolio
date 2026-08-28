@@ -1,0 +1,96 @@
+---
+import BlurFade from "@/common/magic-ui/BlurFade";
+import AboutHero from "@/modules/about/AboutHero";
+import AboutSection from "@/modules/about/AboutSection";
+import type { About } from "@/modules/about/about.types";
+import EducationSection from "@/modules/education/EducationSection";
+import type { Education } from "@/modules/education/education.types";
+import ProjectsSection from "@/modules/projects/ProjectsSection";
+import type { Project } from "@/modules/projects/projects.types";
+import SkillsSection from "@/modules/skills/SkillsSection";
+import type { Skill } from "@/modules/skills/skills.types";
+import TalksEventsSection from "@/modules/talks-events/TalksEventsSection";
+import type { TalkEvent } from "@/modules/talks-events/talks-events.types";
+import WorkExperienceSection from "@/modules/work-experience/WorkExperienceSection";
+import type { WorkExperienceGroup } from "@/modules/work-experience/work-experience.types";
+
+const BLUR_FADE_DELAY = 0.04;
+
+interface Props {
+  about: About | null;
+  workExperience: WorkExperienceGroup[];
+  education: Education[];
+  skills: Skill[];
+  projects: Project[];
+  talkEvents: TalkEvent[];
+}
+
+const { about, workExperience, education, skills, projects, talkEvents } =
+  Astro.props;
+const name = about?.name.trim();
+const description = about?.description?.trim() || null;
+const summary = about?.text?.trim();
+---
+
+<main class="min-h-dvh flex flex-col gap-14 relative">
+  {name && (
+    <AboutHero
+      name={name}
+      description={description}
+      delay={BLUR_FADE_DELAY}
+    />
+  )}
+
+  {summary && (
+    <AboutSection
+      heading="Sobre"
+      summary={summary}
+      delay={BLUR_FADE_DELAY}
+    />
+  )}
+
+  <section id="work">
+    <div class="flex min-h-0 flex-col gap-y-6">
+      <BlurFade delay={BLUR_FADE_DELAY * 5}>
+        <h2 class="text-xl font-bold">Experiência Profissional</h2>
+      </BlurFade>
+      <BlurFade delay={BLUR_FADE_DELAY * 6}>
+        <WorkExperienceSection
+          client:visible
+          items={workExperience}
+          presentLabel="Atual"
+        />
+      </BlurFade>
+    </div>
+  </section>
+
+  <EducationSection
+    heading="Formação"
+    education={education}
+    delay={BLUR_FADE_DELAY}
+  />
+
+  <SkillsSection
+    heading="Habilidades"
+    skills={skills}
+    delay={BLUR_FADE_DELAY}
+  />
+
+  <BlurFade delay={BLUR_FADE_DELAY * 11}>
+    <ProjectsSection
+      label="Meus Projetos"
+      heading="Projetos em destaque"
+      text="Conheça alguns dos projetos que desenvolvi."
+      projects={projects}
+    />
+  </BlurFade>
+
+  <BlurFade delay={BLUR_FADE_DELAY * 13}>
+    <TalksEventsSection
+      label="Palestras e Eventos"
+      heading="Palestras e Eventos"
+      text="Conteúdos, palestras e participações em eventos."
+      items={talkEvents}
+    />
+  </BlurFade>
+</main>
