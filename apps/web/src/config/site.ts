@@ -3,11 +3,14 @@ export const CONFIG = {
   // Site settings
   // ---------------------------------------------------------------------------
   site: {
-    name: "StarFolio",
-    description: "Portfólio profissional.",
-    url: process.env.SITE_URL ?? "http://localhost:4321",
+    name: "Thiago Sousa",
+    title: "Thiago Sousa | thiagoodev | Engenheiro de Software",
+    description:
+      "Portfólio de Thiago Sousa, engenheiro de software, com experiência, projetos, habilidades e conteúdos sobre desenvolvimento.",
+    url: process.env.SITE_URL ?? "https://thiagoodev.com.br",
+    language: "pt-BR",
     locale: "pt_BR",
-    ogImage: "/og_image.png",
+    ogImage: "/og-image.png",
     navigation: [
       { href: "/", icon: "home", label: "Início" },
       { href: "/blog", icon: "blog", label: "Blog" },
@@ -99,5 +102,4 @@ export const CONFIG = {
       ring: "oklch(0.556 0 0)",
     },
   },
-
 } as const;

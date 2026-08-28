@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { CONFIG } from "@/config/site";
 import NavbarIsland from "@/modules/navigation/NavbarIsland";
 import { FlickeringGrid } from "@/common/magic-ui/FlickeringGrid";
+import { getSocialContacts } from "@/modules/social-contacts/get-social-contacts";
 
 interface Props {
   title?: string;
@@ -15,24 +16,35 @@ const {
   title,
   description = CONFIG.site.description,
   image,
-  canonicalURL = Astro.url.href,
+  canonicalURL,
 } = Astro.props;
 
 const pageTitle = title
   ? CONFIG.seo.titleTemplate.replace("%s", title).replace("%n", CONFIG.site.name)
-  : CONFIG.site.name;
-const ogImage = image
-  ? image.startsWith("http")
-    ? image
-    : `${CONFIG.site.url}${image}`
-  : `${CONFIG.site.url}${CONFIG.site.ogImage}`;
+  : CONFIG.site.title;
+const canonical = new URL(canonicalURL ?? Astro.url.pathname, CONFIG.site.url)
+  .href;
+const ogImage = new URL(image ?? CONFIG.site.ogImage, CONFIG.site.url).href;
 
 const { light, dark, radius } = CONFIG.theme;
 const { baseFontSize } = CONFIG.typography;
+const socialContacts = await getSocialContacts();
+const isHome = Astro.url.pathname === "/";
+const personStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: CONFIG.site.name,
+  alternateName: "thiagoodev",
+  url: CONFIG.site.url,
+  jobTitle: "Engenheiro de Software",
+  sameAs: socialContacts
+    .map(({ url }) => url)
+    .filter((url) => url.startsWith("http")),
+};
 ---
 
 <html
-  lang={CONFIG.site.locale.split("_")[0]}
+  lang={CONFIG.site.language}
   style={`font-size: ${baseFontSize}%;`}
 >
   <head>
@@ -58,7 +70,7 @@ const { baseFontSize } = CONFIG.typography;
       })();
     </script>
 
-    <!-- Theme variables from config.ts -->
+    <!-- Theme variables from site configuration -->
     <style
       set:html={`
       :root {
@@ -105,14 +117,13 @@ const { baseFontSize } = CONFIG.typography;
     `}
     ></style>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Primary meta -->
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    <link rel="canonical" href={canonical} />
 
     <!-- Robots -->
     <meta name="robots" content={CONFIG.seo.robots} />
@@ -123,21 +134,33 @@ const { baseFontSize } = CONFIG.typography;
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={CONFIG.site.name} />
     <meta property="og:locale" content={CONFIG.site.locale} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={pageTitle} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content={CONFIG.seo.twitterCard} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={pageTitle} />
+
+    {isHome && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(personStructuredData).replace(/</g, "\\u003c")}
+      />
+    )}
   </head>
   <body class="min-h-screen bg-background font-sans antialiased relative">
-    <!-- FlickeringGrid header background - matches template exactly -->
+    <!-- Animated header background -->
     <div class="absolute inset-0 top-0 left-0 right-0 h-25 overflow-hidden z-0">
       <FlickeringGrid
         client:load
@@ -151,16 +174,15 @@ const { baseFontSize } = CONFIG.typography;
       />
     </div>
 
-    <!-- Main content wrapper - matches template's z-10 container exactly -->
+    <!-- Main content wrapper -->
     <div class="relative z-10 max-w-2xl mx-auto py-12 pb-24 sm:py-24 px-6">
       <slot />
     </div>
 
-    <!-- Navbar: ThemeProvider + TooltipProvider + Navbar all in one React island -->
     <NavbarIsland
       client:load
       navbarItems={CONFIG.site.navigation}
-      socialContacts={[]}
+      socialContacts={socialContacts}
     />
   </body>
 </html>
