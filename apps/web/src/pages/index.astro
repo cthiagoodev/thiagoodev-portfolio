@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import HomePage from "@/modules/home/HomePage";
+import HomePage from "@/modules/home/HomePage.astro";
 import { getAbout } from "@/modules/about/get-about";
 import { getWorkExperience } from "@/modules/work-experience/get-work-experience";
 import { getSkills } from "@/modules/skills/get-skills";
@@ -10,18 +10,17 @@ import { getEducation } from "@/modules/education/get-education";
 
 const [about, workExperience, education, skills, projects, talkEvents] =
   await Promise.all([
-  getAbout(),
-  getWorkExperience(),
-  getEducation(),
-  getSkills(),
-  getProjects(),
-  getTalkEvents(),
+    getAbout(),
+    getWorkExperience(),
+    getEducation(),
+    getSkills(),
+    getProjects(),
+    getTalkEvents(),
   ]);
 ---
 
 <Layout>
   <HomePage
-    client:load
     about={about}
     workExperience={workExperience}
     education={education}
