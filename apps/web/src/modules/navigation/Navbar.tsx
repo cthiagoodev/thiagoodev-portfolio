@@ -7,9 +7,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/common/ui/tooltip";
-import SocialLinks, {
-  type SocialContact,
-} from "@/modules/social-contacts/SocialLinks";
+import SocialLinks from "@/modules/social-contacts/SocialLinks";
+import type { SocialContact } from "@/modules/social-contacts/social-contacts.types";
 import { House, Library } from "lucide-react";
 import type { ComponentType } from "react";
 

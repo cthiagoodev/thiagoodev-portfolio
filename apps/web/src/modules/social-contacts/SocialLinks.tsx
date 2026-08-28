@@ -6,16 +6,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/common/ui/tooltip";
+import type {
+  SocialContact,
+  SocialIcon,
+} from "@/modules/social-contacts/social-contacts.types";
 import type { ComponentType } from "react";
-
-type SocialIcon = "github" | "linkedin" | "x" | "youtube" | "email";
-
-export interface SocialContact {
-  name: string;
-  url: string;
-  icon: SocialIcon;
-  navbar: boolean;
-}
 
 const socialIcons = {
   github: Icons.github,
@@ -32,12 +27,12 @@ export default function SocialLinks({
 }) {
   return contacts
     .filter((social) => social.navbar)
-    .map((social, index) => {
+    .map((social) => {
       const isExternal = social.url.startsWith("http");
       const IconComponent = socialIcons[social.icon];
 
       return (
-        <Tooltip key={`social-${social.name}-${index}`}>
+        <Tooltip key={social.uuid}>
           <TooltipTrigger asChild>
             <a
               href={social.url}

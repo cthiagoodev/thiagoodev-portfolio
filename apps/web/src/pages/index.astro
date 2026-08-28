@@ -4,12 +4,19 @@ import HomePage from "@/modules/home/HomePage";
 import { getAbout } from "@/modules/about/get-about";
 import { getWorkExperience } from "@/modules/work-experience/get-work-experience";
 import { getSkills } from "@/modules/skills/get-skills";
+import { getProjects } from "@/modules/projects/get-projects";
+import { getTalkEvents } from "@/modules/talks-events/get-talk-events";
+import { getEducation } from "@/modules/education/get-education";
 
-const [about, workExperience, skills] = await Promise.all([
+const [about, workExperience, education, skills, projects, talkEvents] =
+  await Promise.all([
   getAbout(),
   getWorkExperience(),
+  getEducation(),
   getSkills(),
-]);
+  getProjects(),
+  getTalkEvents(),
+  ]);
 ---
 
 <Layout>
@@ -17,6 +24,9 @@ const [about, workExperience, skills] = await Promise.all([
     client:load
     about={about}
     workExperience={workExperience}
+    education={education}
     skills={skills}
+    projects={projects}
+    talkEvents={talkEvents}
   />
 </Layout>

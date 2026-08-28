@@ -1,8 +1,8 @@
 {
-  "name": "starfolio",
+  "name": "thiagoodev-portfolio",
   "type": "module",
-  "description": "Starfolio - Create a personal or professional portfolio site just from a single config file. Built with Astro.",
-  "author": "websiterating",
+  "description": "Portfólio profissional de Thiago Sousa, engenheiro de software.",
+  "author": "Thiago Sousa",
   "version": "0.0.1",
   "engines": {
     "node": ">=22.12.0"

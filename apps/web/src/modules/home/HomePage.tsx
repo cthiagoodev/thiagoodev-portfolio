@@ -2,13 +2,14 @@ import BlurFade from "@/common/magic-ui/BlurFade";
 import AboutHero from "@/modules/about/AboutHero";
 import AboutSection from "@/modules/about/AboutSection";
 import type { About } from "@/modules/about/about.types";
-import ContactSection from "@/modules/contact/ContactSection";
 import EducationSection from "@/modules/education/EducationSection";
-import HackathonsSection from "@/modules/hackathons/HackathonsSection";
-import PhotosSection from "@/modules/photos/PhotosSection";
+import type { Education } from "@/modules/education/education.types";
 import ProjectsSection from "@/modules/projects/ProjectsSection";
+import type { Project } from "@/modules/projects/projects.types";
 import SkillsSection from "@/modules/skills/SkillsSection";
 import type { Skill } from "@/modules/skills/skills.types";
+import TalksEventsSection from "@/modules/talks-events/TalksEventsSection";
+import type { TalkEvent } from "@/modules/talks-events/talks-events.types";
 import WorkExperienceSection from "@/modules/work-experience/WorkExperienceSection";
 import type { WorkExperienceGroup } from "@/modules/work-experience/work-experience.types";
 
@@ -17,13 +18,19 @@ const BLUR_FADE_DELAY = 0.04;
 interface HomePageProps {
   about: About | null;
   workExperience: WorkExperienceGroup[];
+  education: Education[];
   skills: Skill[];
+  projects: Project[];
+  talkEvents: TalkEvent[];
 }
 
 export default function HomePage({
   about,
   workExperience,
+  education,
   skills,
+  projects,
+  talkEvents,
 }: HomePageProps) {
   const name = about?.name.trim();
   const description = about?.description?.trim() || null;
@@ -63,7 +70,7 @@ export default function HomePage({
 
       <EducationSection
         heading="Formação"
-        education={[]}
+        education={education}
         delay={BLUR_FADE_DELAY}
       />
 
@@ -73,39 +80,23 @@ export default function HomePage({
         delay={BLUR_FADE_DELAY}
       />
 
-      <section id="projects">
-        <BlurFade delay={BLUR_FADE_DELAY * 11}>
-          <ProjectsSection
-            label="Meus Projetos"
-            heading="Projetos em destaque"
-            text="Conheça alguns dos projetos que desenvolvi."
-            projects={[]}
-          />
-        </BlurFade>
-      </section>
+      <BlurFade delay={BLUR_FADE_DELAY * 11}>
+        <ProjectsSection
+          label="Meus Projetos"
+          heading="Projetos em destaque"
+          text="Conheça alguns dos projetos que desenvolvi."
+          projects={projects}
+        />
+      </BlurFade>
 
-      <PhotosSection heading="Viagens recentes" photos={[]} />
-
-      <section id="hackathons">
-        <BlurFade delay={BLUR_FADE_DELAY * 13}>
-          <HackathonsSection
-            label="Hackathons"
-            heading="Projetos e experiências em hackathons"
-            text="Confira minha participação em hackathons."
-            hackathons={[]}
-          />
-        </BlurFade>
-      </section>
-
-      <section id="contact">
-        <BlurFade delay={BLUR_FADE_DELAY * 16}>
-          <ContactSection
-            label="Contato"
-            heading="Entre em contato"
-            text="Não há informações de contato disponíveis no momento."
-          />
-        </BlurFade>
-      </section>
+      <BlurFade delay={BLUR_FADE_DELAY * 13}>
+        <TalksEventsSection
+          label="Palestras e Eventos"
+          heading="Palestras e Eventos"
+          text="Conteúdos, palestras e participações em eventos."
+          items={talkEvents}
+        />
+      </BlurFade>
     </main>
   );
 }
