@@ -24,7 +24,6 @@ apps/web/** linguist-vendored
 *.zsh linguist-detectable=false
 
 # Supabase self-hosted:
-# ignora implementação interna de serviços que não são código nosso
 infra/supabase/docker/** linguist-vendored
 infra/supabase/volumes/** linguist-vendored
 
