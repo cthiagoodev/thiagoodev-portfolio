@@ -1,9 +1,34 @@
-# Frontend não representa o foco tecnológico do projeto
+# Frontend inteiro
 apps/web/** linguist-vendored
 
-# Shell não entra nas estatísticas de linguagens
-*.sh linguist-detectable=false
+# TypeScript / JavaScript
+*.ts linguist-detectable=false
+*.tsx linguist-detectable=false
+*.js linguist-detectable=false
+*.jsx linguist-detectable=false
+*.mjs linguist-detectable=false
+*.cjs linguist-detectable=false
 
-# Arquivos gerados
+# Frontend / markup / styles
+*.astro linguist-detectable=false
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
+*.sass linguist-detectable=false
+*.vue linguist-detectable=false
+*.svelte linguist-detectable=false
+
+# Shell
+*.sh linguist-detectable=false
+*.bash linguist-detectable=false
+*.zsh linguist-detectable=false
+
+# Supabase self-hosted:
+# ignora implementação interna de serviços que não são código nosso
+infra/supabase/docker/** linguist-vendored
+infra/supabase/volumes/** linguist-vendored
+
+# Gerados / dependências
 **/dist/** linguist-generated
 **/.astro/** linguist-generated
+**/node_modules/** linguist-vendored
