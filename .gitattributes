@@ -1,30 +1,9 @@
-# Frontend
-*.ts linguist-detectable=false
-*.tsx linguist-detectable=false
-*.js linguist-detectable=false
-*.jsx linguist-detectable=false
-*.mjs linguist-detectable=false
-*.cjs linguist-detectable=false
-*.astro linguist-detectable=false
-*.css linguist-detectable=false
-*.scss linguist-detectable=false
-*.sass linguist-detectable=false
-*.html linguist-detectable=false
-*.vue linguist-detectable=false
-*.svelte linguist-detectable=false
+# Frontend inteiro
+apps/web/** linguist-detectable=false
 
-# MDX / Markdown
-*.mdx linguist-detectable=false
-
-# Templates / Smarty
-*.tpl linguist-detectable=false
-*.smarty linguist-detectable=false
-
-# Elixir
-*.ex linguist-detectable=false
-*.exs linguist-detectable=false
-*.heex linguist-detectable=false
-*.eex linguist-detectable=false
+# Supabase self-hosted / código de terceiros
+infra/supabase/docker/** linguist-detectable=false
+infra/supabase/volumes/** linguist-detectable=false
 
 # Shell
 *.sh linguist-detectable=false
@@ -32,9 +11,34 @@
 *.zsh linguist-detectable=false
 *.fish linguist-detectable=false
 
-# Docker / configuração
+# Docker
 Dockerfile* linguist-detectable=false
 *.dockerfile linguist-detectable=false
 
+# Elixir
+*.ex linguist-detectable=false
+*.exs linguist-detectable=false
+*.heex linguist-detectable=false
+*.eex linguist-detectable=false
+
+# Smarty
+*.tpl linguist-detectable=false
+*.smarty linguist-detectable=false
+
+# Linguagens do projeto
 *.go linguist-detectable=true
 *.sql linguist-detectable=true
+
+# Migrations próprias
+infra/supabase/migrations/** linguist-detectable=true
+
+*.mdx linguist-detectable=false
+*.md linguist-detectable=false
+*.astro linguist-detectable=false
+*.tsx linguist-detectable=false
+*.ts linguist-detectable=false
+*.jsx linguist-detectable=false
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
+*.html linguist-detectable=false
