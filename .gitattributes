@@ -13,6 +13,9 @@
 *.vue linguist-detectable=false
 *.svelte linguist-detectable=false
 
+# MDX / Markdown
+*.mdx linguist-detectable=false
+
 # Templates / Smarty
 *.tpl linguist-detectable=false
 *.smarty linguist-detectable=false
