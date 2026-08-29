@@ -1,33 +1,37 @@
-# Frontend inteiro
-apps/web/** linguist-vendored
-
-# TypeScript / JavaScript
+# Frontend
 *.ts linguist-detectable=false
 *.tsx linguist-detectable=false
 *.js linguist-detectable=false
 *.jsx linguist-detectable=false
 *.mjs linguist-detectable=false
 *.cjs linguist-detectable=false
-
-# Frontend / markup / styles
 *.astro linguist-detectable=false
-*.html linguist-detectable=false
 *.css linguist-detectable=false
 *.scss linguist-detectable=false
 *.sass linguist-detectable=false
+*.html linguist-detectable=false
 *.vue linguist-detectable=false
 *.svelte linguist-detectable=false
+
+# Templates / Smarty
+*.tpl linguist-detectable=false
+*.smarty linguist-detectable=false
+
+# Elixir
+*.ex linguist-detectable=false
+*.exs linguist-detectable=false
+*.heex linguist-detectable=false
+*.eex linguist-detectable=false
 
 # Shell
 *.sh linguist-detectable=false
 *.bash linguist-detectable=false
 *.zsh linguist-detectable=false
+*.fish linguist-detectable=false
 
-# Supabase self-hosted:
-infra/supabase/docker/** linguist-vendored
-infra/supabase/volumes/** linguist-vendored
+# Docker / configuração
+Dockerfile* linguist-detectable=false
+*.dockerfile linguist-detectable=false
 
-# Gerados / dependências
-**/dist/** linguist-generated
-**/.astro/** linguist-generated
-**/node_modules/** linguist-vendored
+*.go linguist-detectable=true
+*.sql linguist-detectable=true
