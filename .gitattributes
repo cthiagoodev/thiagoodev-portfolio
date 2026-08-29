@@ -1,16 +1,9 @@
-# Frontend / Astro
+# Frontend não representa o foco tecnológico do projeto
 apps/web/** linguist-vendored
 
-# Dependências / arquivos gerados
-**/node_modules/** linguist-vendored
+# Shell não entra nas estatísticas de linguagens
+*.sh linguist-detectable=false
+
+# Arquivos gerados
 **/dist/** linguist-generated
 **/.astro/** linguist-generated
-
-# Supabase / infraestrutura
-infra/supabase/docker/** linguist-vendored
-infra/supabase/volumes/** linguist-vendored
-
-# Arquivos auxiliares
-*.json linguist-detectable=false
-*.lock linguist-detectable=false
-*.svg linguist-detectable=false
