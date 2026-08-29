@@ -5,6 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/services/projects_sync/cmd/api/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/project.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/skill.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/projects_sync/internal/infraestructure/github/project.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,9 +20,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Go File" />
         <option value="Dockerfile" />
         <option value="CSS File" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -82,11 +86,23 @@
       <recent name="$PROJECT_DIR$/migrations" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/services/projects_sync/internal/infraestructure/github" />
+      <recent name="$PROJECT_DIR$/services/projects_sync/internal/domain" />
       <recent name="$PROJECT_DIR$/docs/frontend" />
       <recent name="$PROJECT_DIR$/templates/components" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/cmd/api" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="go build github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/cmd/api" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="portfolio" />
+      <working_directory value="$PROJECT_DIR$/services/projects_sync" />
+      <kind value="PACKAGE" />
+      <package value="github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/cmd/api" />
+      <directory value="$PROJECT_DIR$" />
+      <auto_managed_config_id value="$PROJECT_DIR$/services/projects_sync/cmd/api" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
