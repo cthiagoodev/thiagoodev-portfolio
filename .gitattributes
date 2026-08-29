@@ -1,2 +1,16 @@
-*.html linguist-detectable=false
-*.css linguist-detectable=false
+# Frontend / Astro
+apps/web/** linguist-vendored
+
+# Dependências / arquivos gerados
+**/node_modules/** linguist-vendored
+**/dist/** linguist-generated
+**/.astro/** linguist-generated
+
+# Supabase / infraestrutura
+infra/supabase/docker/** linguist-vendored
+infra/supabase/volumes/** linguist-vendored
+
+# Arquivos auxiliares
+*.json linguist-detectable=false
+*.lock linguist-detectable=false
+*.svg linguist-detectable=false
