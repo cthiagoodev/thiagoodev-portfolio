@@ -1,28 +1,22 @@
 package usecases
 
 import (
-	"strconv"
-	"time"
-
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/repositories"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/infrastructure/github"
 )
 
 type SyncProjectsUseCaseImpl struct {
-	projectsRepository repositories.ProjectsRepository
-	skillsRepository   repositories.SkillsRepository
-	githubService      github.Service
+	repository    repositories.ProjectsRepository
+	githubService github.Service
 }
 
 func NewSyncProjectsUseCaseImpl(
-	projectsRepository repositories.ProjectsRepository,
-	skillsRepository repositories.SkillsRepository,
+	repository repositories.ProjectsRepository,
 	githubService github.Service,
 ) *SyncProjectsUseCaseImpl {
 	return &SyncProjectsUseCaseImpl{
-		projectsRepository,
-		skillsRepository,
+		repository,
 		githubService,
 	}
 }
@@ -38,34 +32,15 @@ func (s *SyncProjectsUseCaseImpl) Execute() ([]entities.Project, error) {
 		return []entities.Project{}, nil
 	}
 
-	newProjects := make([]entities.Project, len(repos))
+	newProjects := github.ProjectsMapper(repos)
 
-	for _, r := range repos {
-		var skills []entities.Skill
+	dErr := s.repository.DeleteAll()
 
-		for _, l := range r.Languages {
-			skill, sErr := s.skillsRepository.GetByName(l)
-
-			if sErr != nil {
-				continue
-			}
-
-			skills = append(skills, skill)
-		}
-
-		newProjects = append(newProjects, entities.Project{
-			Uuid:        "",
-			ExternalId:  strconv.FormatInt(r.Id, 10),
-			Name:        r.Name,
-			Description: r.Description,
-			Url:         r.HtmlUrl,
-			Skills:      skills,
-			CreatedAt:   time.Time{},
-			UpdatedAt:   r.PushedAt,
-		})
+	if dErr != nil {
+		return nil, dErr
 	}
 
-	projects, pErr := s.projectsRepository.CreateOrUpdateAll(newProjects)
+	projects, pErr := s.repository.CreateAll(newProjects)
 
 	if pErr != nil {
 		return nil, pErr
