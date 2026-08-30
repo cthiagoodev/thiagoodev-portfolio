@@ -4,6 +4,6 @@ import "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/inter
 
 type ProjectsRepository interface {
 	GetAll() ([]entities.Project, error)
-	CreateOrUpdate(project entities.Project) error
+	CreateOrUpdateAll(projects []entities.Project) ([]entities.Project, error)
 	Delete(uuid string) error
 }

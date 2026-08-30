@@ -7,7 +7,7 @@ type Project struct {
 	Name        string    `json:"name"`
 	Description *string   `json:"description"`
 	HtmlUrl     string    `json:"html_url"`
-	Language    *string   `json:"language"`
+	Languages   []string  `json:"languages"`
 	Topics      []string  `json:"topics"`
 	Fork        bool      `json:"fork"`
 	Archived    bool      `json:"archived"`
