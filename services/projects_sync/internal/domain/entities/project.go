@@ -8,7 +8,7 @@ type Project struct {
 	Name        string    `json:"name"`
 	Description *string   `json:"description"`
 	Url         string    `json:"url"`
-	Skills      []Skill   `json:"skills"`
+	Languages   []string  `json:"languages"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
