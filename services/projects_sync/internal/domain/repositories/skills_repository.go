@@ -1,7 +1,7 @@
-package usecases
+package repositories
 
 import "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 
-type GetAllProjectsUseCase interface {
-	Execute() ([]entities.Project, error)
+type SkillsRepository interface {
+	GetByName(name string) (entities.Skill, error)
 }
