@@ -1,11 +1,11 @@
 package github
 
-type Service interface {
+type GithubService interface {
 	FetchRepositories() ([]Project, error)
 }
 
-type ServiceImpl struct{}
+type GithubServiceImpl struct{}
 
-func (s *ServiceImpl) FetchRepositories() ([]Project, error) {
+func (s *GithubServiceImpl) FetchRepositories() ([]Project, error) {
 	panic("implement me")
 }

@@ -7,12 +7,14 @@ import (
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 )
 
+type ProjectsMapperFunc func(ps []Project) []entities.Project
+
 func ProjectsMapper(ps []Project) []entities.Project {
 	if len(ps) == 0 {
 		return []entities.Project{}
 	}
 
-	projects := make([]entities.Project, len(ps))
+	projects := make([]entities.Project, 0, len(ps))
 
 	for _, p := range ps {
 		projects = append(projects, entities.Project{
@@ -22,7 +24,7 @@ func ProjectsMapper(ps []Project) []entities.Project {
 			Description: p.Description,
 			Url:         p.HtmlUrl,
 			Languages:   p.Languages,
-			CreatedAt:   time.Time{},
+			CreatedAt:   time.Now(),
 			UpdatedAt:   p.PushedAt,
 		})
 	}

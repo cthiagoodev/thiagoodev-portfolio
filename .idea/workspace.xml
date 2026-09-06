@@ -5,14 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66d68aed-eb0e-4176-bc9d-22cb3268eac7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/project.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/domain/entities/skill.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/application/usecases/sync_projects_usecase_impl_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/domain/repositories/projects_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/domain/repositories/projects_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/domain/repositories/skills_repository.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/repositories/projects_database_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/repositories/projects_database_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/projects_sync/internal/infrastructure/github/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/test/mocks/github_service_mock.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/projects_sync/internal/test/mocks/projects_repository_mock.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +72,7 @@
     &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/thiagoodev/Library/Application Support/JetBrains/GoLand2026.2/plugins/Shell Script/shellcheck&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;htmx.bundled.context.provider.enabled&quot;: &quot;true&quot;,
