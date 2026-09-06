@@ -8,16 +8,19 @@ import (
 
 type SyncProjectsUseCaseImpl struct {
 	repository    repositories.ProjectsRepository
-	githubService github.Service
+	githubService github.GithubService
+	mapper        github.ProjectsMapperFunc
 }
 
 func NewSyncProjectsUseCaseImpl(
 	repository repositories.ProjectsRepository,
-	githubService github.Service,
+	githubService github.GithubService,
+	mapper github.ProjectsMapperFunc,
 ) *SyncProjectsUseCaseImpl {
 	return &SyncProjectsUseCaseImpl{
 		repository,
 		githubService,
+		mapper,
 	}
 }
 
@@ -32,7 +35,7 @@ func (s *SyncProjectsUseCaseImpl) Execute() ([]entities.Project, error) {
 		return []entities.Project{}, nil
 	}
 
-	newProjects := github.ProjectsMapper(repos)
+	newProjects := s.mapper(repos)
 
 	dErr := s.repository.DeleteAll()
 
@@ -40,7 +43,13 @@ func (s *SyncProjectsUseCaseImpl) Execute() ([]entities.Project, error) {
 		return nil, dErr
 	}
 
-	projects, pErr := s.repository.CreateAll(newProjects)
+	cErr := s.repository.CreateAll(newProjects)
+
+	if cErr != nil {
+		return nil, cErr
+	}
+
+	projects, pErr := s.repository.GetAll()
 
 	if pErr != nil {
 		return nil, pErr

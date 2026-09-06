@@ -1,22 +1,22 @@
 package usecases
 
 import (
-	"reflect"
+	"errors"
 	"testing"
 	"time"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/infrastructure/github"
-	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks"
-	"go.uber.org/mock/gomock"
+	githubmocks "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks/github"
+	repositoriesmocks "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks/repositories"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
-	t.Run("should fetch, parse, save and return projects", func(t *testing.T) {
-		ctrl := gomock.NewController(t)
-
-		repository := mocks.NewMockProjectsRepository(ctrl)
-		service := mocks.NewMockService(ctrl)
+	t.Run("should fetch, map, save and return projects", func(t *testing.T) {
+		repository := repositoriesmocks.NewMockProjectsRepository(t)
+		service := githubmocks.NewMockGithubService(t)
 
 		now := time.Now()
 
@@ -40,6 +40,11 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 			},
 		}
 
+		mapper := func(repos []github.Project) []entities.Project {
+			assert.Equal(t, githubProjects, repos)
+			return expectedProjects
+		}
+
 		service.
 			EXPECT().
 			FetchRepositories().
@@ -47,31 +52,245 @@ func TestSyncProjectsUseCaseImpl_Execute(t *testing.T) {
 
 		repository.
 			EXPECT().
-			CreateOrUpdate(expectedProjects[0]).
-			Return(expectedProjects[0], nil)
+			DeleteAll().
+			Return(nil)
 
-		useCase := NewSyncProjectsUseCaseImpl(repository, service)
+		repository.
+			EXPECT().
+			CreateAll(expectedProjects).
+			Return(nil)
+
+		repository.
+			EXPECT().
+			GetAll().
+			Return(expectedProjects, nil)
+
+		useCase := NewSyncProjectsUseCaseImpl(
+			repository,
+			service,
+			mapper,
+		)
 
 		result, err := useCase.Execute()
 
-		if err != nil {
-			t.Fatalf("expected no error, got %v", err)
+		require.NoError(t, err)
+		assert.Equal(t, expectedProjects, result)
+	})
+
+	t.Run("should return empty list when github returns no repositories", func(t *testing.T) {
+		repository := repositoriesmocks.NewMockProjectsRepository(t)
+		service := githubmocks.NewMockGithubService(t)
+
+		mapper := func(repos []github.Project) []entities.Project {
+			t.Fatal("mapper should not be called")
+			return nil
 		}
 
-		if len(result) != len(expectedProjects) {
-			t.Fatalf(
-				"expected %d projects, got %d",
-				len(expectedProjects),
-				len(result),
-			)
+		service.
+			EXPECT().
+			FetchRepositories().
+			Return([]github.Project{}, nil)
+
+		useCase := NewSyncProjectsUseCaseImpl(
+			repository,
+			service,
+			mapper,
+		)
+
+		result, err := useCase.Execute()
+
+		require.NoError(t, err)
+		assert.Empty(t, result)
+	})
+
+	t.Run("should return error when github fetch fails", func(t *testing.T) {
+		repository := repositoriesmocks.NewMockProjectsRepository(t)
+		service := githubmocks.NewMockGithubService(t)
+
+		expectedErr := errors.New("github error")
+
+		mapper := func(repos []github.Project) []entities.Project {
+			t.Fatal("mapper should not be called")
+			return nil
 		}
 
-		if reflect.DeepEqual(result, expectedProjects) == false {
-			t.Errorf(
-				"expected project %+v, got %+v",
-				expectedProjects[0],
-				result[0],
-			)
+		service.
+			EXPECT().
+			FetchRepositories().
+			Return(nil, expectedErr)
+
+		useCase := NewSyncProjectsUseCaseImpl(
+			repository,
+			service,
+			mapper,
+		)
+
+		result, err := useCase.Execute()
+
+		require.Error(t, err)
+		assert.ErrorIs(t, err, expectedErr)
+		assert.Nil(t, result)
+	})
+
+	t.Run("should return error when delete all fails", func(t *testing.T) {
+		repository := repositoriesmocks.NewMockProjectsRepository(t)
+		service := githubmocks.NewMockGithubService(t)
+
+		expectedErr := errors.New("delete error")
+
+		githubProjects := []github.Project{
+			{
+				Id:      123,
+				Name:    "portfolio",
+				HtmlUrl: "https://github.com/cthiagoodev/portfolio",
+			},
 		}
+
+		expectedProjects := []entities.Project{
+			{
+				ExternalId: "123",
+				Name:       "portfolio",
+				Url:        "https://github.com/cthiagoodev/portfolio",
+			},
+		}
+
+		mapper := func(repos []github.Project) []entities.Project {
+			return expectedProjects
+		}
+
+		service.
+			EXPECT().
+			FetchRepositories().
+			Return(githubProjects, nil)
+
+		repository.
+			EXPECT().
+			DeleteAll().
+			Return(expectedErr)
+
+		useCase := NewSyncProjectsUseCaseImpl(
+			repository,
+			service,
+			mapper,
+		)
+
+		result, err := useCase.Execute()
+
+		require.Error(t, err)
+		assert.ErrorIs(t, err, expectedErr)
+		assert.Nil(t, result)
+	})
+
+	t.Run("should return error when create all fails", func(t *testing.T) {
+		repository := repositoriesmocks.NewMockProjectsRepository(t)
+		service := githubmocks.NewMockGithubService(t)
+
+		expectedErr := errors.New("create error")
+
+		githubProjects := []github.Project{
+			{
+				Id:      123,
+				Name:    "portfolio",
+				HtmlUrl: "https://github.com/cthiagoodev/portfolio",
+			},
+		}
+
+		expectedProjects := []entities.Project{
+			{
+				ExternalId: "123",
+				Name:       "portfolio",
+				Url:        "https://github.com/cthiagoodev/portfolio",
+			},
+		}
+
+		mapper := func(repos []github.Project) []entities.Project {
+			return expectedProjects
+		}
+
+		service.
+			EXPECT().
+			FetchRepositories().
+			Return(githubProjects, nil)
+
+		repository.
+			EXPECT().
+			DeleteAll().
+			Return(nil)
+
+		repository.
+			EXPECT().
+			CreateAll(expectedProjects).
+			Return(expectedErr)
+
+		useCase := NewSyncProjectsUseCaseImpl(
+			repository,
+			service,
+			mapper,
+		)
+
+		result, err := useCase.Execute()
+
+		require.Error(t, err)
+		assert.ErrorIs(t, err, expectedErr)
+		assert.Nil(t, result)
+	})
+
+	t.Run("should return error when get all fails", func(t *testing.T) {
+		repository := repositoriesmocks.NewMockProjectsRepository(t)
+		service := githubmocks.NewMockGithubService(t)
+
+		expectedErr := errors.New("get all error")
+
+		githubProjects := []github.Project{
+			{
+				Id:      123,
+				Name:    "portfolio",
+				HtmlUrl: "https://github.com/cthiagoodev/portfolio",
+			},
+		}
+
+		expectedProjects := []entities.Project{
+			{
+				ExternalId: "123",
+				Name:       "portfolio",
+				Url:        "https://github.com/cthiagoodev/portfolio",
+			},
+		}
+
+		mapper := func(repos []github.Project) []entities.Project {
+			return expectedProjects
+		}
+
+		service.
+			EXPECT().
+			FetchRepositories().
+			Return(githubProjects, nil)
+
+		repository.
+			EXPECT().
+			DeleteAll().
+			Return(nil)
+
+		repository.
+			EXPECT().
+			CreateAll(expectedProjects).
+			Return(nil)
+
+		repository.
+			EXPECT().
+			GetAll().
+			Return(nil, expectedErr)
+
+		useCase := NewSyncProjectsUseCaseImpl(
+			repository,
+			service,
+			mapper,
+		)
+
+		result, err := useCase.Execute()
+
+		require.Error(t, err)
+		assert.ErrorIs(t, err, expectedErr)
+		assert.Nil(t, result)
 	})
 }
