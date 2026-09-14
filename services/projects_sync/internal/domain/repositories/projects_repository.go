@@ -8,6 +8,5 @@ import (
 
 type ProjectsRepository interface {
 	GetAll(ctx context.Context) ([]entities.Project, error)
-	CreateAll(ctx context.Context, projects []entities.Project) error
-	DeleteAll(ctx context.Context) error
+	ResetAndCreateAll(ctx context.Context, projects []entities.Project) error
 }

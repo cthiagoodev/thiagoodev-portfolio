@@ -30,6 +30,11 @@ type MockProjectsRepository struct {
 	mock.Mock
 }
 
+func (m *MockProjectsRepository) ResetAndCreateAll(ctx context.context.Context, projects []entities.Project) error {
+	//TODO implement me
+	panic("implement me")
+}
+
 type MockProjectsRepository_Expecter struct {
 	mock *mock.Mock
 }

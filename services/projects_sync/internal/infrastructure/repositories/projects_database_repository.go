@@ -47,24 +47,26 @@ func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Pro
 	return projects, nil
 }
 
-func (p *ProjectsDatabaseRepository) CreateAll(
-	ctx context.Context,
-	projects []entities.Project,
-) error {
-	_, err := p.pool.CopyFrom(
-		ctx,
-		pgx.Identifier{"projects"},
-		projectColumns,
-		pgx.CopyFromSlice(len(projects), func(i int) ([]any, error) {
-			return p.projectToRow(projects[i]), nil
-		}),
-	)
+func (p *ProjectsDatabaseRepository) ResetAndCreateAll(ctx context.Context, projects []entities.Project) error {
+	err := pgx.BeginFunc(ctx, p.pool, func(tx pgx.Tx) error {
+		_, dErr := tx.Exec(ctx, "DELETE FROM projects")
 
-	return err
-}
+		if dErr != nil {
+			return dErr
+		}
 
-func (p *ProjectsDatabaseRepository) DeleteAll(ctx context.Context) error {
-	_, err := p.pool.Exec(ctx, "DELETE FROM projects")
+		_, cErr := tx.CopyFrom(
+			ctx,
+			pgx.Identifier{"projects"},
+			projectColumns,
+			pgx.CopyFromSlice(len(projects), func(i int) ([]any, error) {
+				return p.projectToRow(projects[i]), nil
+			}),
+		)
+
+		return cErr
+	})
+
 	return err
 }
 
