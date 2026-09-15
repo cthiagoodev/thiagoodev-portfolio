@@ -1,3 +1,6 @@
 ./.env
 ./infra/supabase/.env
 ./apps/web/.env
+
+.vscode
+.idea
