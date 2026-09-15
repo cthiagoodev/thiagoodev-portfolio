@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -80,7 +81,7 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 		assert.EqualError(
 			t,
 			err,
-			"unexpected status code: 500",
+			"fetch GitHub repositories page 1: unexpected HTTP status 500",
 		)
 	})
 
@@ -132,4 +133,66 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 		require.Error(t, err)
 		assert.Nil(t, result)
 	})
+}
+
+func TestFetchRepositoriesPagination(t *testing.T) {
+	for _, failNextPage := range []bool{false, true} {
+		name := "collect all pages"
+		if failNextPage {
+			name = "discard partial results on failure"
+		}
+		t.Run(name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				assert.Equal(t, "100", r.URL.Query().Get("per_page"))
+				assert.Equal(t, "/users/cthiagoodev/repos", r.URL.Path)
+				switch r.URL.Query().Get("page") {
+				case "1":
+					projects := make([]Project, 100)
+					for i := range projects {
+						projects[i].Id = int64(i + 1)
+					}
+					_ = json.NewEncoder(w).Encode(projects)
+				case "2":
+					if failNextPage {
+						w.WriteHeader(http.StatusBadGateway)
+						return
+					}
+					_ = json.NewEncoder(w).Encode([]Project{{Id: 101}})
+				default:
+					t.Error("unexpected page")
+					w.WriteHeader(http.StatusBadRequest)
+				}
+			}))
+			defer server.Close()
+			baseURL, err := url.Parse(server.URL + "/")
+			require.NoError(t, err)
+			service := NewGithubServiceImpl(server.Client(), baseURL)
+			projects, err := service.FetchRepositories(context.Background())
+			if failNextPage {
+				require.ErrorContains(t, err, "page 2")
+				assert.Nil(t, projects)
+				return
+			}
+			require.NoError(t, err)
+			require.Len(t, projects, 101)
+			for i, project := range projects {
+				assert.Equal(t, int64(i+1), project.Id)
+			}
+		})
+	}
+}
+
+func TestFetchRepositoriesPreservesContextErrors(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t.Error("canceled request should not reach the server")
+	}))
+	defer server.Close()
+	baseURL, err := url.Parse(server.URL)
+	require.NoError(t, err)
+	service := NewGithubServiceImpl(server.Client(), baseURL)
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	projects, err := service.FetchRepositories(ctx)
+	require.ErrorIs(t, err, context.Canceled)
+	assert.Nil(t, projects)
 }

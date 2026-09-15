@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	"github.com/jackc/pgx/v5"
@@ -31,7 +32,7 @@ func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Pro
 		"SELECT uuid, external_id, name, description, url, languages, created_at, updated_at FROM projects",
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("query projects: %w", err)
 	}
 
 	defer rows.Close()
@@ -41,7 +42,7 @@ func (p *ProjectsDatabaseRepository) GetAll(ctx context.Context) ([]entities.Pro
 		pgx.RowToStructByName[entities.Project],
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("collect projects: %w", err)
 	}
 
 	return projects, nil
@@ -52,7 +53,7 @@ func (p *ProjectsDatabaseRepository) ResetAndCreateAll(ctx context.Context, proj
 		_, dErr := tx.Exec(ctx, "DELETE FROM projects")
 
 		if dErr != nil {
-			return dErr
+			return fmt.Errorf("delete existing projects: %w", dErr)
 		}
 
 		_, cErr := tx.CopyFrom(
@@ -64,10 +65,18 @@ func (p *ProjectsDatabaseRepository) ResetAndCreateAll(ctx context.Context, proj
 			}),
 		)
 
-		return cErr
+		if cErr != nil {
+			return fmt.Errorf("copy replacement projects: %w", cErr)
+		}
+
+		return nil
 	})
 
-	return err
+	if err != nil {
+		return fmt.Errorf("replace all projects: %w", err)
+	}
+
+	return nil
 }
 
 func (p *ProjectsDatabaseRepository) projectToRow(project entities.Project) []any {
