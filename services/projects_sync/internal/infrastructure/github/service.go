@@ -9,10 +9,12 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 )
 
 type GithubService interface {
-	FetchRepositories(ctx context.Context) ([]Project, error)
+	FetchRepositories(ctx context.Context) ([]entities.Project, error)
 }
 
 type GithubServiceImpl struct {
@@ -27,7 +29,7 @@ func NewGithubServiceImpl(client *http.Client, baseURL *url.URL) *GithubServiceI
 	}
 }
 
-func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]Project, error) {
+func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]entities.Project, error) {
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
@@ -48,7 +50,7 @@ func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]Project, e
 
 		projects = append(projects, pageProjects...)
 		if len(pageProjects) < perPage {
-			return projects, nil
+			return MapGithubProjectsToEntities(projects), nil
 		}
 	}
 }

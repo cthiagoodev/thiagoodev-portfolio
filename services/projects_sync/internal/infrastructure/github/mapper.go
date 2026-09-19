@@ -2,31 +2,30 @@ package github
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 )
 
-type ProjectsMapperFunc func(ps []Project) []entities.Project
+func MapGithubProjectToEntity(project Project) entities.Project {
+	return entities.Project{
+		Uuid:        "",
+		ExternalId:  strconv.FormatInt(project.Id, 10),
+		Name:        project.Name,
+		Description: project.Description,
+		Url:         project.HtmlUrl,
+		Languages:   project.Languages,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   project.PushedAt,
+	}
+}
 
-func ProjectsMapper(ps []Project) []entities.Project {
-	if len(ps) == 0 {
-		return []entities.Project{}
+func MapGithubProjectsToEntities(projects []Project) []entities.Project {
+	domainProjects := make([]entities.Project, len(projects))
+
+	for i, project := range projects {
+		domainProjects[i] = MapGithubProjectToEntity(project)
 	}
 
-	projects := make([]entities.Project, 0, len(ps))
-
-	for _, p := range ps {
-		projects = append(projects, entities.Project{
-			Uuid:        "",
-			ExternalId:  strconv.FormatInt(p.Id, 10),
-			Name:        p.Name,
-			Description: p.Description,
-			Url:         p.HtmlUrl,
-			Languages:   p.Languages,
-			CreatedAt:   p.CreatedAt,
-			UpdatedAt:   p.PushedAt,
-		})
-	}
-
-	return projects
+	return domainProjects
 }

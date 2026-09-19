@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestProjectsMapper(t *testing.T) {
-	t.Run("should map github projects to domain projects", func(t *testing.T) {
+func TestMapGithubProjectToEntity(t *testing.T) {
+	t.Run("should map a github project to a domain entity", func(t *testing.T) {
 		description := "Portfolio project"
 
 		pushedAt := time.Date(
@@ -24,24 +24,20 @@ func TestProjectsMapper(t *testing.T) {
 			time.UTC,
 		)
 
-		input := []Project{
-			{
-				Id:          123,
-				Name:        "portfolio",
-				Description: &description,
-				HtmlUrl:     "https://github.com/cthiagoodev/portfolio",
-				Languages:   []string{"Go", "SQL"},
-				PushedAt:    pushedAt,
-			},
+		input := Project{
+			Id:          123,
+			Name:        "portfolio",
+			Description: &description,
+			HtmlUrl:     "https://github.com/cthiagoodev/portfolio",
+			Languages:   []string{"Go", "SQL"},
+			PushedAt:    pushedAt,
 		}
 
 		before := time.Now()
 
-		result := ProjectsMapper(input)
+		result := MapGithubProjectToEntity(input)
 
 		after := time.Now()
-
-		require.Len(t, result, 1)
 
 		expected := entities.Project{
 			Uuid:        "",
@@ -53,20 +49,22 @@ func TestProjectsMapper(t *testing.T) {
 			UpdatedAt:   pushedAt,
 		}
 
-		assert.Equal(t, expected.Uuid, result[0].Uuid)
-		assert.Equal(t, expected.ExternalId, result[0].ExternalId)
-		assert.Equal(t, expected.Name, result[0].Name)
-		assert.Equal(t, expected.Description, result[0].Description)
-		assert.Equal(t, expected.Url, result[0].Url)
-		assert.Equal(t, expected.Languages, result[0].Languages)
-		assert.Equal(t, expected.UpdatedAt, result[0].UpdatedAt)
+		assert.Equal(t, expected.Uuid, result.Uuid)
+		assert.Equal(t, expected.ExternalId, result.ExternalId)
+		assert.Equal(t, expected.Name, result.Name)
+		assert.Equal(t, expected.Description, result.Description)
+		assert.Equal(t, expected.Url, result.Url)
+		assert.Equal(t, expected.Languages, result.Languages)
+		assert.Equal(t, expected.UpdatedAt, result.UpdatedAt)
 
-		assert.False(t, result[0].CreatedAt.Before(before))
-		assert.False(t, result[0].CreatedAt.After(after))
+		assert.False(t, result.CreatedAt.Before(before))
+		assert.False(t, result.CreatedAt.After(after))
 	})
+}
 
-	t.Run("should return empty list when input is empty", func(t *testing.T) {
-		result := ProjectsMapper([]Project{})
+func TestMapGithubProjectsToEntities(t *testing.T) {
+	t.Run("should return an empty list when input is empty", func(t *testing.T) {
+		result := MapGithubProjectsToEntities([]Project{})
 
 		require.NotNil(t, result)
 		assert.Empty(t, result)

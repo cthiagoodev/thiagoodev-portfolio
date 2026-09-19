@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -48,12 +49,12 @@ func TestGithubServiceImpl_FetchRepositories(t *testing.T) {
 		require.NoError(t, err)
 		require.Len(t, result, 1)
 
-		assert.Equal(t, int64(123), result[0].Id)
+		assert.Equal(t, "123", result[0].ExternalId)
 		assert.Equal(t, "portfolio", result[0].Name)
 		assert.Equal(
 			t,
 			"https://github.com/cthiagoodev/portfolio",
-			result[0].HtmlUrl,
+			result[0].Url,
 		)
 	})
 
@@ -176,7 +177,7 @@ func TestFetchRepositoriesPagination(t *testing.T) {
 			require.NoError(t, err)
 			require.Len(t, projects, 101)
 			for i, project := range projects {
-				assert.Equal(t, int64(i+1), project.Id)
+				assert.Equal(t, strconv.FormatInt(int64(i+1), 10), project.ExternalId)
 			}
 		})
 	}

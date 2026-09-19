@@ -7,7 +7,7 @@ package mocks
 import (
 	"context"
 
-	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/infrastructure/github"
+	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -48,23 +48,23 @@ func (_m *MockGithubService) EXPECT() *MockGithubService_Expecter {
 }
 
 // FetchRepositories provides a mock function for the type MockGithubService
-func (_mock *MockGithubService) FetchRepositories(ctx context.Context) ([]github.Project, error) {
+func (_mock *MockGithubService) FetchRepositories(ctx context.Context) ([]entities.Project, error) {
 	ret := _mock.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for FetchRepositories")
 	}
 
-	var r0 []github.Project
+	var r0 []entities.Project
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context) ([]github.Project, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context) ([]entities.Project, error)); ok {
 		return returnFunc(ctx)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context) []github.Project); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context) []entities.Project); ok {
 		r0 = returnFunc(ctx)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]github.Project)
+			r0 = ret.Get(0).([]entities.Project)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context) error); ok {
@@ -99,12 +99,12 @@ func (_c *MockGithubService_FetchRepositories_Call) Run(run func(ctx context.Con
 	return _c
 }
 
-func (_c *MockGithubService_FetchRepositories_Call) Return(projects []github.Project, err error) *MockGithubService_FetchRepositories_Call {
+func (_c *MockGithubService_FetchRepositories_Call) Return(projects []entities.Project, err error) *MockGithubService_FetchRepositories_Call {
 	_c.Call.Return(projects, err)
 	return _c
 }
 
-func (_c *MockGithubService_FetchRepositories_Call) RunAndReturn(run func(ctx context.Context) ([]github.Project, error)) *MockGithubService_FetchRepositories_Call {
+func (_c *MockGithubService_FetchRepositories_Call) RunAndReturn(run func(ctx context.Context) ([]entities.Project, error)) *MockGithubService_FetchRepositories_Call {
 	_c.Call.Return(run)
 	return _c
 }
