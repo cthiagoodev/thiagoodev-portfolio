@@ -2,7 +2,6 @@ package github
 
 import (
 	"strconv"
-	"time"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 )
@@ -24,7 +23,7 @@ func ProjectsMapper(ps []Project) []entities.Project {
 			Description: p.Description,
 			Url:         p.HtmlUrl,
 			Languages:   p.Languages,
-			CreatedAt:   time.Now(),
+			CreatedAt:   p.CreatedAt,
 			UpdatedAt:   p.PushedAt,
 		})
 	}

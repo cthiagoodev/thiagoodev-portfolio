@@ -30,18 +30,19 @@ func (s *SupabaseServiceImpl) ReplaceAll(ctx context.Context, projects []entitie
 		return fmt.Errorf("Error on delete all items in supabase projects table")
 	}
 
+	sProjects := MapProjectsToSupabaseModels(projects)
+
 	_, _, iErr := table.Insert(
-		projects,
+		sProjects,
 		true,
-		"uuid",
+		"",
 		"",
 		"",
 	).Execute()
+
 	if iErr != nil {
 		return fmt.Errorf("Error on insert all items in supabase projects table")
 	}
-
-	//TODO: Implement the same for skills and project_skills tables
 
 	return nil
 }
