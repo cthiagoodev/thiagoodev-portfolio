@@ -4,7 +4,7 @@ import "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/inter
 
 func MapProjectToSupabaseModel(project entities.Project) Project {
 	return Project{
-		Uuid:        "",
+		Uuid:        project.Uuid,
 		Name:        project.Name,
 		Description: project.Description,
 		Url:         &project.Url,
