@@ -3,6 +3,8 @@ package supabase
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
 	"github.com/jackc/pgx/v5"
@@ -35,6 +37,10 @@ func NewSupabaseService(pool *pgxpool.Pool) SupabaseService {
 }
 
 func (s *SupabaseServiceImpl) ReplaceAll(ctx context.Context, projects []entities.Project) error {
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+
+	defer cancel()
+
 	err := pgx.BeginFunc(ctx, s.pool, func(tx pgx.Tx) error {
 		if _, err := tx.Exec(ctx, "DELETE FROM projects"); err != nil {
 			return fmt.Errorf("delete existing Supabase projects: %w", err)
@@ -60,18 +66,28 @@ func (s *SupabaseServiceImpl) ReplaceAll(ctx context.Context, projects []entitie
 			return fmt.Errorf("get existing Supabase skills: %w", err)
 		}
 
+		defer skillRows.Close()
+
 		skills, err := pgx.CollectRows(
 			skillRows,
 			pgx.RowToStructByName[Skill],
 		)
 
-		for _, project := range projects {
-			for _, lang := range project.Languages {
-				for _, skill := range skills {
-					if skill.Label == lang {
-					}
-				}
-			}
+		if err != nil {
+			return fmt.Errorf("collect existing Supabase skills: %w", err)
+		}
+
+		projectSkills := s.collectProjectSkills(projects, skills)
+
+		if _, err := tx.CopyFrom(
+			ctx,
+			pgx.Identifier{"projects_skills"},
+			[]string{"project_id", "skill_id"},
+			pgx.CopyFromSlice(len(projectSkills), func(i int) ([]any, error) {
+				return s.projectSkillToRow(projectSkills[i]), nil
+			}),
+		); err != nil {
+			return fmt.Errorf("copy replacement Supabase projects_skills: %w", err)
 		}
 
 		return nil
@@ -97,9 +113,28 @@ func (s *SupabaseServiceImpl) projectToRow(project entities.Project) []any {
 	}
 }
 
-func (s *SupabaseServiceImpl) projectSkillToRow(projectUuid string, skillUuid string) []any {
+func (s *SupabaseServiceImpl) collectProjectSkills(projects []entities.Project, skills []Skill) []ProjectSkill {
+	data := make([]ProjectSkill, 0)
+
+	for _, project := range projects {
+		for _, lang := range project.Languages {
+			for _, skill := range skills {
+				if strings.TrimSpace(skill.Label) == strings.TrimSpace(lang) {
+					data = append(data, ProjectSkill{
+						ProjectId: project.Uuid,
+						SkillId:   skill.Uuid,
+					})
+				}
+			}
+		}
+	}
+
+	return data
+}
+
+func (s *SupabaseServiceImpl) projectSkillToRow(projectSkill ProjectSkill) []any {
 	return []any{
-		projectUuid,
-		skillUuid,
+		projectSkill.ProjectId,
+		projectSkill.SkillId,
 	}
 }
