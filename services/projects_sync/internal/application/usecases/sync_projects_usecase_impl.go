@@ -4,26 +4,26 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/gateways"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/repositories"
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/infrastructure/github"
-	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/infrastructure/supabase"
 )
 
 type SyncProjectsUseCaseImpl struct {
-	repository      repositories.ProjectsRepository
-	githubService   github.GithubService
-	supabaseService supabase.SupabaseService
+	projectsRepository repositories.ProjectsRepository
+	projectsGateway    gateways.ProjectsGateway
+	githubService      github.GithubService
 }
 
 func NewSyncProjectsUseCaseImpl(
-	repository repositories.ProjectsRepository,
+	projectsRepository repositories.ProjectsRepository,
+	projectsGateway gateways.ProjectsGateway,
 	githubService github.GithubService,
-	supabaseService supabase.SupabaseService,
 ) *SyncProjectsUseCaseImpl {
 	return &SyncProjectsUseCaseImpl{
-		repository,
+		projectsRepository,
+		projectsGateway,
 		githubService,
-		supabaseService,
 	}
 }
 
@@ -37,16 +37,16 @@ func (s *SyncProjectsUseCaseImpl) Execute(ctx context.Context) error {
 		return fmt.Errorf("there are no repositories to sync")
 	}
 
-	cErr := s.repository.ResetAndCreateAll(ctx, projects)
+	cErr := s.projectsRepository.ResetAndCreateAll(ctx, projects)
 	if cErr != nil {
 		return cErr
 	}
 
-	projects, pErr := s.repository.GetAll(ctx)
+	projects, pErr := s.projectsRepository.GetAll(ctx)
 	if pErr != nil {
 		return pErr
 	}
 
-	sErr := s.supabaseService.ReplaceAll(ctx, projects)
+	sErr := s.projectsGateway.PublishProjects(ctx, projects)
 	return sErr
 }
