@@ -16,9 +16,7 @@ func NewSyncProjectsScheduler(syncProjectsUseCase usecases.SyncProjectsUseCase) 
 	return &SyncProjectsScheduler{syncProjectsUseCase}
 }
 
-func (s *SyncProjectsScheduler) Schedule() {
-	ctx := context.Background()
-
+func (s *SyncProjectsScheduler) Execute(ctx context.Context) {
 	c := cron.New(cron.WithChain(
 		cron.SkipIfStillRunning(cron.DefaultLogger),
 	))

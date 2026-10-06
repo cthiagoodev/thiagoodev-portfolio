@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS education
     created_at              TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at              TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
+
+ALTER TABLE education ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON education FOR SELECT TO anon USING (true);

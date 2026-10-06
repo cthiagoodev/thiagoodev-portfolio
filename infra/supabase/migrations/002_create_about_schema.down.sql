@@ -1,0 +1,3 @@
+DROP POLICY IF EXISTS "Allow public read access" ON about;
+ALTER TABLE about DISABLE ROW LEVEL SECURITY;
+DROP TABLE IF EXISTS about;

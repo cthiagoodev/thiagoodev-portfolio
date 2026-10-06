@@ -18,14 +18,14 @@ type GithubService interface {
 }
 
 type GithubServiceImpl struct {
-	client  *http.Client
-	baseURL *url.URL
+	client *http.Client
+	url    *url.URL
 }
 
-func NewGithubServiceImpl(client *http.Client, baseURL *url.URL) *GithubServiceImpl {
+func NewGithubServiceImpl(client *http.Client, url *url.URL) *GithubServiceImpl {
 	return &GithubServiceImpl{
-		client:  client,
-		baseURL: baseURL,
+		client: client,
+		url:    url,
 	}
 }
 
@@ -37,13 +37,12 @@ func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]entities.P
 	projects := make([]Project, 0)
 
 	for page := 1; ; page++ {
-		endpoint := s.baseURL.JoinPath("users", "cthiagoodev", "repos")
-		query := endpoint.Query()
+		query := s.url.Query()
 		query.Set("per_page", strconv.Itoa(perPage))
 		query.Set("page", strconv.Itoa(page))
-		endpoint.RawQuery = query.Encode()
+		s.url.RawQuery = query.Encode()
 
-		pageProjects, err := s.fetchRepositoriesPage(ctx, endpoint)
+		pageProjects, err := s.fetchRepositoriesPage(ctx, s.url)
 		if err != nil {
 			return nil, fmt.Errorf("fetch GitHub repositories page %d: %w", page, err)
 		}

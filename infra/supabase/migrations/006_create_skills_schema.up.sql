@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS skills
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
+
+ALTER TABLE skills ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON skills FOR SELECT TO anon USING (true);

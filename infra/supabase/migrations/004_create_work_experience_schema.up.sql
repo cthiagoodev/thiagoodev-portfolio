@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS work_experience
     created_at  TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at  TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
+
+ALTER TABLE work_experience ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON work_experience FOR SELECT TO anon USING (true);

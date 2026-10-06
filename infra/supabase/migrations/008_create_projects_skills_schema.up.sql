@@ -19,3 +19,6 @@ CREATE TABLE IF NOT EXISTS projects_skills
         REFERENCES skills (uuid)
         ON DELETE CASCADE
 );
+
+ALTER TABLE projects_skills ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON projects_skills FOR SELECT TO anon USING (true);

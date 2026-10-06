@@ -8,3 +8,6 @@ CREATE TABLE IF NOT EXISTS about
     description VARCHAR(255),
     text        TEXT
 );
+
+ALTER TABLE about ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON about FOR SELECT TO anon USING (true);

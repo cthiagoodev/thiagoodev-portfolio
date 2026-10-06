@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS social_contacts
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
+
+ALTER TABLE social_contacts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON social_contacts FOR SELECT TO anon USING (true);

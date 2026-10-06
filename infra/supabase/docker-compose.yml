@@ -17,11 +17,7 @@ services:
     image: supabase/studio:2026.08.03-sha-022b374
     restart: unless-stopped
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "node -e \"fetch('http://localhost:3000/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})\""
-        ]
+      test: [ "CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/platform/profile').then((r) => {if (r.status !== 200) throw new Error(r.status)})\"" ]
       timeout: 10s
       interval: 5s
       retries: 3
@@ -80,7 +76,7 @@ services:
           - kong
     healthcheck:
       # Using a TCP port check because this image does not include curl or wget.
-      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/127.0.0.1/8000'"]
+      test: [ "CMD-SHELL", "timeout 1 bash -c '</dev/tcp/127.0.0.1/8000'" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -103,22 +99,14 @@ services:
       SERVICE_ROLE_KEY_ASYMMETRIC: ${SERVICE_ROLE_KEY_ASYMMETRIC:-}
       DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
       DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
-    entrypoint: ["/bin/sh", "/docker-entrypoint.sh"]
+    entrypoint: [ "/bin/sh", "/docker-entrypoint.sh" ]
 
   auth:
     container_name: supabase-auth
     image: supabase/gotrue:v2.189.0
     restart: unless-stopped
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://localhost:9999/health"
-        ]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9999/health" ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -174,7 +162,6 @@ services:
 
       GOTRUE_EXTERNAL_PHONE_ENABLED: ${ENABLE_PHONE_SIGNUP}
       GOTRUE_SMS_AUTOCONFIRM: ${ENABLE_PHONE_AUTOCONFIRM}
-
       # Uncomment to enable OAuth / social login providers.
       # GOTRUE_EXTERNAL_GOOGLE_ENABLED: ${GOOGLE_ENABLED}
       # GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
@@ -276,10 +263,7 @@ services:
       PGRST_DB_USE_LEGACY_GUCS: "false"
       PGRST_APP_SETTINGS_JWT_SECRET: ${JWT_SECRET}
       PGRST_APP_SETTINGS_JWT_EXP: ${JWT_EXPIRY}
-    command:
-      [
-        "postgrest"
-      ]
+    command: [ "postgrest" ]
 
   realtime:
     # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
@@ -291,11 +275,7 @@ services:
         # Disable this if you are using an external Postgres database
         condition: service_healthy
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -sSfL --head -o /dev/null -H \"Authorization: Bearer ${ANON_KEY}\" http://localhost:4000/api/tenants/realtime-dev/health"
-        ]
+      test: [ "CMD-SHELL", "curl -sSfL --head -o /dev/null -H \"Authorization: Bearer ${ANON_KEY}\" http://localhost:4000/api/tenants/realtime-dev/health" ]
       timeout: 5s
       interval: 30s
       retries: 3
@@ -341,15 +321,7 @@ services:
       imgproxy:
         condition: service_started
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://storage:5000/status"
-        ]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://storage:5000/status" ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -398,12 +370,7 @@ services:
     volumes:
       - ./volumes/storage:/var/lib/storage:z
     healthcheck:
-      test:
-        [
-          "CMD",
-          "imgproxy",
-          "health"
-        ]
+      test: [ "CMD", "imgproxy", "health" ]
       timeout: 5s
       interval: 5s
       retries: 3
@@ -442,7 +409,7 @@ services:
       api-gw:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/127.0.0.1/9000'"]
+      test: [ "CMD-SHELL", "timeout 1 bash -c '</dev/tcp/127.0.0.1/9000'" ]
       interval: 5s
       timeout: 5s
       retries: 3
@@ -464,12 +431,7 @@ services:
       SUPABASE_DB_URL: postgresql://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       # TODO: Allow configuring VERIFY_JWT per function.
       VERIFY_JWT: "${FUNCTIONS_VERIFY_JWT}"
-    command:
-      [
-        "start",
-        "--main-service",
-        "/home/deno/functions/main"
-      ]
+    command: [ "start", "--main-service", "/home/deno/functions/main" ]
 
   # Comment out everything below this point if you are using an external Postgres database
   db:
@@ -496,15 +458,7 @@ services:
       # Use named volume to persist pgsodium decryption key between restarts
       - db-config:/etc/postgresql-custom
     healthcheck:
-      test:
-        [
-        "CMD",
-        "pg_isready",
-        "-U",
-        "postgres",
-        "-h",
-        "localhost"
-        ]
+      test: [ "CMD", "pg_isready", "-U", "postgres", "-h", "localhost" ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -538,16 +492,7 @@ services:
     volumes:
       - ./volumes/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
     healthcheck:
-      test:
-        [
-          "CMD",
-          "curl",
-          "-sSfL",
-          "--head",
-          "-o",
-          "/dev/null",
-          "http://127.0.0.1:4000/api/health"
-        ]
+      test: [ "CMD", "curl", "-sSfL", "--head", "-o", "/dev/null", "http://127.0.0.1:4000/api/health" ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -574,12 +519,23 @@ services:
       POOLER_MAX_CLIENT_CONN: ${POOLER_MAX_CLIENT_CONN}
       POOLER_POOL_MODE: transaction
       DB_POOL_SIZE: ${POOLER_DB_POOL_SIZE}
+    command: [ "/bin/sh", "-c", "/app/bin/migrate && /app/bin/supavisor eval \"$$(cat /etc/pooler/pooler.exs)\" && /app/bin/server" ]
+
+  supabase-migrator:
+    image: migrate/migrate:latest
+    container_name: supabase-migrator
+    volumes:
+      - ./migrations:/migrations:ro
+
     command:
-      [
-        "/bin/sh",
-        "-c",
-        "/app/bin/migrate && /app/bin/supavisor eval \"$$(cat /etc/pooler/pooler.exs)\" && /app/bin/server"
-      ]
+      - -path=/migrations
+      - -database=postgres://postgres:${POSTGRES_PASSWORD}@db:5432/postgres?sslmode=disable
+      - -verbose
+      - up
+
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   db-config:

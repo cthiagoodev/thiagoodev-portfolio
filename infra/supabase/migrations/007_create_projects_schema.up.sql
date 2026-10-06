@@ -11,3 +11,6 @@ CREATE TABLE IF NOT EXISTS projects
     created_at  TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at  TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
+
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access" ON projects FOR SELECT TO anon USING (true);
