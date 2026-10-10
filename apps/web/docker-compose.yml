@@ -1,0 +1,14 @@
+services:
+  portfolio_client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio_client
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    env_file:
+      - .env
+    depends_on:
+      api-gw:
+        condition: service_healthy

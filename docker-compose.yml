@@ -3,3 +3,4 @@ name: portofolio
 include:
   - path: ./infra/supabase/docker-compose.yml
   - path: ./services/projects_sync/docker-compose.yaml
+  - path: ./apps/web/docker-compose.yml
