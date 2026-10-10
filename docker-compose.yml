@@ -1,5 +1,5 @@
 name: portofolio
 
 include:
-  - path: /infra/supabase/docker-compose.yml
-  - path: /services/projects_sync/docker-compose.yaml
+  - path: ./infra/supabase/docker-compose.yml
+  - path: ./services/projects_sync/docker-compose.yaml
