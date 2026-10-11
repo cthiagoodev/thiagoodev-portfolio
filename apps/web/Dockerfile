@@ -1,6 +1,8 @@
 FROM node:22-slim AS builder
 WORKDIR /app
 
+ENV NODE_OPTIONS="--dns-result-order=ipv4first"
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
@@ -16,6 +18,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/.wrangler ./.wrangler
 COPY --from=builder /app/wrangler.jsonc ./wrangler.jsonc
 COPY --from=builder /app/astro.config.mjs ./astro.config.mjs
 COPY --from=builder /app/src ./src
