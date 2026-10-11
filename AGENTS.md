@@ -77,6 +77,20 @@ works internally.
 Follow [`docs/skills/infrastructure/`](docs/skills/infrastructure/), including
 the documentation of the component being changed.
 
+### Git Operations
+
+Follow [`docs/skills/git/`](docs/skills/git/SKILL.md).
+
+- Commit messages must follow the single-line format: `[scope] Action performed` (e.g., `[portfolio-web] Cria arquivo Dockerfile`).
+- **Frontend (`apps/web`)**: Agents have autonomy to commit and push changes directly to `main`.
+- **Services (`services/`) & Infrastructure (`infra/`)**: Agents must NEVER commit, push, or run mutating Git commands autonomously. Only run Git commands in these areas upon explicit user request and after user review.
+
+### Educational & Didactic Mode
+
+Follow [`docs/skills/educator/`](docs/skills/educator/SKILL.md).
+
+When the repository owner requests didactic explanations or asks "what happens" and "why it happens", provide clear mental models and analogies, line-by-line dissections, and separate runtime mechanics from architectural design decisions across all repository technologies (Docker, Go, TypeScript/Astro, PostgreSQL, Supabase, Linux, networking, etc.).
+
 ## Architecture Changes
 
 Do not change system boundaries, persistence ownership, dependency direction,

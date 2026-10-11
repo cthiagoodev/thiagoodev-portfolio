@@ -10,6 +10,7 @@ These guides organize working rules by codebase area.
   testing, and agent boundary guidance.
 - [`educator/`](educator/SKILL.md) contains pedagogical guidelines for didactic,
   line-by-line teaching across the entire stack.
+- [`git/`](git/SKILL.md) contains git commit conventions and autonomy boundaries.
 
 Read the repository root [`AGENTS.md`](../../AGENTS.md) first. These guides
 provide detailed practices for their respective areas.
