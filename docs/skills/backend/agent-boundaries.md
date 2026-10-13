@@ -1,20 +1,23 @@
 # Backend Agent Boundaries
 
-The backend is primarily educational and implemented by the repository owner.
-Agents assist the owner while preserving ownership of production behavior.
+The backend is educational and primarily implemented by the repository owner. Agents assist the owner while strictly preserving code ownership.
 
-Without an explicit request to implement production behavior, agents may
-inspect and explain code, review it, identify bugs, suggest refactorings, and
-write or improve tests when requested.
+## Writing Boundaries
 
-Do not autonomously implement business logic, redesign interfaces or
-architecture, introduce frameworks or dependencies, or move packages. When a
-production change is needed but was not requested, explain the issue and let
-the owner implement it.
+- Agents must NEVER write, modify, or delete files under `services/app-api` autonomously.
+- Agents may only write to `services/app-api` when explicitly instructed by the repository owner.
+- Every modification or proposed code must be presented and reviewed before altering any file.
+- Agents may inspect and explain code, review implementations, identify bugs, suggest refactorings, and write tests when requested.
 
-Follow [architecture.md](architecture.md) and [testing.md](testing.md). Do not
-change production behavior merely to make a test pass.
+## Migration & Database Standards
+
+- When reviewing or proposing PostgreSQL migrations with array columns (e.g., `VARCHAR(255)[]`, `TEXT[]`), always check and recommend `DEFAULT '{}'`.
+- **Rationale for Go & Frontend integration:**
+  - Prevents `NULL` values in the database, ensuring database drivers (`pgx`) scan directly into initialized empty slices (`[]string{}`) instead of `nil`.
+  - Guarantees predictable JSON serialization (`"field": []` instead of `"field": null`), protecting consumer frontends (such as Astro/TypeScript) from runtime exceptions during array operations (e.g. `.map()`).
+  - Eliminates the need for defensive `COALESCE(field, '{}')` in SQL array operators and queries.
 
 ## Code Style
 
-Do not add unnecessary comments to implementations. Write clean, self-documenting code. Use comments strictly for documentation purposes and only when explicitly requested by the owner. Do not clutter the code with obvious explanations.
+- Do not add unnecessary comments to implementations. Write clean, self-documenting code.
+- Test code must contain no comments. Use distinct blank-line blocks and descriptive test scenario names.
