@@ -45,7 +45,6 @@ func (g *Gateway) replaceProjects(ctx context.Context, tx pgx.Tx, projects []ent
 		ctx,
 		pgx.Identifier{"projects"},
 		[]string{
-			"uuid",
 			"name",
 			"description",
 			"url",
@@ -117,14 +116,13 @@ func (g *Gateway) loadSkills(ctx context.Context, tx pgx.Tx) (map[string]Skill, 
 
 func (g *Gateway) projectToRow(project entities.Project) []any {
 	return []any{
-		project.Uuid,
 		project.Name,
 		project.Description,
 		project.Url,
 		project.CreatedAt,
 		nil,
 		project.CreatedAt,
-		project.UpdatedAt,
+		project.PushedAt,
 	}
 }
 

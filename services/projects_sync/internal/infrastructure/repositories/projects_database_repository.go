@@ -9,15 +9,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-var projectColumns = []string{
-	"external_id",
-	"name",
-	"description",
-	"url",
-	"languages",
-	"updated_at",
-}
-
 type ProjectsDatabaseRepository struct {
 	pool *pgxpool.Pool
 }
@@ -59,7 +50,15 @@ func (p *ProjectsDatabaseRepository) ResetAndCreateAll(ctx context.Context, proj
 		_, cErr := tx.CopyFrom(
 			ctx,
 			pgx.Identifier{"projects"},
-			projectColumns,
+			[]string{
+				"external_id",
+				"name",
+				"description",
+				"url",
+				"languages",
+				"pushed_at",
+				"updated_at",
+			},
 			pgx.CopyFromSlice(len(projects), func(i int) ([]any, error) {
 				return p.projectToRow(projects[i]), nil
 			}),
@@ -86,6 +85,7 @@ func (p *ProjectsDatabaseRepository) projectToRow(project entities.Project) []an
 		project.Description,
 		project.Url,
 		project.Languages,
+		project.PushedAt,
 		project.UpdatedAt,
 	}
 }

@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"slices"
 	"strconv"
 	"time"
 
@@ -34,6 +35,7 @@ func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]entities.P
 	defer cancel()
 
 	const perPage = 100
+	const topic = "portfolio"
 	projects := make([]Project, 0)
 
 	for page := 1; ; page++ {
@@ -47,6 +49,7 @@ func (s *GithubServiceImpl) FetchRepositories(ctx context.Context) ([]entities.P
 			return nil, fmt.Errorf("fetch GitHub repositories page %d: %w", page, err)
 		}
 
+		pageProjects = s.filterRepositoriesByTopic(pageProjects, topic)
 		projects = append(projects, pageProjects...)
 		if len(pageProjects) < perPage {
 			return MapGithubProjectsToEntities(projects), nil
@@ -81,4 +84,15 @@ func (s *GithubServiceImpl) fetchRepositoriesPage(ctx context.Context, endpoint 
 	}
 
 	return projects, nil
+}
+
+func (s *GithubServiceImpl) filterRepositoriesByTopic(repositories []Project, topic string) []Project {
+	filtered := make([]Project, 0)
+	for _, repo := range repositories {
+		if slices.Contains(repo.Topics, topic) {
+			filtered = append(filtered, repo)
+			break
+		}
+	}
+	return filtered
 }

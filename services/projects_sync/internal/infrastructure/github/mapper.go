@@ -2,9 +2,9 @@ package github
 
 import (
 	"strconv"
-	"time"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
+	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/pkg/utils"
 )
 
 func MapGithubProjectToEntity(project Project) entities.Project {
@@ -12,11 +12,12 @@ func MapGithubProjectToEntity(project Project) entities.Project {
 		Uuid:        "",
 		ExternalId:  strconv.FormatInt(project.Id, 10),
 		Name:        project.Name,
-		Description: project.Description,
-		Url:         project.HtmlUrl,
-		Languages:   project.Languages,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   project.PushedAt,
+		Description: utils.DerefString(project.Description),
+		Url:         utils.DerefString(project.Homepage),
+		Languages:   []string{project.Language},
+		CreatedAt:   project.CreatedAt,
+		UpdatedAt:   project.UpdatedAt,
+		PushedAt:    project.PushedAt,
 	}
 }
 

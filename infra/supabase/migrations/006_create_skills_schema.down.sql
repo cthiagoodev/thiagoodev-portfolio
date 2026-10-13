@@ -1,3 +1,0 @@
-DROP POLICY IF EXISTS "Allow public read access" ON skills;
-ALTER TABLE skills DISABLE ROW LEVEL SECURITY;
-DROP TABLE IF EXISTS skills;

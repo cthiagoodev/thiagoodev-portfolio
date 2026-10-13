@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/domain/entities"
+	gatewaysmocks "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks/gateways"
 	githubmocks "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks/github"
 	repositoriesmocks "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks/repositories"
-	gatewaysmocks "github.com/cthiagoodev/thiagoodev-portfolio/services/projects_sync/internal/test/mocks/gateways"
 	"github.com/stretchr/testify/require"
 )
 
