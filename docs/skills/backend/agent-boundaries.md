@@ -6,6 +6,7 @@ The backend is educational and primarily implemented by the repository owner. Ag
 
 - Agents must NEVER write, modify, or delete files under `services/app-api` autonomously.
 - Agents may only write to `services/app-api` when explicitly instructed by the repository owner.
+- When explicitly requested to write or refactor backend code, agents must strictly adhere to [styleguide.md](styleguide.md) and provide didactic explanations of idioms, Go runtime mechanics, and architecture decisions.
 - Every modification or proposed code must be presented and reviewed before altering any file.
 - Agents may inspect and explain code, review implementations, identify bugs, suggest refactorings, and write tests when requested.
 
@@ -17,6 +18,7 @@ When creating or modifying domain entities under `internal/domain/entities`:
 - **No Autonomous Validation Assumptions**: The agent must **NEVER** autonomously decide or assume which validations belong to an entity.
 - **Proactive Suggestion from Migrations**: The agent must cross-check database migrations (`NOT NULL`, types, lengths, constraints) and proactively **suggest** recommended validations.
 - **Explicit Alignment**: The agent must explicitly **ask and confirm with the repository owner** which fields and rules should be validated before implementing or altering any entity.
+- **TDD First**: Development must strictly follow Test-Driven Development (TDD) as defined in [testing.md](testing.md). The tests defining the expected behaviors must be written before final production code.
 
 ## Migration & Database Standards
 
@@ -28,5 +30,6 @@ When creating or modifying domain entities under `internal/domain/entities`:
 
 ## Code Style
 
+- Adhere strictly to the Go guidelines, formatting, naming, and error handling patterns defined in [styleguide.md](styleguide.md).
 - Do not add unnecessary comments to implementations. Write clean, self-documenting code.
-- Test code must contain no comments. Use distinct blank-line blocks and descriptive test scenario names.
+- Test code must contain no comments. Use distinct blank-line blocks and descriptive test scenario names as defined in [testing.md](testing.md).

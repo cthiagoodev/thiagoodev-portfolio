@@ -75,6 +75,10 @@ Infrastructure → Domain contracts
   return fmt.Errorf("%w: project name is required", errors.ErrDomainEntityValidation)
   ```
   Isso permite que a camada de apresentação identifique erros de validação via `errors.Is` e responda automaticamente com HTTP 400 Bad Request.
+- **Tabelas Relacionais Auxiliares / Pivot N:N Não São Entidades:**
+  - Tabelas de junção relacional (como `projects_skills`) existem exclusivamente para atender restrições de bancos relacionais (SQL). Elas **não** devem ser representadas como entidades em `internal/domain/entities`.
+  - O modelo de domínio agrega a associação diretamente na entidade principal (ex: `Project` contém `Skills []Skill`), expondo métodos de comportamento como `AddSkill(skill Skill)` e `RemoveSkill(skillUuid string)`.
+  - A leitura e gravação na tabela associativa física é responsabilidade da camada de infraestrutura dentro dos repositórios SQL.
 - **Testes de Domínio:** Devem rodar de forma pura e imediata, **sem necessidade de mocks**.
 
 ### 2. Camada de Aplicação (`internal/application`)

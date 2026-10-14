@@ -1,10 +1,6 @@
 # Frontend inteiro
 apps/web/** linguist-detectable=false
 
-# Supabase self-hosted / código de terceiros
-infra/supabase/docker/** linguist-detectable=false
-infra/supabase/volumes/** linguist-detectable=false
-
 # Shell
 *.sh linguist-detectable=false
 *.bash linguist-detectable=false
@@ -28,9 +24,6 @@ Dockerfile* linguist-detectable=false
 # Linguagens do projeto
 *.go linguist-detectable=true
 *.sql linguist-detectable=true
-
-# Migrations próprias
-infra/supabase/migrations/** linguist-detectable=true
 
 *.mdx linguist-detectable=false
 *.md linguist-detectable=false

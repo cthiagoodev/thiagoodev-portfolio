@@ -1,6 +1,7 @@
 ./.env
-./infra/supabase/.env
 ./apps/web/.env
+./services/app-api/.env
 
 .vscode
 .idea
+.DS_Store
