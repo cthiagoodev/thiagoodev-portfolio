@@ -13,7 +13,7 @@ import (
 
 func TestNewProject_Success(t *testing.T) {
 	name := "Portfolio Web"
-	repoUrl := "https://github.com/cthiagoodev/portfolio"
+	repoURL := "https://github.com/cthiagoodev/portfolio"
 
 	project, err := entities.NewProject(
 		"",
@@ -21,7 +21,8 @@ func TestNewProject_Success(t *testing.T) {
 		name,
 		"Meu portfólio pessoal",
 		"https://thiagoodev.com",
-		repoUrl,
+		repoURL,
+		nil,
 		nil,
 		nil,
 		time.Time{},
@@ -30,9 +31,11 @@ func TestNewProject_Success(t *testing.T) {
 
 	require.NoError(t, err)
 	assert.Equal(t, name, project.Name)
-	assert.Equal(t, repoUrl, project.RepoUrl)
+	assert.Equal(t, repoURL, project.RepoURL)
 	assert.NotNil(t, project.Languages)
 	assert.Empty(t, project.Languages)
+	assert.NotNil(t, project.Skills)
+	assert.Empty(t, project.Skills)
 	assert.False(t, project.CreatedAt.IsZero())
 	assert.False(t, project.UpdatedAt.IsZero())
 }
@@ -47,6 +50,7 @@ func TestNewProject_ValidationError_EmptyName(t *testing.T) {
 		"",
 		[]string{"Go"},
 		nil,
+		nil,
 		time.Time{},
 		time.Time{},
 	)
@@ -57,3 +61,41 @@ func TestNewProject_ValidationError_EmptyName(t *testing.T) {
 	assert.Contains(t, err.Error(), "project name is required")
 }
 
+func TestProject_AddSkill_Success(t *testing.T) {
+	project, err := entities.NewProject("", nil, "Projeto", "", "", "", nil, nil, nil, time.Time{}, time.Time{})
+	require.NoError(t, err)
+	skill, err := entities.NewSkill("skill-uuid-1", "Go", "https://go.dev", "", time.Time{}, time.Time{})
+	require.NoError(t, err)
+
+	project.AddSkill(*skill)
+
+	assert.Len(t, project.Skills, 1)
+	assert.Equal(t, "skill-uuid-1", project.Skills[0].UUID)
+	assert.Equal(t, "Go", project.Skills[0].Label)
+}
+
+func TestProject_AddSkill_Idempotent(t *testing.T) {
+	project, err := entities.NewProject("", nil, "Projeto", "", "", "", nil, nil, nil, time.Time{}, time.Time{})
+	require.NoError(t, err)
+	skill, err := entities.NewSkill("skill-uuid-1", "Go", "https://go.dev", "", time.Time{}, time.Time{})
+	require.NoError(t, err)
+
+	project.AddSkill(*skill)
+	project.AddSkill(*skill)
+
+	assert.Len(t, project.Skills, 1)
+}
+
+func TestProject_RemoveSkill_Success(t *testing.T) {
+	skill1, err := entities.NewSkill("skill-uuid-1", "Go", "https://go.dev", "", time.Time{}, time.Time{})
+	require.NoError(t, err)
+	skill2, err := entities.NewSkill("skill-uuid-2", "Docker", "https://docker.com", "", time.Time{}, time.Time{})
+	require.NoError(t, err)
+	project, err := entities.NewProject("", nil, "Projeto", "", "", "", nil, []entities.Skill{*skill1, *skill2}, nil, time.Time{}, time.Time{})
+	require.NoError(t, err)
+
+	project.RemoveSkill("skill-uuid-1")
+
+	assert.Len(t, project.Skills, 1)
+	assert.Equal(t, "skill-uuid-2", project.Skills[0].UUID)
+}
