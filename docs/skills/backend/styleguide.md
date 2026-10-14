@@ -42,6 +42,20 @@ A nomenclatura em Go comunica visibilidade, escopo e propósito de forma concisa
   - Correto: `UUID`, `HTTP`, `URL`, `ID`, `API`, `serveHTTP`, `appAPI`.
   - Incorreto: `Uuid`, `Http`, `Url`, `Id`, `Api`.
 
+### Sem Abreviações (No Abbreviations)
+- **Regra Estrita**: Não utilize abreviações no código para variáveis, campos de structs, parâmetros de funções ou dependências injetadas. Sempre utilize nomes completos e explícitos:
+  - Correto: `aboutRepository`, `projectRepository`, `workExperience`, `education`, `index`, `databaseError`.
+  - Incorreto: `aboutRepo`, `projectRepo`, `workExp`, `exp`, `edu`, `idx`, `dbErr`.
+- **Exceções Permitidas (Padrão Go Standard Library)**:
+  - `ctx` para `context.Context`.
+  - `t` para `*testing.T`.
+  - Receivers de métodos de structs de 1 ou 2 letras (`(p *Project)`, `(a *About)`).
+  - Variáveis padrão de iteração curta (`err`, `ok`, `i`, `v`).
+
+### Imports e Renomeação (Named Imports)
+- **Código de Produção**: Evite renomear pacotes importados (*named imports* ou *aliases*). Sempre prefira o nome original e natural do pacote. Renomeações em código de produção são restritas a casos de **extrema necessidade**, especificamente para resolver colisões inevitáveis de nomes (por exemplo, quando o pacote corrente compartilha o mesmo nome de um pacote externo importado, como `usecases`, ou ao importar pacotes homônimos como `math/rand` e `crypto/rand`).
+- **Código de Testes**: Imports nomeados são permitidos para enriquecer a semântica e expressividade dos cenários de teste (ex.: `mocks`, `domainerrors`).
+
 ---
 
 ## 3. Estruturas de Controle e Fluxo Idiomático
@@ -167,11 +181,13 @@ A escolha entre *pointer receiver* (`*T`) e *value receiver* (`T`) deve seguir c
 ## 7. Interfaces e Asserções de Tipo
 
 - **Interfaces Pequenas**: Defina interfaces onde elas são consumidas (*consumer-driven*), não onde são implementadas.
-- **Verificação de Implementação em Tempo de Compilação**:
-  Utilize a verificação com identificador em branco (`_`) para garantir que um adaptador satisfaz a interface:
+- **Verificação de Implementação em Tempo de Compilação (Compile-Time Interface Check)**:
+  Como o Go utiliza interfaces implícitas (sem a palavra-chave `implements`), declare sempre uma verificação com o identificador em branco (`_`) logo acima da struct concreta. Isso faz o compilador validar as assinaturas estaticamente, com custo de runtime zero:
   ```go
+  var _ domainusecases.GetAboutUseCase = (*GetAboutUseCaseImpl)(nil)
   var _ repositories.ProjectRepository = (*PostgresProjectRepository)(nil)
   ```
+  *(Sempre que este padrão for introduzido em novos componentes, o agente deve relembrar brevemente seu funcionamento ao proprietário do repositório).*
 - **Type Assertion com Comma-ok**:
   Nunca execute type assertion simples (`x.(T)`) sem validação quando houver incerteza sobre o tipo subjacente, pois isso gera *panic*. Use sempre:
   ```go

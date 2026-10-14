@@ -31,5 +31,8 @@ When creating or modifying domain entities under `internal/domain/entities`:
 ## Code Style
 
 - Adhere strictly to the Go guidelines, formatting, naming, and error handling patterns defined in [styleguide.md](styleguide.md).
+- **No Abbreviations**: Always use full, descriptive names for variables, struct fields, parameters, and injected dependencies (e.g., `aboutRepository` instead of `aboutRepo`, `workExperience` instead of `workExp`).
+- **Named Imports**: In production code, avoid renaming imported packages (aliases) unless strictly necessary to resolve package name collisions. Named imports are allowed in test files.
+- **Compile-Time Checks**: When implementing interfaces, declare compile-time checks (`var _ Interface = (*Struct)(nil)`) and provide a brief didactic review of the mechanic to the owner.
 - Do not add unnecessary comments to implementations. Write clean, self-documenting code.
 - Test code must contain no comments. Use distinct blank-line blocks and descriptive test scenario names as defined in [testing.md](testing.md).

@@ -83,8 +83,9 @@ Infrastructure → Domain contracts
 
 ### 2. Camada de Aplicação (`internal/application`)
 - Orquestra o fluxo de dados entre as regras de domínio e os repositórios/serviços declarados no domínio.
-- **Dependency Injection:** Casos de uso recebem interfaces no construtor (`New...UseCaseImpl(repo Repository)`).
-- **DTOs & Mapeamento:** Desacopla o payload externo da entidade interna com structs explícitas (`CreateProjectInput`, `ProjectOutput`) e funções puras de conversão.
+- **Dependency Injection:** Casos de uso recebem interfaces no construtor (`New...UseCase(repository Repository)`).
+- **Sem Abreviações:** Variáveis, campos e dependências injetadas usam nomes completos (`aboutRepository` em vez de `aboutRepo`, `workExperience` em vez de `workExp`).
+- **DTOs & Mapeamento:** Desacopla o payload externo da entidade interna com structs explícitas (`CreateProjectInput`, `ProjectOutput`) e funções puras de conversão, ou retorna a entidade diretamente para operações simples de leitura.
 - **Testes de Casos de Uso:** Testados isoladamente utilizando mocks das interfaces (via `testify/mock`).
 
 ### 3. Camada de Infraestrutura (`internal/infrastructure`)
