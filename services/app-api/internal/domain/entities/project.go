@@ -92,10 +92,10 @@ func (p *Project) AddSkill(skill Skill) {
 }
 
 func (p *Project) RemoveSkill(skillUUID string) {
-	idx := slices.IndexFunc(p.Skills, func(s Skill) bool {
+	index := slices.IndexFunc(p.Skills, func(s Skill) bool {
 		return s.UUID == skillUUID
 	})
-	if idx != -1 {
-		p.Skills = slices.Delete(p.Skills, idx, idx+1)
+	if index != -1 {
+		p.Skills = slices.Delete(p.Skills, index, index+1)
 	}
 }

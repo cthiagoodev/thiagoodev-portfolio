@@ -15,7 +15,7 @@ func TestNewWorkExperience_Success_WithEndDate(t *testing.T) {
 	startDate := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"Software Engineer",
 		"Desenvolvimento backend em Go",
@@ -27,19 +27,19 @@ func TestNewWorkExperience_Success_WithEndDate(t *testing.T) {
 	)
 
 	require.NoError(t, err)
-	assert.Equal(t, "Software Engineer", exp.Role)
-	assert.Equal(t, "Desenvolvimento backend em Go", exp.Description)
-	assert.Equal(t, "Tech Company", exp.Company)
-	assert.Equal(t, startDate, exp.StartDate)
-	assert.Equal(t, &endDate, exp.EndDate)
-	assert.False(t, exp.CreatedAt.IsZero())
-	assert.False(t, exp.UpdatedAt.IsZero())
+	assert.Equal(t, "Software Engineer", workExperience.Role)
+	assert.Equal(t, "Desenvolvimento backend em Go", workExperience.Description)
+	assert.Equal(t, "Tech Company", workExperience.Company)
+	assert.Equal(t, startDate, workExperience.StartDate)
+	assert.Equal(t, &endDate, workExperience.EndDate)
+	assert.False(t, workExperience.CreatedAt.IsZero())
+	assert.False(t, workExperience.UpdatedAt.IsZero())
 }
 
 func TestNewWorkExperience_Success_CurrentJob_NilEndDate(t *testing.T) {
 	startDate := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"Senior Software Engineer",
 		"Liderança técnica",
@@ -51,13 +51,13 @@ func TestNewWorkExperience_Success_CurrentJob_NilEndDate(t *testing.T) {
 	)
 
 	require.NoError(t, err)
-	assert.Nil(t, exp.EndDate)
+	assert.Nil(t, workExperience.EndDate)
 }
 
 func TestNewWorkExperience_ValidationError_EmptyRole(t *testing.T) {
 	startDate := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"   ",
 		"Descrição",
@@ -69,7 +69,7 @@ func TestNewWorkExperience_ValidationError_EmptyRole(t *testing.T) {
 	)
 
 	require.Error(t, err)
-	assert.Nil(t, exp)
+	assert.Nil(t, workExperience)
 	assert.True(t, errors.Is(err, domainerrors.ErrDomainEntityValidation))
 	assert.Contains(t, err.Error(), "role is required")
 }
@@ -77,7 +77,7 @@ func TestNewWorkExperience_ValidationError_EmptyRole(t *testing.T) {
 func TestNewWorkExperience_ValidationError_EmptyDescription(t *testing.T) {
 	startDate := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"Cargo",
 		"   ",
@@ -89,7 +89,7 @@ func TestNewWorkExperience_ValidationError_EmptyDescription(t *testing.T) {
 	)
 
 	require.Error(t, err)
-	assert.Nil(t, exp)
+	assert.Nil(t, workExperience)
 	assert.True(t, errors.Is(err, domainerrors.ErrDomainEntityValidation))
 	assert.Contains(t, err.Error(), "description is required")
 }
@@ -97,7 +97,7 @@ func TestNewWorkExperience_ValidationError_EmptyDescription(t *testing.T) {
 func TestNewWorkExperience_ValidationError_EmptyCompany(t *testing.T) {
 	startDate := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"Cargo",
 		"Descrição",
@@ -109,13 +109,13 @@ func TestNewWorkExperience_ValidationError_EmptyCompany(t *testing.T) {
 	)
 
 	require.Error(t, err)
-	assert.Nil(t, exp)
+	assert.Nil(t, workExperience)
 	assert.True(t, errors.Is(err, domainerrors.ErrDomainEntityValidation))
 	assert.Contains(t, err.Error(), "company is required")
 }
 
 func TestNewWorkExperience_ValidationError_ZeroStartDate(t *testing.T) {
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"Cargo",
 		"Descrição",
@@ -127,7 +127,7 @@ func TestNewWorkExperience_ValidationError_ZeroStartDate(t *testing.T) {
 	)
 
 	require.Error(t, err)
-	assert.Nil(t, exp)
+	assert.Nil(t, workExperience)
 	assert.True(t, errors.Is(err, domainerrors.ErrDomainEntityValidation))
 	assert.Contains(t, err.Error(), "start date is required")
 }
@@ -136,7 +136,7 @@ func TestNewWorkExperience_ValidationError_EndDateBeforeStartDate(t *testing.T) 
 	startDate := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	exp, err := entities.NewWorkExperience(
+	workExperience, err := entities.NewWorkExperience(
 		"",
 		"Cargo",
 		"Descrição",
@@ -148,7 +148,7 @@ func TestNewWorkExperience_ValidationError_EndDateBeforeStartDate(t *testing.T) 
 	)
 
 	require.Error(t, err)
-	assert.Nil(t, exp)
+	assert.Nil(t, workExperience)
 	assert.True(t, errors.Is(err, domainerrors.ErrDomainEntityValidation))
 	assert.Contains(t, err.Error(), "end date cannot be before start date")
 }

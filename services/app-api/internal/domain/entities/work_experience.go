@@ -37,7 +37,7 @@ func NewWorkExperience(
 		updatedAt = time.Now()
 	}
 
-	workExp := &WorkExperience{
+	workExperience := &WorkExperience{
 		UUID:        strings.TrimSpace(uuid),
 		Role:        strings.TrimSpace(role),
 		Description: strings.TrimSpace(description),
@@ -48,11 +48,11 @@ func NewWorkExperience(
 		UpdatedAt:   updatedAt,
 	}
 
-	if err := workExp.Validate(); err != nil {
+	if err := workExperience.Validate(); err != nil {
 		return nil, err
 	}
 
-	return workExp, nil
+	return workExperience, nil
 }
 
 func (w *WorkExperience) Validate() error {
