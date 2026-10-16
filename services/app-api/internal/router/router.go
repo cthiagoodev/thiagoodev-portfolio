@@ -9,6 +9,7 @@ func NewRouter(applicationModule *modules.Module) *chi.Mux {
 	chiRouter := chi.NewRouter()
 
 	chiRouter.Get("/about", applicationModule.About.Handler.Get)
+	chiRouter.Get("/social-contacts", applicationModule.SocialContact.Handler.GetAll)
 
 	return chiRouter
 }
