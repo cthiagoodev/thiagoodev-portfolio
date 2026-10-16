@@ -31,7 +31,7 @@ func TestAboutHandler_Get_Success(t *testing.T) {
 	require.NoError(t, err)
 	getAboutUseCaseMock.EXPECT().Execute(ctx).Return(expectedAbout, nil).Once()
 	aboutHandler := handlers.NewAboutHandler(getAboutUseCaseMock)
-	request := httptest.NewRequest(http.MethodGet, "/api/about", nil).WithContext(ctx)
+	request := httptest.NewRequest(http.MethodGet, "/about", nil).WithContext(ctx)
 	responseRecorder := httptest.NewRecorder()
 
 	aboutHandler.Get(responseRecorder, request)
@@ -46,7 +46,7 @@ func TestAboutHandler_Get_NotFound(t *testing.T) {
 	getAboutUseCaseMock := mocks.NewMockGetAboutUseCase(t)
 	getAboutUseCaseMock.EXPECT().Execute(ctx).Return(nil, domainerrors.ErrNotFound).Once()
 	aboutHandler := handlers.NewAboutHandler(getAboutUseCaseMock)
-	request := httptest.NewRequest(http.MethodGet, "/api/about", nil).WithContext(ctx)
+	request := httptest.NewRequest(http.MethodGet, "/about", nil).WithContext(ctx)
 	responseRecorder := httptest.NewRecorder()
 
 	aboutHandler.Get(responseRecorder, request)
@@ -61,7 +61,7 @@ func TestAboutHandler_Get_InternalServerError(t *testing.T) {
 	getAboutUseCaseMock := mocks.NewMockGetAboutUseCase(t)
 	getAboutUseCaseMock.EXPECT().Execute(ctx).Return(nil, databaseError).Once()
 	aboutHandler := handlers.NewAboutHandler(getAboutUseCaseMock)
-	request := httptest.NewRequest(http.MethodGet, "/api/about", nil).WithContext(ctx)
+	request := httptest.NewRequest(http.MethodGet, "/about", nil).WithContext(ctx)
 	responseRecorder := httptest.NewRecorder()
 
 	aboutHandler.Get(responseRecorder, request)
