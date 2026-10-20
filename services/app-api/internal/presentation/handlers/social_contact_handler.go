@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/cthiagoodev/portfolio/services/app-api/internal/domain/usecases"
+	errorhandler "github.com/cthiagoodev/portfolio/services/app-api/internal/presentation/error"
+	httpresponse "github.com/cthiagoodev/portfolio/services/app-api/pkg/http_response"
 )
 
 type SocialContactHandler struct {
@@ -20,14 +21,13 @@ func NewSocialContactHandler(getAllSocialContactsUseCase usecases.GetAllSocialCo
 func (handler *SocialContactHandler) GetAll(responseWriter http.ResponseWriter, request *http.Request) {
 	socialContacts, err := handler.getAllSocialContactsUseCase.Execute(request.Context())
 	if err != nil {
-		responseWriter.Header().Set("Content-Type", "application/json")
-		responseWriter.WriteHeader(http.StatusInternalServerError)
-		_, _ = responseWriter.Write([]byte(`{"error": "internal server error"}`))
+		errorhandler.HandleError(responseWriter, err)
 		return
 	}
 
-	responseWriter.Header().Set("Content-Type", "application/json")
-	responseWriter.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(responseWriter).Encode(socialContacts)
+	httpresponse.WriteJSONResponse(
+		responseWriter,
+		http.StatusOK,
+		socialContacts,
+	)
 }
-

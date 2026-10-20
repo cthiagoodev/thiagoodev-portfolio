@@ -99,4 +99,3 @@ func TestSocialContactDatabaseRepository_GetAll_EmptyList(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Empty(t, result)
 }
-
