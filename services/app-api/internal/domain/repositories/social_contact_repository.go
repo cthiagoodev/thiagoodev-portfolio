@@ -9,4 +9,3 @@ import (
 type SocialContactRepository interface {
 	GetAll(ctx context.Context) ([]entities.SocialContact, error)
 }
-

@@ -9,4 +9,3 @@ import (
 type GetAllSocialContactsUseCase interface {
 	Execute(ctx context.Context) ([]entities.SocialContact, error)
 }
-

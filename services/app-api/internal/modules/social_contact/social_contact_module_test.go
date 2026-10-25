@@ -17,4 +17,3 @@ func TestNewSocialContactModule_Success(t *testing.T) {
 	require.NotNil(t, socialContactModule)
 	assert.NotNil(t, socialContactModule.Handler)
 }
-

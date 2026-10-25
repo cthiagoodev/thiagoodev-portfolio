@@ -23,4 +23,3 @@ func NewGetAllSocialContactsUseCase(socialContactRepository repositories.SocialC
 func (u *GetAllSocialContactsUseCaseImpl) Execute(ctx context.Context) ([]entities.SocialContact, error) {
 	return u.socialContactRepository.GetAll(ctx)
 }
-

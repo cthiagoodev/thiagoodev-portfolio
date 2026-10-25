@@ -20,4 +20,3 @@ func NewSocialContactModule(pool *pgxpool.Pool) *SocialContactModule {
 		Handler: socialContactHandler,
 	}
 }
-

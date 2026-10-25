@@ -71,4 +71,3 @@ func TestGetAllSocialContactsUseCase_RepositoryError(t *testing.T) {
 	assert.Nil(t, result)
 	assert.True(t, errors.Is(err, databaseError))
 }
-

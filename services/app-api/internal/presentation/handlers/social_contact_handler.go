@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/cthiagoodev/portfolio/services/app-api/internal/domain/usecases"
-	errorhandler "github.com/cthiagoodev/portfolio/services/app-api/internal/presentation/error"
+	errorhandler "github.com/cthiagoodev/portfolio/services/app-api/internal/presentation/error_handler"
 	httpresponse "github.com/cthiagoodev/portfolio/services/app-api/pkg/http_response"
 )
 

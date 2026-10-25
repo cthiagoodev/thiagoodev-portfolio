@@ -72,4 +72,3 @@ func TestSocialContactHandler_GetAll_InternalServerError(t *testing.T) {
 	assert.Equal(t, "application/json", responseRecorder.Header().Get("Content-Type"))
 	assert.Contains(t, responseRecorder.Body.String(), "internal server error")
 }
-
