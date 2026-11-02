@@ -9,13 +9,13 @@ import (
 )
 
 type About struct {
-	UUID        string
-	Name        string
-	Phone       string
-	Description string
-	Text        string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	UUID        string    `json:"uuid" db:"uuid"`
+	Name        string    `json:"name" db:"name"`
+	Phone       string    `json:"phone" db:"phone"`
+	Description string    `json:"description" db:"description"`
+	Text        string    `json:"text" db:"text"`
+	CreatedAt   time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }
 
 func NewAbout(

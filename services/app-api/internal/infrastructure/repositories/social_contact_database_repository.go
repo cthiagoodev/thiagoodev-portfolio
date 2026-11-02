@@ -44,20 +44,7 @@ func (repository *SocialContactDatabaseRepository) GetAll(ctx context.Context) (
 
 	socialContacts, err := pgx.CollectRows(
 		rows,
-		func(row pgx.CollectableRow) (entities.SocialContact, error) {
-			var socialContact entities.SocialContact
-			if err := row.Scan(
-				&socialContact.UUID,
-				&socialContact.Label,
-				&socialContact.URL,
-				&socialContact.ImagePath,
-				&socialContact.CreatedAt,
-				&socialContact.UpdatedAt,
-			); err != nil {
-				return entities.SocialContact{}, fmt.Errorf("failed to scan social contact row: %w", err)
-			}
-			return socialContact, nil
-		},
+		pgx.RowToStructByName[entities.SocialContact],
 	)
 
 	if err != nil {
@@ -66,10 +53,5 @@ func (repository *SocialContactDatabaseRepository) GetAll(ctx context.Context) (
 		}
 		return nil, fmt.Errorf("failed to collect social contacts rows: %w", err)
 	}
-
-	if len(socialContacts) == 0 {
-		return nil, domainerrors.ErrNotFound
-	}
-
 	return socialContacts, nil
 }

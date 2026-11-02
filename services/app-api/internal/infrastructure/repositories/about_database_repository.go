@@ -38,21 +38,18 @@ func (repository *AboutDatabaseRepository) Get(ctx context.Context) (*entities.A
 		LIMIT 1
 	`
 
-	var about entities.About
-	err := repository.pool.QueryRow(ctx, query).Scan(
-		&about.UUID,
-		&about.Name,
-		&about.Phone,
-		&about.Description,
-		&about.Text,
-		&about.CreatedAt,
-		&about.UpdatedAt,
-	)
+	rows, err := repository.pool.Query(ctx, query)
+
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, domainerrors.ErrNotFound
 		}
 		return nil, fmt.Errorf("failed to get about: %w", err)
+	}
+
+	about, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[entities.About])
+	if err != nil {
+		return nil, fmt.Errorf("failed to collect about row: %w", err)
 	}
 
 	return &about, nil

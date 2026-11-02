@@ -9,12 +9,12 @@ import (
 )
 
 type SocialContact struct {
-	UUID      string
-	Label     string
-	URL       string
-	ImagePath string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	UUID      string    `json:"uuid" db:"uuid"`
+	Label     string    `json:"label" db:"label"`
+	URL       string    `json:"url" db:"url"`
+	ImagePath string    `json:"image_path" db:"image_path"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
 
 func NewSocialContact(
