@@ -39,16 +39,20 @@ func (repository *AboutDatabaseRepository) Get(ctx context.Context) (*entities.A
 	`
 
 	rows, err := repository.pool.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get about: %w", err)
+	}
+	defer rows.Close()
+
+	about, err := pgx.CollectOneRow(
+		rows,
+		pgx.RowToStructByName[entities.About],
+	)
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, domainerrors.ErrNotFound
+			return nil, fmt.Errorf("no sarching about %w", domainerrors.ErrNotFound)
 		}
-		return nil, fmt.Errorf("failed to get about: %w", err)
-	}
-
-	about, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[entities.About])
-	if err != nil {
 		return nil, fmt.Errorf("failed to collect about row: %w", err)
 	}
 

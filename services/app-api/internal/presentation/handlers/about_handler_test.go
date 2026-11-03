@@ -52,7 +52,8 @@ func TestAboutHandler_Get_NotFound(t *testing.T) {
 	aboutHandler.Get(responseRecorder, request)
 
 	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
-	assert.Contains(t, responseRecorder.Body.String(), "about not found")
+	assert.Equal(t, "application/json", responseRecorder.Header().Get("Content-Type"))
+	assert.Contains(t, responseRecorder.Body.String(), "resource not found")
 }
 
 func TestAboutHandler_Get_InternalServerError(t *testing.T) {

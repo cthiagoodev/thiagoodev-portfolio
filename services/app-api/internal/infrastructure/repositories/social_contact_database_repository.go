@@ -53,5 +53,10 @@ func (repository *SocialContactDatabaseRepository) GetAll(ctx context.Context) (
 		}
 		return nil, fmt.Errorf("failed to collect social contacts rows: %w", err)
 	}
+
+	if len(socialContacts) == 0 {
+		return nil, fmt.Errorf("no sarching social contants %w", domainerrors.ErrNotFound)
+	}
+
 	return socialContacts, nil
 }
