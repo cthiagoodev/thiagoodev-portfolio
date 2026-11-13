@@ -14,33 +14,39 @@ All domain entities, use cases, controllers, and exception handlers must be impl
 
 ## AAA Pattern (Arrange, Act, Assert)
 
-Every test scenario must follow the **AAA** structure separated strictly by distinct blank-line blocks.
+Every test scenario must follow the **AAA** structure separated strictly by distinct blank-line blocks, ensuring clarity, maintainability, and fast root-cause identification:
 
 - **No Comment Rule**: Test code (`*Test.java`) must contain **NO COMMENTS**. Do NOT add `// Arrange`, `// Act`, `// Assert`, or `// Given / When / Then` comments.
 - **Blank-line Blocks**:
-  1. **Arrange**: Input variables, test fixtures, and Mockito mock setup (`when(...).thenReturn(...)`).
-  2. **Act**: Execution of the constructor, method, use case, or HTTP request under test.
-  3. **Assert**: Verifications (`assertNotNull`, `assertEquals`, `assertThrows`, `verify(...)`, etc.).
+  1. **Arrange**: Initialize objects, test fixtures, initial state, and Mockito mock setup (`when(...).thenReturn(...)`).
+  2. **Act**: Execute the single constructor, method, use case, or HTTP request under test.
+  3. **Assert**: Verify the expected outcome (`assertNotNull`, `assertEquals`, `assertThrows`, `verify(...)`, `jsonPath(...)`).
 
-## Test Naming Convention
+## Test Naming Principles & Conventions
 
-Tests must use descriptive, behavior-driven method names in `camelCase` or `snake_case` following the pattern:
+Test names must be self-explanatory and act as living documentation of system behavior.
 
-```text
-should<ExpectedBehavior>_when<Condition>
-```
-or
-```text
-<methodOrTarget>_<expectedBehavior>[_<condition>]
-```
+### Core Naming Principles
+1. **Describe Expected Behavior**: Clearly state what the system does under a specific condition (`shouldReturnOk_whenAboutExists`).
+2. **Avoid Implementation Details**: Focus on observable behavior and use cases rather than internal variables, private methods, or internal logic.
+3. **No Abbreviations**: Use full, descriptive words even if the method name is longer (`workExperience` instead of `workExp`, `repository` instead of `repo`).
+4. **Avoid Generic or Vague Names**: Never use `test1()`, `testFunction()`, `validate()`, or `checkResult()`.
+5. **Balance Clarity and Conciseness**: Avoid overly long names with multiple chained conditions. Split complex scenarios into separate, focused tests covering one behavior at a time.
 
-### Examples:
-- `newAbout_success()`
-- `newAbout_validationError_emptyName()`
-- `execute_success()`
-- `execute_throwsResourceNotFoundException_whenEmpty()`
-- `get_returnsOkWithAboutPayload()`
-- `get_returnsNotFound_whenAboutDoesNotExist()`
+### Approved Java Naming Patterns
+
+Choose one of the following consistent conventions per test suite:
+
+- **`should<ExpectedBehavior>_when<Condition>`** (Behavior-driven):
+  - `shouldCreateAbout_whenAllFieldsAreValid()`
+  - `shouldThrowDomainValidationException_whenNameIsBlank()`
+  - `shouldReturnNotFound_whenAboutDoesNotExist()`
+- **`given<InitialState>_when<Action>_then<ExpectedResult>`** (BDD Given-When-Then):
+  - `givenValidFields_whenCreatingAbout_thenReturnInitializedEntity()`
+  - `givenEmptyRepository_whenExecutingGetAbout_thenThrowResourceNotFoundException()`
+- **`<methodName>_<stateOrCondition>_should<ExpectedBehavior>`** (Method-focused):
+  - `execute_withExistingAbout_shouldReturnAbout()`
+  - `addSkill_withDuplicateLabel_shouldIgnoreDuplicate()`
 
 ## Unit Testing Strategy by Layer (Fast & Isolated)
 

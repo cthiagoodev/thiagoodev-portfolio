@@ -1,5 +1,5 @@
-name: portofolio
+name: portfolio
 
 include:
-  - path: ./services/app-api/docker-compose.yaml
+  - path: ./services/api/docker-compose.yaml
   - path: ./apps/web/docker-compose.yml
