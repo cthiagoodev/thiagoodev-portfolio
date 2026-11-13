@@ -4,6 +4,7 @@ import br.com.thiagoodev.api.domain.entities.Project;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
 import br.com.thiagoodev.api.domain.usecases.GetAllProjectsUseCase;
 import br.com.thiagoodev.api.domain.usecases.GetProjectByUuidUseCase;
+import br.com.thiagoodev.api.domain.usecases.SyncProjectsUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,6 +31,9 @@ class ProjectControllerTest {
 
     @MockitoBean
     private GetProjectByUuidUseCase getProjectByUuidUseCase;
+
+    @MockitoBean
+    private SyncProjectsUseCase syncProjectsUseCase;
 
     @Test
     void shouldReturnOkWithProjects_whenProjectsExist() throws Exception {
@@ -77,5 +82,24 @@ class ProjectControllerTest {
         mockMvc.perform(get("/projects"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.error").value("internal server error"));
+    }
+
+    @Test
+    void shouldReturnOkWithSyncedProjects_whenSyncSucceeds() throws Exception {
+        Project project = new Project(UUID.randomUUID(), 1L, "Portfolio", "Desc", "https://app.dev", "https://github.com/repo", List.of("Java"), null, null, null, null);
+        when(syncProjectsUseCase.execute()).thenReturn(List.of(project));
+
+        mockMvc.perform(post("/projects/sync"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Portfolio"));
+    }
+
+    @Test
+    void shouldReturnNotFound_whenSyncFindsNoRepositories() throws Exception {
+        when(syncProjectsUseCase.execute()).thenThrow(new ResourceNotFoundException("no portfolio repositories found to sync"));
+
+        mockMvc.perform(post("/projects/sync"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error").value("no portfolio repositories found to sync"));
     }
 }

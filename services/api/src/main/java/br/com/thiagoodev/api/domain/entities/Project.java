@@ -105,6 +105,26 @@ public class Project {
         this.validate();
     }
 
+    public void syncFromGitHub(
+            String name,
+            String description,
+            String url,
+            String repoUrl,
+            List<String> languages,
+            LocalDateTime pushedAt,
+            LocalDateTime updatedAt
+    ) {
+        this.name = sanitize(name);
+        this.description = sanitize(description);
+        this.url = sanitize(url);
+        this.repoUrl = sanitize(repoUrl);
+        this.languages = languages != null ? new ArrayList<>(languages) : new ArrayList<>();
+        this.pushedAt = pushedAt;
+        this.updatedAt = updatedAt != null ? updatedAt : LocalDateTime.now();
+
+        this.validate();
+    }
+
     public void validate() {
         if (this.name.isEmpty()) {
             throw new DomainValidationException("domain entity validation error: project name is required");

@@ -103,4 +103,28 @@ class ProjectTest {
         assertEquals(1, project.getSkills().size());
         assertEquals(skillUuid2, project.getSkills().getFirst().getUuid());
     }
+
+    @Test
+    void shouldUpdateGitHubFieldsAndPreserveSkills_whenSyncingFromGitHub() {
+        Skill existingSkill = new Skill(UUID.randomUUID(), "Java", "https://openjdk.org", "", null, null);
+        UUID projectUuid = UUID.randomUUID();
+        LocalDateTime createdAt = LocalDateTime.of(2024, 1, 1, 10, 0);
+        LocalDateTime pushedAt = LocalDateTime.of(2025, 2, 1, 12, 0);
+        LocalDateTime updatedAt = LocalDateTime.of(2025, 2, 2, 12, 0);
+        Project project = new Project(projectUuid, 123L, "Old Name", "Old Desc", "", "", List.of("Go"), List.of(existingSkill), null, createdAt, createdAt);
+
+        project.syncFromGitHub("  New Name  ", " New Desc ", " https://app.dev ", " https://github.com/repo ", List.of("Java"), pushedAt, updatedAt);
+
+        assertEquals(projectUuid, project.getUuid());
+        assertEquals(123L, project.getExternalId());
+        assertEquals("New Name", project.getName());
+        assertEquals("New Desc", project.getDescription());
+        assertEquals("https://app.dev", project.getUrl());
+        assertEquals("https://github.com/repo", project.getRepoUrl());
+        assertEquals(List.of("Java"), project.getLanguages());
+        assertEquals(1, project.getSkills().size());
+        assertEquals(createdAt, project.getCreatedAt());
+        assertEquals(pushedAt, project.getPushedAt());
+        assertEquals(updatedAt, project.getUpdatedAt());
+    }
 }

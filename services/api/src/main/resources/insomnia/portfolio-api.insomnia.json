@@ -224,6 +224,20 @@
         }
       ],
       "_type": "request"
+    },
+    {
+      "_id": "req_projects_sync",
+      "parentId": "fld_projects",
+      "url": "{{ _.base_url }}/projects/sync",
+      "name": "Sync Projects from GitHub",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
     }
   ]
 }
