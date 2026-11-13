@@ -1,0 +1,229 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-11-13T03:08:00.000Z",
+  "__export_source": "insomnia.desktop.app:v10.0.0",
+  "resources": [
+    {
+      "_id": "wrk_portfolio_api",
+      "parentId": null,
+      "name": "Portfolio API",
+      "description": "Collection dos endpoints da Portfolio API (Spring Boot 4)",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_portfolio_api_base",
+      "parentId": "wrk_portfolio_api",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8080/api",
+        "uuid": "00000000-0000-0000-0000-000000000000"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "uuid"
+        ]
+      },
+      "isPrivate": false,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_about",
+      "parentId": "wrk_portfolio_api",
+      "name": "About",
+      "description": "Endpoints de informações pessoais (About)",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_about_get",
+      "parentId": "fld_about",
+      "url": "{{ _.base_url }}/about",
+      "name": "Get About",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_social_contacts",
+      "parentId": "wrk_portfolio_api",
+      "name": "Social Contacts",
+      "description": "Endpoints de contatos sociais",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_social_contacts_get_all",
+      "parentId": "fld_social_contacts",
+      "url": "{{ _.base_url }}/social-contacts",
+      "name": "Get All Social Contacts",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_social_contacts_get_by_uuid",
+      "parentId": "fld_social_contacts",
+      "url": "{{ _.base_url }}/social-contacts/{{ _.uuid }}",
+      "name": "Get Social Contact By UUID",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_work_experiences",
+      "parentId": "wrk_portfolio_api",
+      "name": "Work Experiences",
+      "description": "Endpoints de experiências profissionais",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_work_experiences_get_all",
+      "parentId": "fld_work_experiences",
+      "url": "{{ _.base_url }}/work-experiences",
+      "name": "Get All Work Experiences",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_work_experiences_get_by_uuid",
+      "parentId": "fld_work_experiences",
+      "url": "{{ _.base_url }}/work-experiences/{{ _.uuid }}",
+      "name": "Get Work Experience By UUID",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_educations",
+      "parentId": "wrk_portfolio_api",
+      "name": "Educations",
+      "description": "Endpoints de formação acadêmica",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_educations_get_all",
+      "parentId": "fld_educations",
+      "url": "{{ _.base_url }}/educations",
+      "name": "Get All Educations",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_educations_get_by_uuid",
+      "parentId": "fld_educations",
+      "url": "{{ _.base_url }}/educations/{{ _.uuid }}",
+      "name": "Get Education By UUID",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_skills",
+      "parentId": "wrk_portfolio_api",
+      "name": "Skills",
+      "description": "Endpoints de habilidades técnicas",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_skills_get_all",
+      "parentId": "fld_skills",
+      "url": "{{ _.base_url }}/skills",
+      "name": "Get All Skills",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_skills_get_by_uuid",
+      "parentId": "fld_skills",
+      "url": "{{ _.base_url }}/skills/{{ _.uuid }}",
+      "name": "Get Skill By UUID",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_projects",
+      "parentId": "wrk_portfolio_api",
+      "name": "Projects",
+      "description": "Endpoints de projetos",
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_projects_get_all",
+      "parentId": "fld_projects",
+      "url": "{{ _.base_url }}/projects",
+      "name": "Get All Projects",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_projects_get_by_uuid",
+      "parentId": "fld_projects",
+      "url": "{{ _.base_url }}/projects/{{ _.uuid }}",
+      "name": "Get Project By UUID",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request"
+    }
+  ]
+}
