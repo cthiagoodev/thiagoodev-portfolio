@@ -3,7 +3,6 @@ package br.com.thiagoodev.api.presentation.controllers;
 import br.com.thiagoodev.api.domain.entities.Skill;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
 import br.com.thiagoodev.api.domain.usecases.GetAllSkillsUseCase;
-import br.com.thiagoodev.api.domain.usecases.GetSkillByUuidUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -27,9 +26,6 @@ class SkillControllerTest {
     @MockitoBean
     private GetAllSkillsUseCase getAllSkillsUseCase;
 
-    @MockitoBean
-    private GetSkillByUuidUseCase getSkillByUuidUseCase;
-
     @Test
     void shouldReturnOkWithSkills_whenSkillsExist() throws Exception {
         Skill skill = new Skill(UUID.randomUUID(), "Java", "https://openjdk.org", "/icons/java.svg", null, null);
@@ -45,27 +41,6 @@ class SkillControllerTest {
         when(getAllSkillsUseCase.execute()).thenThrow(new ResourceNotFoundException("resource not found"));
 
         mockMvc.perform(get("/skills"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("resource not found"));
-    }
-
-    @Test
-    void shouldReturnOkWithSkill_whenSkillExistsByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        Skill skill = new Skill(uuid, "Java", "https://openjdk.org", "", null, null);
-        when(getSkillByUuidUseCase.execute(uuid)).thenReturn(skill);
-
-        mockMvc.perform(get("/skills/" + uuid))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.label").value("Java"));
-    }
-
-    @Test
-    void shouldReturnNotFound_whenSkillDoesNotExistByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        when(getSkillByUuidUseCase.execute(uuid)).thenThrow(new ResourceNotFoundException("resource not found"));
-
-        mockMvc.perform(get("/skills/" + uuid))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("resource not found"));
     }

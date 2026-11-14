@@ -3,7 +3,6 @@ package br.com.thiagoodev.api.presentation.controllers;
 import br.com.thiagoodev.api.domain.entities.Project;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
 import br.com.thiagoodev.api.domain.usecases.GetAllProjectsUseCase;
-import br.com.thiagoodev.api.domain.usecases.GetProjectByUuidUseCase;
 import br.com.thiagoodev.api.domain.usecases.SyncProjectsUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,6 @@ class ProjectControllerTest {
     private GetAllProjectsUseCase getAllProjectsUseCase;
 
     @MockitoBean
-    private GetProjectByUuidUseCase getProjectByUuidUseCase;
-
-    @MockitoBean
     private SyncProjectsUseCase syncProjectsUseCase;
 
     @Test
@@ -50,27 +46,6 @@ class ProjectControllerTest {
         when(getAllProjectsUseCase.execute()).thenThrow(new ResourceNotFoundException("resource not found"));
 
         mockMvc.perform(get("/projects"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("resource not found"));
-    }
-
-    @Test
-    void shouldReturnOkWithProject_whenProjectExistsByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        Project project = new Project(uuid, 1L, "Portfolio", "Desc", "", "", null, null, null, null, null);
-        when(getProjectByUuidUseCase.execute(uuid)).thenReturn(project);
-
-        mockMvc.perform(get("/projects/" + uuid))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Portfolio"));
-    }
-
-    @Test
-    void shouldReturnNotFound_whenProjectDoesNotExistByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        when(getProjectByUuidUseCase.execute(uuid)).thenThrow(new ResourceNotFoundException("resource not found"));
-
-        mockMvc.perform(get("/projects/" + uuid))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("resource not found"));
     }

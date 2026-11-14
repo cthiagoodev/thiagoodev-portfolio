@@ -3,7 +3,6 @@ package br.com.thiagoodev.api.presentation.controllers;
 import br.com.thiagoodev.api.domain.entities.Education;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
 import br.com.thiagoodev.api.domain.usecases.GetAllEducationsUseCase;
-import br.com.thiagoodev.api.domain.usecases.GetEducationByUuidUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -28,9 +27,6 @@ class EducationControllerTest {
     @MockitoBean
     private GetAllEducationsUseCase getAllEducationsUseCase;
 
-    @MockitoBean
-    private GetEducationByUuidUseCase getEducationByUuidUseCase;
-
     @Test
     void shouldReturnOkWithEducations_whenEducationsExist() throws Exception {
         Education education = new Education(UUID.randomUUID(), "Ciência da Computação", "Bacharelado", "Universidade", LocalDate.of(2018, 2, 1), null, null, null);
@@ -46,27 +42,6 @@ class EducationControllerTest {
         when(getAllEducationsUseCase.execute()).thenThrow(new ResourceNotFoundException("resource not found"));
 
         mockMvc.perform(get("/educations"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("resource not found"));
-    }
-
-    @Test
-    void shouldReturnOkWithEducation_whenEducationExistsByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        Education education = new Education(uuid, "Ciência da Computação", "Bacharelado", "Universidade", LocalDate.of(2018, 2, 1), null, null, null);
-        when(getEducationByUuidUseCase.execute(uuid)).thenReturn(education);
-
-        mockMvc.perform(get("/educations/" + uuid))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.course").value("Ciência da Computação"));
-    }
-
-    @Test
-    void shouldReturnNotFound_whenEducationDoesNotExistByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        when(getEducationByUuidUseCase.execute(uuid)).thenThrow(new ResourceNotFoundException("resource not found"));
-
-        mockMvc.perform(get("/educations/" + uuid))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("resource not found"));
     }

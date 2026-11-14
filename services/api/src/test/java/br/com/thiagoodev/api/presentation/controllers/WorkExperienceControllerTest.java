@@ -3,7 +3,6 @@ package br.com.thiagoodev.api.presentation.controllers;
 import br.com.thiagoodev.api.domain.entities.WorkExperience;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
 import br.com.thiagoodev.api.domain.usecases.GetAllWorkExperiencesUseCase;
-import br.com.thiagoodev.api.domain.usecases.GetWorkExperienceByUuidUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -28,9 +27,6 @@ class WorkExperienceControllerTest {
     @MockitoBean
     private GetAllWorkExperiencesUseCase getAllWorkExperiencesUseCase;
 
-    @MockitoBean
-    private GetWorkExperienceByUuidUseCase getWorkExperienceByUuidUseCase;
-
     @Test
     void shouldReturnOkWithWorkExperiences_whenExperiencesExist() throws Exception {
         WorkExperience experience = new WorkExperience(UUID.randomUUID(), "Engineer", "Backend", "Company", LocalDate.of(2022, 1, 1), null, null, null);
@@ -49,27 +45,6 @@ class WorkExperienceControllerTest {
         when(getAllWorkExperiencesUseCase.execute()).thenThrow(new ResourceNotFoundException("resource not found"));
 
         mockMvc.perform(get("/work-experiences"))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("resource not found"));
-    }
-
-    @Test
-    void shouldReturnOkWithWorkExperience_whenExperienceExistsByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        WorkExperience experience = new WorkExperience(uuid, "Engineer", "Backend", "Company", LocalDate.of(2022, 1, 1), null, null, null);
-        when(getWorkExperienceByUuidUseCase.execute(uuid)).thenReturn(experience);
-
-        mockMvc.perform(get("/work-experiences/" + uuid))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.role").value("Engineer"));
-    }
-
-    @Test
-    void shouldReturnNotFound_whenWorkExperienceDoesNotExistByUuid() throws Exception {
-        UUID uuid = UUID.randomUUID();
-        when(getWorkExperienceByUuidUseCase.execute(uuid)).thenThrow(new ResourceNotFoundException("resource not found"));
-
-        mockMvc.perform(get("/work-experiences/" + uuid))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("resource not found"));
     }

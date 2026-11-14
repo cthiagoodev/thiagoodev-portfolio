@@ -5,7 +5,6 @@ import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
 import br.com.thiagoodev.api.domain.gateways.GitHubProjectGateway;
 import br.com.thiagoodev.api.domain.repositories.ProjectRepository;
 import br.com.thiagoodev.api.domain.usecases.SyncProjectsUseCase;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +17,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SyncProjectsUseCaseImpl implements SyncProjectsUseCase {
 
     private final ProjectRepository projectRepository;
     private final GitHubProjectGateway gitHubProjectGateway;
+
+    public SyncProjectsUseCaseImpl(ProjectRepository projectRepository, GitHubProjectGateway gitHubProjectGateway) {
+        this.projectRepository = projectRepository;
+        this.gitHubProjectGateway = gitHubProjectGateway;
+    }
 
     @Override
     @Transactional

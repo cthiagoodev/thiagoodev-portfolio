@@ -17,13 +17,11 @@
       "parentId": "wrk_portfolio_api",
       "name": "Base Environment",
       "data": {
-        "base_url": "http://localhost:8080/api",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "base_url": "http://localhost:8080/api"
       },
       "dataPropertyOrder": {
         "&": [
-          "base_url",
-          "uuid"
+          "base_url"
         ]
       },
       "isPrivate": false,
@@ -72,20 +70,6 @@
       "_type": "request"
     },
     {
-      "_id": "req_social_contacts_get_by_uuid",
-      "parentId": "fld_social_contacts",
-      "url": "{{ _.base_url }}/social-contacts/{{ _.uuid }}",
-      "name": "Get Social Contact By UUID",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Accept",
-          "value": "application/json"
-        }
-      ],
-      "_type": "request"
-    },
-    {
       "_id": "fld_work_experiences",
       "parentId": "wrk_portfolio_api",
       "name": "Work Experiences",
@@ -97,20 +81,6 @@
       "parentId": "fld_work_experiences",
       "url": "{{ _.base_url }}/work-experiences",
       "name": "Get All Work Experiences",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Accept",
-          "value": "application/json"
-        }
-      ],
-      "_type": "request"
-    },
-    {
-      "_id": "req_work_experiences_get_by_uuid",
-      "parentId": "fld_work_experiences",
-      "url": "{{ _.base_url }}/work-experiences/{{ _.uuid }}",
-      "name": "Get Work Experience By UUID",
       "method": "GET",
       "headers": [
         {
@@ -142,20 +112,6 @@
       "_type": "request"
     },
     {
-      "_id": "req_educations_get_by_uuid",
-      "parentId": "fld_educations",
-      "url": "{{ _.base_url }}/educations/{{ _.uuid }}",
-      "name": "Get Education By UUID",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Accept",
-          "value": "application/json"
-        }
-      ],
-      "_type": "request"
-    },
-    {
       "_id": "fld_skills",
       "parentId": "wrk_portfolio_api",
       "name": "Skills",
@@ -177,20 +133,6 @@
       "_type": "request"
     },
     {
-      "_id": "req_skills_get_by_uuid",
-      "parentId": "fld_skills",
-      "url": "{{ _.base_url }}/skills/{{ _.uuid }}",
-      "name": "Get Skill By UUID",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Accept",
-          "value": "application/json"
-        }
-      ],
-      "_type": "request"
-    },
-    {
       "_id": "fld_projects",
       "parentId": "wrk_portfolio_api",
       "name": "Projects",
@@ -202,20 +144,6 @@
       "parentId": "fld_projects",
       "url": "{{ _.base_url }}/projects",
       "name": "Get All Projects",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Accept",
-          "value": "application/json"
-        }
-      ],
-      "_type": "request"
-    },
-    {
-      "_id": "req_projects_get_by_uuid",
-      "parentId": "fld_projects",
-      "url": "{{ _.base_url }}/projects/{{ _.uuid }}",
-      "name": "Get Project By UUID",
       "method": "GET",
       "headers": [
         {
