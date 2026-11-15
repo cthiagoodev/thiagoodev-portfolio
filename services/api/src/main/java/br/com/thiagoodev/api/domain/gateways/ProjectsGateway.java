@@ -4,7 +4,7 @@ import br.com.thiagoodev.api.domain.entities.Project;
 
 import java.util.List;
 
-public interface GitHubProjectGateway {
+public interface ProjectsGateway {
 
-    List<Project> fetchPortfolioRepositories();
+    List<Project> fetchProjects();
 }

@@ -51,7 +51,7 @@ class GitHubProjectClientTest {
                         ]
                         """, MediaType.APPLICATION_JSON));
 
-        List<Project> result = client.fetchPortfolioRepositories();
+        List<Project> result = client.fetchProjects();
 
         assertEquals(1, result.size());
         assertEquals(1L, result.getFirst().getExternalId());

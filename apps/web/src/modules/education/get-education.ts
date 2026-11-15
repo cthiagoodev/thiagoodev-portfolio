@@ -1,4 +1,4 @@
-import { createSupabaseClient } from "@/api/supabase/client";
+import { fetchApi } from "@/api/client";
 import type { Education } from "@/modules/education/education.types";
 
 interface EducationRow {
@@ -11,28 +11,11 @@ interface EducationRow {
 }
 
 export async function getEducation(): Promise<Education[]> {
-  const supabase = createSupabaseClient();
+  const data = await fetchApi<EducationRow[]>("/educations");
 
-  if (!supabase) {
-    console.warn("Supabase não configurado; formações não serão carregadas.");
-    return [];
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("education")
-      .select(
-        "uuid, course, description, educational_institution, start_date, end_date",
-      )
-      .order("start_date", { ascending: false })
-      .overrideTypes<EducationRow[], { merge: false }>();
-
-    if (error) {
-      console.error("Não foi possível carregar as formações do Supabase.");
-      return [];
-    }
-
-    return (data ?? []).map((row) => ({
+  return (data ?? [])
+    .sort((first, second) => second.start_date.localeCompare(first.start_date))
+    .map((row) => ({
       uuid: row.uuid,
       course: row.course,
       description: row.description,
@@ -40,10 +23,4 @@ export async function getEducation(): Promise<Education[]> {
       startDate: row.start_date,
       endDate: row.end_date,
     }));
-  } catch {
-    console.error(
-      "Não foi possível conectar ao Supabase para carregar formações.",
-    );
-    return [];
-  }
 }

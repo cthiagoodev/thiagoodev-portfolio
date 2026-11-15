@@ -3,7 +3,7 @@ package br.com.thiagoodev.api.application.usecases;
 import br.com.thiagoodev.api.domain.entities.Project;
 import br.com.thiagoodev.api.domain.entities.Skill;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
-import br.com.thiagoodev.api.domain.gateways.GitHubProjectGateway;
+import br.com.thiagoodev.api.domain.gateways.ProjectsGateway;
 import br.com.thiagoodev.api.domain.repositories.ProjectRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ class SyncProjectsUseCaseImplTest {
     private ProjectRepository projectRepository;
 
     @Mock
-    private GitHubProjectGateway gitHubProjectGateway;
+    private ProjectsGateway projectsGateway;
 
     @InjectMocks
     private SyncProjectsUseCaseImpl syncProjectsUseCase;
@@ -42,7 +42,7 @@ class SyncProjectsUseCaseImplTest {
         Project removedProject = new Project(UUID.randomUUID(), 20L, "Removed", "Desc", "", "", List.of("Rust"), List.of(), null, null, null);
         Project fetchedUpdated = new Project(null, 10L, "New Name", "New Desc", "https://app.dev", "https://github.com/repo", List.of("Java"), List.of(), null, null, null);
         Project fetchedNew = new Project(null, 30L, "Brand New", "Fresh Desc", "", "https://github.com/new", List.of("TypeScript"), List.of(), null, null, null);
-        when(gitHubProjectGateway.fetchPortfolioRepositories()).thenReturn(List.of(fetchedUpdated, fetchedNew));
+        when(projectsGateway.fetchProjects()).thenReturn(List.of(fetchedUpdated, fetchedNew));
         when(projectRepository.findAll()).thenReturn(List.of(existingProject, removedProject));
         when(projectRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -58,7 +58,7 @@ class SyncProjectsUseCaseImplTest {
 
     @Test
     void shouldThrowResourceNotFoundException_whenGitHubReturnsNoPortfolioRepositories() {
-        when(gitHubProjectGateway.fetchPortfolioRepositories()).thenReturn(List.of());
+        when(projectsGateway.fetchProjects()).thenReturn(List.of());
 
         assertThrows(ResourceNotFoundException.class, () -> syncProjectsUseCase.execute());
         verify(projectRepository, never()).deleteAll(anyList());

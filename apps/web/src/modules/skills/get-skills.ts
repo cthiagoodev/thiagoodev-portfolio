@@ -1,4 +1,4 @@
-import { createSupabaseClient } from "@/api/supabase/client";
+import { fetchApi } from "@/api/client";
 import type { Skill } from "@/modules/skills/skills.types";
 
 interface SkillRow {
@@ -45,33 +45,14 @@ function sortSkills(skills: Skill[]) {
 }
 
 export async function getSkills(): Promise<Skill[]> {
-  const supabase = createSupabaseClient();
+  const data = await fetchApi<SkillRow[]>("/skills");
 
-  if (!supabase) {
-    console.warn("Supabase não configurado; habilidades não serão carregadas.");
-    return [];
-  }
+  const skills = (data ?? []).map((row) => ({
+    uuid: row.uuid,
+    label: row.label,
+    url: row.url?.trim() || null,
+    imagePath: row.image_path?.trim() || null,
+  }));
 
-  try {
-    const { data, error } = await supabase
-      .from("skills")
-      .select("uuid, label, url, image_path")
-      .overrideTypes<SkillRow[], { merge: false }>();
-
-    if (error) {
-      console.error("Não foi possível carregar as habilidades do Supabase.");
-      return [];
-    }
-
-    const skills = (data ?? []).map((row) => ({
-      uuid: row.uuid,
-      label: row.label,
-      url: row.url?.trim() || null,
-    }));
-
-    return sortSkills(skills);
-  } catch {
-    console.error("Não foi possível conectar ao Supabase para carregar habilidades.");
-    return [];
-  }
+  return sortSkills(skills);
 }

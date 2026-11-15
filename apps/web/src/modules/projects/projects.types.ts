@@ -5,4 +5,5 @@ export interface Project {
   url: string | null;
   startDate: string;
   endDate: string | null;
+  skills: string[];
 }

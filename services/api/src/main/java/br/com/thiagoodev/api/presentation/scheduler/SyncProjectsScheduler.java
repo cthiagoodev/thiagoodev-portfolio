@@ -15,12 +15,12 @@ public class SyncProjectsScheduler {
         this.syncProjectsUseCase = syncProjectsUseCase;
     }
 
-    @Scheduled(cron = "0 0 3 * * *")
-    public void execute() {
-        try {
-            syncProjectsUseCase.execute();
-        } catch (Exception exception) {
-            log.error("Failed to sync portfolio projects from GitHub", exception);
-        }
-    }
+//    @Scheduled(cron = "0 0 3 * * *")
+//    public void execute() {
+//        try {
+//            syncProjectsUseCase.execute();
+//        } catch (Exception exception) {
+//            log.error("Failed to sync portfolio projects from GitHub", exception);
+//        }
+//    }
 }

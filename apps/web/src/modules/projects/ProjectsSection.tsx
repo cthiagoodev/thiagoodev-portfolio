@@ -70,7 +70,7 @@ export default function ProjectsSection({
                 title={project.name}
                 description={project.description ?? ""}
                 dates={formatPeriod(project.startDate, project.endDate)}
-                tags={[]}
+                tags={project.skills}
               />
             </BlurFade>
           ))}

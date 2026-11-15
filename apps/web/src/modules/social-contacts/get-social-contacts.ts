@@ -1,4 +1,4 @@
-import { createSupabaseClient } from "@/api/supabase/client";
+import { fetchApi } from "@/api/client";
 import type {
   SocialContact,
   SocialIcon,
@@ -28,9 +28,23 @@ const SOCIAL_ORDER: readonly SocialIcon[] = [
 
 const orderByIcon = new Map(SOCIAL_ORDER.map((icon, index) => [icon, index]));
 
+function resolveSocialIcon(label: string): SocialIcon | undefined {
+  const normalized = label.toLocaleLowerCase();
+
+  if (SOCIAL_ICONS[normalized]) {
+    return SOCIAL_ICONS[normalized];
+  }
+
+  const matchedKey = Object.keys(SOCIAL_ICONS).find((key) =>
+    normalized.includes(key),
+  );
+
+  return matchedKey ? SOCIAL_ICONS[matchedKey] : undefined;
+}
+
 function mapSocialContact(row: SocialContactRow): SocialContact | null {
   const label = row.label.trim();
-  const icon = SOCIAL_ICONS[label.toLocaleLowerCase()];
+  const icon = resolveSocialIcon(label);
   const url = row.url.trim();
 
   if (!icon) {
@@ -53,40 +67,14 @@ function mapSocialContact(row: SocialContactRow): SocialContact | null {
 }
 
 export async function getSocialContacts(): Promise<SocialContact[]> {
-  const supabase = createSupabaseClient();
+  const data = await fetchApi<SocialContactRow[]>("/social-contacts");
 
-  if (!supabase) {
-    console.warn(
-      "Supabase não configurado; contatos sociais não serão carregados.",
+  return (data ?? [])
+    .map(mapSocialContact)
+    .filter((contact): contact is SocialContact => contact !== null)
+    .sort(
+      (first, second) =>
+        (orderByIcon.get(first.icon) ?? Number.MAX_SAFE_INTEGER) -
+        (orderByIcon.get(second.icon) ?? Number.MAX_SAFE_INTEGER),
     );
-    return [];
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("social_contacts")
-      .select("uuid, label, url")
-      .overrideTypes<SocialContactRow[], { merge: false }>();
-
-    if (error) {
-      console.error(
-        "Não foi possível carregar os contatos sociais do Supabase.",
-      );
-      return [];
-    }
-
-    return (data ?? [])
-      .map(mapSocialContact)
-      .filter((contact): contact is SocialContact => contact !== null)
-      .sort(
-        (first, second) =>
-          (orderByIcon.get(first.icon) ?? Number.MAX_SAFE_INTEGER) -
-          (orderByIcon.get(second.icon) ?? Number.MAX_SAFE_INTEGER),
-      );
-  } catch {
-    console.error(
-      "Não foi possível conectar ao Supabase para carregar contatos sociais.",
-    );
-    return [];
-  }
 }

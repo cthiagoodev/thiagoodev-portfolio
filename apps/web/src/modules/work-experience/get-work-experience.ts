@@ -1,4 +1,4 @@
-import { createSupabaseClient } from "@/api/supabase/client";
+import { fetchApi } from "@/api/client";
 import type {
   WorkExperienceGroup,
   WorkExperienceRole,
@@ -47,34 +47,7 @@ function groupByCompany(rows: WorkExperienceRow[]): WorkExperienceGroup[] {
 }
 
 export async function getWorkExperience(): Promise<WorkExperienceGroup[]> {
-  const supabase = createSupabaseClient();
+  const data = await fetchApi<WorkExperienceRow[]>("/work-experiences");
 
-  if (!supabase) {
-    console.warn(
-      "Supabase não configurado; experiências profissionais não serão carregadas.",
-    );
-    return [];
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("work_experience")
-      .select("uuid, role, description, company, start_date, end_date")
-      .order("start_date", { ascending: false })
-      .overrideTypes<WorkExperienceRow[], { merge: false }>();
-
-    if (error) {
-      console.error(
-        "Não foi possível carregar as experiências profissionais do Supabase.",
-      );
-      return [];
-    }
-
-    return groupByCompany(data ?? []);
-  } catch {
-    console.error(
-      "Não foi possível conectar ao Supabase para carregar as experiências profissionais.",
-    );
-    return [];
-  }
+  return groupByCompany(data ?? []);
 }

@@ -13,7 +13,7 @@ import { Rust } from "@/common/icons/technologies/rust";
 import BlurFade from "@/common/magic-ui/BlurFade";
 import type { Skill } from "@/modules/skills/skills.types";
 import { Code2 } from "lucide-react";
-import type { ComponentType, SVGProps } from "react";
+import { useState, type ComponentType, type SVGProps } from "react";
 
 interface SkillsSectionProps {
   heading: string;
@@ -43,15 +43,26 @@ function resolveSkillIcon(label: string): SkillIcon {
 }
 
 function SkillBadge({ skill }: { skill: Skill }) {
+  const [imageError, setImageError] = useState(false);
   const Icon = resolveSkillIcon(skill.label);
   const className =
     "border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2";
   const content = (
     <>
-      <Icon
-        aria-hidden
-        className="size-4 rounded overflow-hidden object-contain"
-      />
+      {skill.imagePath && !imageError ? (
+        <img
+          src={skill.imagePath}
+          alt=""
+          aria-hidden
+          className="size-4 rounded overflow-hidden object-contain"
+          onError={() => setImageError(true)}
+        />
+      ) : (
+        <Icon
+          aria-hidden
+          className="size-4 rounded overflow-hidden object-contain"
+        />
+      )}
       <span className="text-foreground text-sm font-medium">{skill.label}</span>
     </>
   );

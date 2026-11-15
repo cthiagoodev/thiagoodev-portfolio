@@ -1,7 +1,7 @@
 package br.com.thiagoodev.api.infrastructure.github;
 
 import br.com.thiagoodev.api.domain.entities.Project;
-import br.com.thiagoodev.api.domain.gateways.GitHubProjectGateway;
+import br.com.thiagoodev.api.domain.gateways.ProjectsGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class GitHubProjectClient implements GitHubProjectGateway {
+public class GitHubProjectClient implements ProjectsGateway {
 
     private static final int PER_PAGE = 100;
     private static final String PORTFOLIO_TOPIC = "portfolio";
@@ -30,10 +30,11 @@ public class GitHubProjectClient implements GitHubProjectGateway {
     }
 
     @Override
-    public List<Project> fetchPortfolioRepositories() {
-        List<GitHubRepositoryResponse> portfolioRepositories = new ArrayList<>();
+    public List<Project> fetchProjects() {
+        final List<GitHubRepositoryResponse> portfolioRepositories = new ArrayList<>();
+        int page = 1;
 
-        for (int page = 1; ; page++) {
+        while(true) {
             URI pageUri = UriComponentsBuilder.fromUriString(repositoriesUrl)
                     .queryParam("per_page", PER_PAGE)
                     .queryParam("page", page)
@@ -46,7 +47,9 @@ public class GitHubProjectClient implements GitHubProjectGateway {
                     .body(new ParameterizedTypeReference<>() {
                     });
 
-            if (pageRepositories == null || pageRepositories.isEmpty()) {
+            final boolean noData = pageRepositories == null || pageRepositories.isEmpty();
+
+            if (noData) {
                 break;
             }
 
@@ -57,7 +60,10 @@ public class GitHubProjectClient implements GitHubProjectGateway {
             if (pageRepositories.size() < PER_PAGE) {
                 break;
             }
+
+            page++;
         }
+
 
         return GitHubProjectMapper.toDomainList(portfolioRepositories);
     }

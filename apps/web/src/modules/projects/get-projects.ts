@@ -1,47 +1,33 @@
-import { createSupabaseClient } from "@/api/supabase/client";
+import { fetchApi } from "@/api/client";
 import type { Project } from "@/modules/projects/projects.types";
+
+interface ProjectSkillRow {
+  label: string;
+}
 
 interface ProjectRow {
   uuid: string;
   name: string;
   description: string | null;
   url: string | null;
-  start_date: string;
-  end_date: string | null;
+  repo_url: string | null;
+  skills?: ProjectSkillRow[] | null;
+  pushed_at: string | null;
+  created_at: string;
 }
 
 export async function getProjects(): Promise<Project[]> {
-  const supabase = createSupabaseClient();
+  const data = await fetchApi<ProjectRow[]>("/projects");
 
-  if (!supabase) {
-    console.warn("Supabase não configurado; projetos não serão carregados.");
-    return [];
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("projects")
-      .select("uuid, name, description, url, start_date, end_date")
-      .order("start_date", { ascending: false })
-      .overrideTypes<ProjectRow[], { merge: false }>();
-
-    if (error) {
-      console.error("Não foi possível carregar os projetos do Supabase.");
-      return [];
-    }
-
-    return (data ?? []).map((row) => ({
+  return (data ?? [])
+    .map((row) => ({
       uuid: row.uuid,
       name: row.name,
       description: row.description,
-      url: row.url?.trim() || null,
-      startDate: row.start_date,
-      endDate: row.end_date,
-    }));
-  } catch {
-    console.error(
-      "Não foi possível conectar ao Supabase para carregar projetos.",
-    );
-    return [];
-  }
+      url: row.url?.trim() || row.repo_url?.trim() || null,
+      startDate: row.created_at.slice(0, 10),
+      endDate: row.pushed_at ? row.pushed_at.slice(0, 10) : null,
+      skills: (row.skills ?? []).map((skill) => skill.label),
+    }))
+    .sort((first, second) => second.startDate.localeCompare(first.startDate));
 }

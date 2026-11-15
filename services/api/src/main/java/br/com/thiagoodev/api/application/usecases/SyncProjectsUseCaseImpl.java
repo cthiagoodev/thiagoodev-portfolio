@@ -2,7 +2,7 @@ package br.com.thiagoodev.api.application.usecases;
 
 import br.com.thiagoodev.api.domain.entities.Project;
 import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
-import br.com.thiagoodev.api.domain.gateways.GitHubProjectGateway;
+import br.com.thiagoodev.api.domain.gateways.ProjectsGateway;
 import br.com.thiagoodev.api.domain.repositories.ProjectRepository;
 import br.com.thiagoodev.api.domain.usecases.SyncProjectsUseCase;
 import org.springframework.stereotype.Service;
@@ -20,17 +20,17 @@ import java.util.stream.Collectors;
 public class SyncProjectsUseCaseImpl implements SyncProjectsUseCase {
 
     private final ProjectRepository projectRepository;
-    private final GitHubProjectGateway gitHubProjectGateway;
+    private final ProjectsGateway projectsGateway;
 
-    public SyncProjectsUseCaseImpl(ProjectRepository projectRepository, GitHubProjectGateway gitHubProjectGateway) {
+    public SyncProjectsUseCaseImpl(ProjectRepository projectRepository, ProjectsGateway projectsGateway) {
         this.projectRepository = projectRepository;
-        this.gitHubProjectGateway = gitHubProjectGateway;
+        this.projectsGateway = projectsGateway;
     }
 
     @Override
     @Transactional
     public List<Project> execute() {
-        List<Project> fetchedProjects = gitHubProjectGateway.fetchPortfolioRepositories();
+        List<Project> fetchedProjects = projectsGateway.fetchProjects();
         if (fetchedProjects.isEmpty()) {
             throw new ResourceNotFoundException("no portfolio repositories found to sync");
         }
