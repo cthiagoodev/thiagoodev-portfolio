@@ -82,7 +82,7 @@ Infrastructure → Domain Contracts
 - Orquestra o fluxo de dados entre os repositórios e as regras de domínio.
 - **Implementações de Casos de Uso (`application.usecases`):**
   - Classes anotadas com `@Service` que implementam sua respectiva interface de `domain.usecases` (ex.: `GetAboutUseCaseImpl implements GetAboutUseCase`).
-  - Recebem dependências exclusivamente via injeção por construtor (`final` fields + construtor explícito ou `@RequiredArgsConstructor`).
+  - Recebem dependências exclusivamente via injeção por construtor (`final` fields + construtor explícito padrão do Java — não usar `@RequiredArgsConstructor`).
   - **Sem Abreviações:** Variáveis, atributos e parâmetros utilizam sempre nomes completos (`aboutRepository`, `socialContactRepository`, `workExperience`).
 - **DTOs (`application.dto`):**
   - Quando necessário desacoplar o contrato de entrada/saída da entidade, utilizam-se `record`s imutáveis do Java 25.
@@ -122,3 +122,16 @@ O projeto utiliza **PostgreSQL 18 (`postgres:18.6`)** e **Flyway** para versiona
   volumes:
     - postgres_data:/var/lib/postgresql
   ```
+
+## Admin Interface (NocoDB)
+
+A `services/api` expõe apenas endpoints de leitura (`GET`) para o portfólio e o fluxo de sincronização de projetos do GitHub (`POST /api/projects/sync` e `SyncProjectsScheduler`). O gerenciamento administrativo dos registros no banco é feito pelo **NocoDB**:
+
+- **Serviço Docker (`noco-db` em `services/api/docker-compose.yaml`):**
+  - Imagem `nocodb/nocodb:latest`, exposta em `${NOCO_PORT}:8080` (padrão `8081` em `.env` / `.env.example`, evitando conflito com a porta `8080` da API Spring Boot).
+  - Aguarda o PostgreSQL ficar saudável (`depends_on: api-db: condition: service_healthy`).
+- **Metadados isolados (SQLite):**
+  - `NC_DB` não é definido propositalmente, fazendo o NocoDB armazenar seus próprios metadados internos em SQLite no volume `noco_data:/usr/app/data`. Isso mantém o banco PostgreSQL `portfolio` limpo e sob controle exclusivo do Flyway.
+- **Conexão com o PostgreSQL (`api-db`):**
+  - `NC_ALLOW_LOCAL_EXTERNAL_DBS: "true"` é obrigatório para liberar conexões do SSRF guard do NocoDB para hosts privados/rede Docker (`api-db:5432`).
+  - Conectado na UI do NocoDB como **External Data Source** (`schema: public`) com **Allow Data Edit** habilitado e **Allow Schema Edit** desabilitado (alterações de schema pertencem exclusivamente às migrations do Flyway).
