@@ -34,7 +34,7 @@ public class GitHubProjectClient implements ProjectsGateway {
         final List<GitHubRepositoryResponse> portfolioRepositories = new ArrayList<>();
         int page = 1;
 
-        while(true) {
+        while (true) {
             URI pageUri = UriComponentsBuilder.fromUriString(repositoriesUrl)
                     .queryParam("per_page", PER_PAGE)
                     .queryParam("page", page)

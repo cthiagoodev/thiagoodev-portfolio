@@ -1,18 +1,16 @@
 package br.com.thiagoodev.api.application.usecases;
 
 import br.com.thiagoodev.api.domain.entities.Project;
-import br.com.thiagoodev.api.domain.exceptions.ResourceNotFoundException;
+import br.com.thiagoodev.api.domain.entities.Skill;
 import br.com.thiagoodev.api.domain.gateways.ProjectsGateway;
 import br.com.thiagoodev.api.domain.repositories.ProjectRepository;
+import br.com.thiagoodev.api.domain.repositories.SkillRepository;
 import br.com.thiagoodev.api.domain.usecases.SyncProjectsUseCase;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,57 +19,75 @@ public class SyncProjectsUseCaseImpl implements SyncProjectsUseCase {
 
     private final ProjectRepository projectRepository;
     private final ProjectsGateway projectsGateway;
+    private final SkillRepository skillRepository;
 
-    public SyncProjectsUseCaseImpl(ProjectRepository projectRepository, ProjectsGateway projectsGateway) {
+    public SyncProjectsUseCaseImpl(
+            ProjectRepository projectRepository,
+            ProjectsGateway projectsGateway,
+            SkillRepository skillRepository
+    ) {
         this.projectRepository = projectRepository;
         this.projectsGateway = projectsGateway;
+        this.skillRepository = skillRepository;
     }
 
     @Override
     @Transactional
     public List<Project> execute() {
-        List<Project> fetchedProjects = projectsGateway.fetchProjects();
-        if (fetchedProjects.isEmpty()) {
-            throw new ResourceNotFoundException("no portfolio repositories found to sync");
+        List<Project> remoteProjects = projectsGateway.fetchProjects();
+
+        if (remoteProjects.isEmpty()) {
+            return List.of();
         }
 
-        List<Project> existingProjects = projectRepository.findAll();
-        Map<Long, Project> existingByExternalId = existingProjects.stream()
-                .filter(project -> project.getExternalId() != null)
-                .collect(Collectors.toMap(Project::getExternalId, Function.identity(), (first, second) -> first));
+        List<Long> remoteExternalIds = this.getExternalIdList(remoteProjects);
 
-        Set<Long> fetchedExternalIds = fetchedProjects.stream()
-                .map(Project::getExternalId)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+        projectRepository.deleteAllByExternalIdNotNullAndExternalIdNotIn(remoteExternalIds);
 
-        List<Project> projectsToDelete = existingProjects.stream()
-                .filter(project -> project.getExternalId() != null && !fetchedExternalIds.contains(project.getExternalId()))
-                .toList();
+        Map<Long, Project> projects = this.findAllByExternalIdIn(remoteExternalIds);
 
-        if (!projectsToDelete.isEmpty()) {
-            projectRepository.deleteAll(projectsToDelete);
-        }
+        remoteProjects.forEach(item -> {
+            Project project = projects.get(item.getExternalId());
 
-        List<Project> projectsToSave = new ArrayList<>();
-        for (Project fetchedProject : fetchedProjects) {
-            Project existingProject = existingByExternalId.get(fetchedProject.getExternalId());
-            if (existingProject != null) {
-                existingProject.syncFromGitHub(
-                        fetchedProject.getName(),
-                        fetchedProject.getDescription(),
-                        fetchedProject.getUrl(),
-                        fetchedProject.getRepoUrl(),
-                        fetchedProject.getLanguages(),
-                        fetchedProject.getPushedAt(),
-                        fetchedProject.getUpdatedAt()
-                );
-                projectsToSave.add(existingProject);
+            if (project == null) {
+                this.addProject(item, projects);
             } else {
-                projectsToSave.add(fetchedProject);
+                this.setProject(item, project);
             }
-        }
+        });
 
-        return projectRepository.saveAll(projectsToSave);
+        return projectRepository.saveAll(projects.values());
+    }
+
+    private List<Long> getExternalIdList(List<Project> projects) {
+        return projects.stream().map(Project::getExternalId).toList();
+    }
+
+    private Map<Long, Project> findAllByExternalIdIn(List<Long> ids) {
+        return projectRepository
+                .findAllByExternalIdIn(ids)
+                .stream()
+                .collect(Collectors.toMap(
+                        Project::getExternalId,
+                        Function.identity(),
+                        (project, project2) -> project));
+    }
+
+    private void addProject(Project item, Map<Long, Project> projects) {
+        item.setSkills(this.getSkills(item.getLanguages()));
+        projects.put(item.getExternalId(), item);
+    }
+
+    private void setProject(Project item, Project project) {
+        project.setName(item.getName());
+        project.setDescription(item.getDescription());
+        project.setUrl(item.getUrl());
+        project.setRepoUrl(item.getRepoUrl());
+        project.setLanguages(item.getLanguages());
+        project.setSkills(this.getSkills(item.getLanguages()));
+    }
+
+    private List<Skill> getSkills(List<String> languages) {
+        return skillRepository.findAllByLabelIn(languages);
     }
 }
