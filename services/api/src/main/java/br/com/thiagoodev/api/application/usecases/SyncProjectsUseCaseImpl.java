@@ -88,6 +88,7 @@ public class SyncProjectsUseCaseImpl implements SyncProjectsUseCase {
     }
 
     private List<Skill> getSkills(List<String> languages) {
-        return skillRepository.findAllByLabelIn(languages);
+        List<String> langs = languages.stream().map(String::toLowerCase).toList();
+        return skillRepository.findAllByLabelIn(langs);
     }
 }
