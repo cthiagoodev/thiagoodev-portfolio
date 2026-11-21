@@ -35,5 +35,9 @@ dependencies {
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+    useJUnitPlatform() {
+        if (!project.hasProperty("integration")) {
+            excludeTags = setOf("integration")
+        }
+    }
 }
