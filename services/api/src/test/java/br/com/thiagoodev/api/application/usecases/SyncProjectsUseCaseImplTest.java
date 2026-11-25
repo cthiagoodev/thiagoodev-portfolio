@@ -47,8 +47,7 @@ class SyncProjectsUseCaseImplTest {
         Project fetchedNew = new Project(null, 30L, "Brand New", "Fresh Desc", "", "https://github.com/new", List.of("TypeScript"), List.of(), null, null, null);
         when(projectsGateway.fetchProjects()).thenReturn(List.of(fetchedUpdated, fetchedNew));
         when(projectRepository.findAllByExternalIdIn(List.of(10L, 30L))).thenReturn(List.of(existingProject));
-        when(skillRepository.findAllByLabelIn(List.of("Java"))).thenReturn(List.of(javaSkill));
-        when(skillRepository.findAllByLabelIn(List.of("TypeScript"))).thenReturn(List.of());
+        when(skillRepository.findAllByLabelIn(anyList())).thenReturn(List.of(javaSkill), List.of());
         when(projectRepository.saveAll(any())).thenAnswer(invocation -> List.copyOf(invocation.getArgument(0)));
 
         List<Project> result = syncProjectsUseCase.execute();
